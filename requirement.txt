@@ -1,0 +1,4 @@
+audioread
+pydub
+fastapi
+openai
