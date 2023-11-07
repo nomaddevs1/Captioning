@@ -31,6 +31,7 @@ jobs:
     #Task for installing dependencies, multi-line command
     - name: Install dependencies
       run: |
+        cd server
         python -m pip install --upgrade pip
         python -m pip install black pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
