@@ -57,4 +57,5 @@ jobs:
         # Uses the JWT_SECRET_KEY env variable from the Github actions secrets
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
+        cd server
         pytest tests
