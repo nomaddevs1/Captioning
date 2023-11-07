@@ -57,7 +57,7 @@ We currently support multiple input and output files.
 
 11
 00:00:50,760 --> 00:00:55,240
-By default, the response type will be JSON with the raw text included.
+By default, the response typ will be JSON with the raw text included.
 
 12
 00:00:55,240 --> 00:01:00,600
