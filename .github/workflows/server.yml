@@ -36,12 +36,12 @@ jobs:
         python -m pip install black pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
-    # #Task for linting with black
-    # - name: Lint with black
-    #   run: |
-    #     # Code formatting with black, check every python file in the src directory 
-    #     black .
-    #     black --check
+    #Task for linting with black
+    - name: Lint with black
+      run: |
+        # Code formatting with black, check every python file in the src directory 
+        black server
+        black --check server
         
     
       # Task for testing with pytest
@@ -50,4 +50,5 @@ jobs:
         # Uses the JWT_SECRET_KEY env variable from the Github actions secrets
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
+        cd server
         pytest tests
