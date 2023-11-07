@@ -39,8 +39,8 @@ jobs:
     - name: Lint with black
       run: |
         # Code formatting with black, check every python file in the src directory 
-        black src
-        black --check src
+        black server
+        black --check server
         
         # Navigate to the server directory where your server code is located
         cd server
