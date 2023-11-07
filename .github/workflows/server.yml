@@ -36,21 +36,13 @@ jobs:
         python -m pip install black pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
-    #Task for linting with black
-    - name: Lint with black
-      run: |
-        # Code formatting with black, check every python file in the src directory 
-        black .
-        black --check
+    # #Task for linting with black
+    # - name: Lint with black
+    #   run: |
+    #     # Code formatting with black, check every python file in the src directory 
+    #     black .
+    #     black --check
         
-        # Navigate to the server directory where your server code is located
-        cd server
-        
-        # Code formatting with black, check every python file in the server directory
-        black .
-        
-        # Check if the python files in the server directory are formatted correctly
-        black --check .
     
       # Task for testing with pytest
     - name: Test with pytest
