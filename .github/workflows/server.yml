@@ -40,8 +40,8 @@ jobs:
     - name: Lint with black
       run: |
         # Code formatting with black, check every python file in the src directory 
-        black server
-        black --check server
+        black .
+        black --check
         
         # Navigate to the server directory where your server code is located
         cd server
@@ -58,5 +58,4 @@ jobs:
         # Uses the JWT_SECRET_KEY env variable from the Github actions secrets
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
-        cd server
         pytest tests
