@@ -118,7 +118,7 @@ def client():
 @pytest.fixture
 def mock_openai_transcribe():
     with patch(
-        "openai.Audio.transcribe",
+        "server.openai.Audio.transcribe",
         return_value=mock_transcription_response,
     ) as mock:
         yield mock
