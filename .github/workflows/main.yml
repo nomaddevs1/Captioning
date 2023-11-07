@@ -1,0 +1,51 @@
+#main.yml
+#This workflow will install Python dependencies, lint using Black, run tests using Pytest 
+#and Deploy the FastAPI app to Heroku
+name: fastapi-github-actions-test
+
+on:
+  push:
+    paths:
+      - 'server/**'
+  pull_request:
+    paths:
+      - 'server/**'
+
+#A workflow job running sequentially
+jobs:
+  build:
+    #runs-on: defines The workflow runner
+    runs-on: ubuntu-latest 
+    #steps: defines a series of tasks executed by the Job
+    steps:
+    - uses: actions/checkout@v2
+    - run: |   # To fetch all history for all tags and branches
+        git fetch --prune --unshallow  
+
+    #Task for setting up Python 3.8 using actions/setup-python@v2 Github action
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8 # Modify python version HERE
+
+    #Task for installing dependencies, multi-line command
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install black pytest
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
+    #Task for linting with black
+    - name: Lint with black
+      run: |
+        # Code formatting with black, check every python file in the src directory 
+        black src
+        black --check src
+
+    # Task for testing with pytest
+    - name: Test with pytest
+      env:
+        # Uses the JWT_SECRET_KEY env variable from the Github actions secrets
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        pytest
