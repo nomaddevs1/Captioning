@@ -1,4 +1,10 @@
-audioread
-pydub
 fastapi
+uvicorn
+pydantic
+pytest
+pytest-asyncio
+httpx
+python-multipart
+aiofiles
 openai
+
