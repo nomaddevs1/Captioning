@@ -4,10 +4,10 @@ fastapi
 uvicorn
 pydantic
 pytest
+openai
 pytest-asyncio
 httpx
 python-multipart
 aiofiles
-openai
 click==8.0.3
 black==21.12b0
