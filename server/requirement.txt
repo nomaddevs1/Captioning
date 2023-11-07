@@ -8,4 +8,3 @@ python-multipart
 aiofiles
 openai
 black==21.12b0
-
