@@ -1,0 +1,13 @@
+audioread
+pydub
+fastapi
+uvicorn
+pydantic
+pytest
+openai==0.28.1
+pytest-asyncio
+httpx
+python-multipart
+aiofiles
+click==8.0.3
+black==21.12b0

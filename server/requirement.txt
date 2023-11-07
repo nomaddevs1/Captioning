@@ -1,4 +1,0 @@
-audioread
-pydub
-fastapi
-openai
