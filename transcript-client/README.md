@@ -13,7 +13,7 @@ Our client is written in React and scaffolded with Vite.
 
 ## Installation<a name="installation"></a>
 
-1. `cd client/`
+1. `cd transcribe-client/`
 2. Install yarn, if not installed already `npm i -g yarn`
 3. `npm install`
    
