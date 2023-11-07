@@ -4,7 +4,7 @@ fastapi
 uvicorn
 pydantic
 pytest
-openai
+openai=0.28.1
 pytest-asyncio
 httpx
 python-multipart
