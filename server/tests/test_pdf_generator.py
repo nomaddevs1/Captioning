@@ -1,5 +1,15 @@
+from fastapi.testclient import TestClient
+
 from pdf_generator import render_html, generate_pdf
+from server import app
+import pytest
 import re
+
+
+@pytest.fixture
+def client():
+    with TestClient(app) as c:
+        yield c
 
 
 def test_render_html():
@@ -119,3 +129,30 @@ def test_generate_pdf():
     pdf_data = generate_pdf(html_data)
 
     assert len(pdf_data) > 0
+
+
+def test_generate_pdf_route_html(client):
+    mock_html_text = "<h1>Title</h2>"
+    mock_transcript = [
+        {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
+        {
+            "start": "00:00:10",
+            "end": "00:00:16",
+            "text": "Today, we'll discuss the new project.",
+        },
+        {
+            "start": "00:00:20",
+            "end": "00:00:26",
+            "text": "First, let's go through the objectives.",
+        },
+    ]
+
+    response = client.post("/generate-pdf/", json={"raw_html": mock_html_text})
+
+    assert response.status_code == 200
+    assert response.text
+
+    response = client.post("/generate-pdf/", json={"transcript": mock_transcript})
+
+    assert response.status_code == 200
+    assert response.text

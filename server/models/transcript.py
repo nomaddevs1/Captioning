@@ -16,5 +16,6 @@ class TranscriptSettings(BaseModel):
 
 
 class TranscriptData(BaseModel):
-    settings: TranscriptSettings
-    transcript: List[TranscriptBlock]
+    settings: TranscriptSettings = None
+    transcript: List[TranscriptBlock] = None
+    raw_html: str = None
