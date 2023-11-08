@@ -1,28 +1,25 @@
 from pdf_generator import render_html, generate_pdf
 import re
 
+
 def test_render_html():
     transcript_data = {
         "settings": {
             # add settings here like color, font size, font type, bg color, etc.
         },
         "transcript": [
-            {
-                "start": "00:00:02",
-                "end": "00:00:07",
-                "text": "Good morning, everyone."
-            },
+            {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
             {
                 "start": "00:00:10",
                 "end": "00:00:16",
-                "text": "Today, we'll discuss the new project."
+                "text": "Today, we'll discuss the new project.",
             },
             {
                 "start": "00:00:20",
                 "end": "00:00:26",
-                "text": "First, let's go through the objectives."
+                "text": "First, let's go through the objectives.",
             },
-        ]
+        ],
     }
 
     expected_html = """\
@@ -48,25 +45,25 @@ def test_render_html():
     result = render_html(transcript_data)
 
     assert expected_html == result
-    
+
     transcript_data = {
         "settings": {
             "bg_color": "#ddffff",
             "font_size": "20px",
             "font_color": "black",
-            "font": "Arial"
+            "font": "Arial",
         },
-        "transcript": []
+        "transcript": [],
     }
 
     result = render_html(transcript_data)
     expect_styles = [
-        re.compile(r'background-color:\s*#ddffff'),
-        re.compile(r'font-size:\s*20px'),
-        re.compile(r'color:\s*black'),
-        re.compile(r'font-family:\s*Arial'),
+        re.compile(r"background-color:\s*#ddffff"),
+        re.compile(r"font-size:\s*20px"),
+        re.compile(r"color:\s*black"),
+        re.compile(r"font-family:\s*Arial"),
     ]
-    
+
     for style in expect_styles:
         assert style.search(result) != None
 
@@ -76,7 +73,7 @@ def test_render_html_missing_data():
         "settings": {
             # add settings here like color, font size, font type, bg color, etc.
         },
-        "transcript": []
+        "transcript": [],
     }
     expected_html = """\
 <!DOCTYPE html>
@@ -120,7 +117,5 @@ def test_generate_pdf():
 """
 
     pdf_data = generate_pdf(html_data)
-    
+
     assert len(pdf_data) > 0
-    
-   

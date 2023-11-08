@@ -86,5 +86,5 @@ async def generate_pdf_route(transcript_data: TranscriptData):
     data = dict(transcript_data)
     html_str = render_html(data)
     pdf_data = generate_pdf(html_str)
-    
+
     return Response(content=pdf_data, media_type="application/pdf", status_code=200)
