@@ -23,7 +23,7 @@ jobs:
           python-version: 3.8
 
       - name: Install FFmpeg
-        run: sudo apt-get install -y ffmpeg
+        run: sudo apt-get install -y ffmpeg wkhtmltopdf
 
       - name: Install Python dependencies
         run: |
@@ -38,7 +38,7 @@ jobs:
       - name: Run PyTest
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: pytest
+        run: pytest -v
         working-directory: server
 
     # Add additional jobs for deployment if needed

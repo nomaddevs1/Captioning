@@ -11,3 +11,5 @@ python-multipart
 aiofiles
 click==8.0.3
 black==21.12b0
+Jinja2
+pdfkit
