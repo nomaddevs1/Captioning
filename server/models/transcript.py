@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class TranscriptBlock(BaseModel):
@@ -16,4 +17,4 @@ class TranscriptSettings(BaseModel):
 
 class TranscriptData(BaseModel):
     settings: TranscriptSettings
-    transcript: list[TranscriptBlock]
+    transcript: List[TranscriptBlock]
