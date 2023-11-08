@@ -86,14 +86,14 @@ async def generate_pdf_route(transcript_data: TranscriptData):
     if transcript_data.raw_html:
         if transcript_data.transcript:
             return JSONResponse(
-                {"error": "Cannot provide raw transcript data and raw html."}, 401
+                {"error": "Cannot provide raw transcript data and raw html."}, 400
             )
         html_str = transcript_data.raw_html
     elif transcript_data.transcript:
         data = dict(transcript_data)
         html_str = render_html(data)
     else:
-        return JSONResponse({"error": "No transcription content provided."}, 401)
+        return JSONResponse({"error": "No transcription content provided."}, 400)
 
     pdf_data = generate_pdf(html_str)
 
