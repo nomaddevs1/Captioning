@@ -173,10 +173,10 @@ def test_generate_pdf_route_invalid_data(client):
             "text": "First, let's go through the objectives.",
         },
     ]
-    response = client.post("/generate-pdf/", json={
-        "raw_html": mock_html_text,
-        "transcript": mock_transcript
-    })
+    response = client.post(
+        "/generate-pdf/",
+        json={"raw_html": mock_html_text, "transcript": mock_transcript},
+    )
 
     assert response.status_code == 401
     assert response.text
