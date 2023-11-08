@@ -9,7 +9,10 @@ function Upload(){
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     setUploaded(acceptedFiles[0]);
   }, []);
-  const {getRootProps, getInputProps} = useDropzone({onDrop});
+  const {getRootProps, getInputProps} = useDropzone({onDrop, accept: {
+    'audio/*' : ['.mp3', '.m4a', '.wav', '.mpga'],
+    'video/*' : ['.mp4', '.webm', '.mpeg']
+  }});
 
   const passTranscript = async (e: React.SyntheticEvent) => {
     e.preventDefault();
