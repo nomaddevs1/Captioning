@@ -48,7 +48,9 @@ API docs are generated using Swagger. You can access the docs with the `/docs` e
 
 1. Open a new terminal tab
 2. Move to the server now with `cd server/`
-3. Install the packages with `pip install -f requirements.txt`
-4. Setup the OpenAI env key with `export OPENAI_API_KEY='key will be here'`
-5. Start the app with `uvicorn server:app --reload`
+3. Install requirements packages on system `sudo apt update`
+`sudo apt install -y ffmpeg wkhtmltopdf`
+4. Install the packages with `pip install -f requirements.txt`
+5. Setup the OpenAI env key with `export OPENAI_API_KEY='key will be here'`
+6. Start the app with `uvicorn server:app --reload`
 7. Test the app by going to http://localhost:8000
