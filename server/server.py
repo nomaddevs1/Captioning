@@ -4,8 +4,11 @@ import re
 import audioread
 import openai
 from fastapi import FastAPI, Form, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from pydub import AudioSegment
+
+from models import TranscriptData
+from pdf_generator import render_html, generate_pdf
 
 OPEN_API_KEY = os.environ.get("OPENAI_API_KEY")
 openai.api_key = OPEN_API_KEY
@@ -76,3 +79,22 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
     # os.remove(audio_filename)  # Optionally delete the audio file after processing
     transcribe_data = parse_srt(transcript)
     return JSONResponse(content={"transcription": transcribe_data})
+
+
+@app.post("/generate-pdf/")
+async def generate_pdf_route(transcript_data: TranscriptData):
+    if transcript_data.raw_html:
+        if transcript_data.transcript:
+            return JSONResponse(
+                {"error": "Cannot provide raw transcript data and raw html."}, 400
+            )
+        html_str = transcript_data.raw_html
+    elif transcript_data.transcript:
+        data = dict(transcript_data)
+        html_str = render_html(data)
+    else:
+        return JSONResponse({"error": "No transcription content provided."}, 400)
+
+    pdf_data = generate_pdf(html_str)
+
+    return Response(content=pdf_data, media_type="application/pdf", status_code=200)

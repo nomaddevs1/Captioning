@@ -28,7 +28,7 @@ src
 ## Usage<a name="usage"></a>
 `cd server`
 `sudo apt update`
-`sudo apt install -y ffmpeg`
+`sudo apt install -y ffmpeg wkhtmltopdf`
 `pip install -f requirements.txt`
 
 
@@ -36,6 +36,7 @@ src
 `uvicorn server:app --reload`
 
 ### Test
+`pytest -v`
 
 ### Documentation
 
