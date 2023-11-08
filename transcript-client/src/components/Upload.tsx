@@ -15,16 +15,18 @@ function Upload(){
       e.preventDefault();
       console.log(uploaded);
 
-      const response = await fetch("", {
-        method: "POST",
-        body: uploaded
-      });
+      /** 
+        const response = await fetch("", {
+          method: "POST",
+          body: uploaded
+        });
 
-      if (response.ok){
-        console.log("File uploaded");
-      } else {
-        console.error("Failed to upload");
-      }
+        if (response.ok){
+          console.log("File uploaded");
+        } else {
+          console.error("Failed to upload");
+        }
+      */
     }
 
     return (
