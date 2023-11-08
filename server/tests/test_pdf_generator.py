@@ -131,7 +131,7 @@ def test_generate_pdf():
     assert len(pdf_data) > 0
 
 
-def test_generate_pdf_route_html(client):
+def test_generate_pdf_route_valid_data(client):
     mock_html_text = "<h1>Title</h2>"
     mock_transcript = [
         {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
@@ -155,4 +155,33 @@ def test_generate_pdf_route_html(client):
     response = client.post("/generate-pdf/", json={"transcript": mock_transcript})
 
     assert response.status_code == 200
+    assert response.text
+
+
+def test_generate_pdf_route_invalid_data(client):
+    mock_html_text = "<h1>Title</h2>"
+    mock_transcript = [
+        {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
+        {
+            "start": "00:00:10",
+            "end": "00:00:16",
+            "text": "Today, we'll discuss the new project.",
+        },
+        {
+            "start": "00:00:20",
+            "end": "00:00:26",
+            "text": "First, let's go through the objectives.",
+        },
+    ]
+    response = client.post("/generate-pdf/", json={
+        "raw_html": mock_html_text,
+        "transcript": mock_transcript
+    })
+
+    assert response.status_code == 401
+    assert response.text
+
+    response = client.post("/generate-pdf/", json={})
+
+    assert response.status_code == 401
     assert response.text

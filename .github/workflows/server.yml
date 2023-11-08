@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install FFmpeg
+      - name: Install dependencies
         run: sudo apt-get install -y ffmpeg wkhtmltopdf
 
       - name: Install Python dependencies
@@ -35,10 +35,14 @@ jobs:
         run: black --check .
         working-directory: server
 
-      - name: Run PyTest
+      - name: Run PyTest with coverage
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: pytest -v
+        run: coverage run -m pytest -v
+        working-directory: server
+
+      - name: Print coverage report
+        run: coverage report --show-missing
         working-directory: server
 
     # Add additional jobs for deployment if needed
