@@ -49,7 +49,9 @@ function Upload(){
           <Button width="100%" onClick={passTranscript}>Transcribe</Button>
         </Box>) :
         (<Box {...getRootProps({alignContent: "center", justifyContent: "center", fontSize: "2xl"})}>
-            <img src={upload_logo} width="60%" height="50%" ml={1}/>
+          <Box position="absolute" top="2rem" right="-5rem">
+            <img src={upload_logo} width="60%" height="50%" />
+          </Box>
           <Text mt={4} mb={1}>Drag and drop file here, or</Text>
           <Box>
             <input {...getInputProps()} />
