@@ -1,7 +1,7 @@
 import {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
-import { Box, Text, Center, Button } from "@chakra-ui/react";
-import upload_logo from "src/assets/upload_logo.svg"
+import { Box, Text, Center, Button, Flex } from "@chakra-ui/react";
+import upload_logo from '../assets/upload_logo.svg'
 
 
 function Upload(){
@@ -37,24 +37,27 @@ function Upload(){
     <Center textAlign="center" height="100vh">
       { uploaded ? (
         <Box>
-          <Box display="flex" mb={4}>
+          <Flex mb={4}>
+            <img src={upload_logo} width="80px" alt=""/>
             <Box ml={4}>
-              <Text fontSize="3xl" mb={2}>{uploaded.name}</Text>
-              <Box display="flex">
+              <Text fontSize="3xl" mb={2} mr={0}>{uploaded.name}</Text>
+              <Flex>
                 <Text>NA mins,</Text>
                 <Text ml={1}>{Math.round(uploaded.size / 1000000)} MB</Text>
-              </Box>
+              </Flex>
             </Box>
-          </Box>
+          </Flex>
           <Button width="100%" onClick={passTranscript}>Transcribe</Button>
         </Box>) :
-        (<Box {...getRootProps({alignContent: "center", justifyContent: "center", fontSize: "2xl"})}>
-            <img src={upload_logo} width="60%" height="50%" ml={1}/>
-          <Text mt={4} mb={1}>Drag and drop file here, or</Text>
-          <Box>
-            <input {...getInputProps()} />
-            <Text fontSize="md" mb={4}>choose a file to upload</Text>
-          </Box>
+        (<Box {...getRootProps()}>
+          <Flex fontSize="2xl" alignItems="center" direction="column">
+            <img src={upload_logo} width="160px" alt=""/>
+            <Text mt={4} mb={1}>Drag and drop file here, or</Text>
+            <Box>
+              <input {...getInputProps()} />
+              <Text fontSize="md" mb={4}>choose a file to upload</Text>
+            </Box>
+          </Flex>
         </Box>)
       }
     </Center>
