@@ -1,36 +1,33 @@
-import {useCallback, useState} from 'react'
-import {useDropzone} from 'react-dropzone'
 import { Box, Text, Center, Button, Flex } from "@chakra-ui/react";
 import upload_logo from '../assets/upload_logo.svg'
-
+import useAxios from 'src/hooks/useAxios';
+import { useState } from 'react';
+import useUploader from 'src/hooks/useUploader';
 
 function Upload(){
-  const [uploaded, setUploaded] = useState<File>();
+  const [uploaded, setUploaded] = useState<File | null>(null);
+  const {getInputProps, getRootProps} = useUploader(setUploaded)
+  const axios = useAxios()
 
-  const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    setUploaded(acceptedFiles[0]);
-  }, []);
-  const {getRootProps, getInputProps} = useDropzone({onDrop, accept: {
-    'audio/*' : ['.mp3', '.m4a', '.wav', '.mpga'],
-    'video/*' : ['.mp4', '.webm', '.mpeg']
-  }});
+ 
 
   const passTranscript = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(uploaded);
 
-    /**
-    const response = await fetch("", {
-      method: "POST",
-      body: uploaded
-    });
-
-    if (response.ok){
-      console.log("File uploaded");
-    } else {
-      console.error("Failed to upload");
+   if (uploaded) { // Check if 'uploaded' is not null
+    const formData = new FormData();
+    formData.append('audio_file', uploaded);
+    console.log(formData)
+    try {
+      const data = await axios.post('/transcribe/?language=en', formData);
+      console.log(data);
+          } catch (err) {
+      console.log(err);
     }
-    */
+  } else {
+    console.log("No file uploaded");
+    // Handle the case where no file is uploaded
+  } 
   }
 
   return (
@@ -38,7 +35,7 @@ function Upload(){
       { uploaded ? (
         <Box>
           <Flex mb={4}>
-            <img src={upload_logo} width="80px" alt=""/>
+            <img src={upload_logo} width="80px" alt="" />
             <Box ml={4}>
               <Text fontSize="3xl" mb={2} mr={0}>{uploaded.name}</Text>
               <Flex>
