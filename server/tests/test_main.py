@@ -10,8 +10,9 @@ from fastapi.testclient import TestClient
 
 # Add the parent directory to sys.path so the server module can be found
 sys.path.append(str(Path(__file__).resolve().parents[1]))
+from utils import duration_detector, parse_srt, srt_time_to_seconds
 
-from server import app, duration_detector, parse_srt, srt_time_to_seconds
+from server import app
 
 # This is the mocked response from the OpenAI API.
 mock_transcription_response = """
