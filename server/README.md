@@ -20,9 +20,12 @@ The project follows a specific folder structure to organize the codebase. Still 
 
 ```
 src
+├── models
+├── pdf_generator
 ├── tests
 ```
-
+- `Models`: This contain the types models.
+- `PDF_GENERATOR`: This contain the functionality for generating the pdf.
 - `Test`: This contain the test suite for the server.py which would be divided in the future.
 
 ## Usage<a name="usage"></a>
