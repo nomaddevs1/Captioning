@@ -3,36 +3,45 @@ import upload_logo from '../assets/upload_logo.svg'
 import useAxios from 'src/hooks/useAxios';
 import { useState } from 'react';
 import useUploader from 'src/hooks/useUploader';
-
-function Upload(){
+import  Progress  from 'src/components/Progress'
+function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
-  const {getInputProps, getRootProps} = useUploader(setUploaded)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const { getInputProps, getRootProps } = useUploader(setUploaded);
   const axios = useAxios()
 
- 
+
 
   const passTranscript = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-   if (uploaded) { // Check if 'uploaded' is not null
-    const formData = new FormData();
-    formData.append('audio_file', uploaded);
-    console.log(formData)
-    try {
-      const data = await axios.post('/transcribe/?language=en', formData);
-      console.log(data);
-          } catch (err) {
-      console.log(err);
+    if (uploaded) { // Check if 'uploaded' is not null
+      const formData = new FormData();
+      formData.append('audio_file', uploaded);
+      console.log(formData)
+      try {
+        const data = await axios.post('/transcribe/?language=en', formData, {
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setProgress(percentCompleted);
+          }
+        });
+        setIsLoading(false)
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      setError(true);
+      // Handle the case where no file is uploaded
     }
-  } else {
-    console.log("No file uploaded");
-    // Handle the case where no file is uploaded
-  } 
   }
 
   return (
     <Center textAlign="center" height="100vh">
-      { uploaded ? (
+      {isLoading && <Progress value={progress} />}
+      {uploaded ? (
         <Box>
           <Flex mb={4}>
             <img src={upload_logo} width="80px" alt="" />
@@ -48,7 +57,7 @@ function Upload(){
         </Box>) :
         (<Box {...getRootProps()}>
           <Flex fontSize="2xl" alignItems="center" direction="column">
-            <img src={upload_logo} width="160px" alt=""/>
+            <img src={upload_logo} width="160px" alt="" />
             <Text mt={4} mb={1}>Drag and drop file here, or</Text>
             <Box>
               <input {...getInputProps()} />
