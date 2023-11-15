@@ -12,7 +12,7 @@ def render_html(data: dict) -> str:
     return html_str
 
 
-def generate_pdf(html_data: str) -> List[bytes]:
+def generate_pdf(html_data: str):
     return pdfkit.from_string(
         html_data,
         False,
