@@ -1,13 +1,13 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse, Response
-from models import TranscriptData
+from models import TranscriptDataModel
 from pdf_generator import generate_pdf, render_html
 
 router = APIRouter()
 
 
 @router.post("/generate-pdf/")
-async def generate_pdf_route(transcript_data: TranscriptData):
+async def generate_pdf_route(transcript_data: TranscriptDataModel):
     if transcript_data.raw_html:
         if transcript_data.transcript:
             return JSONResponse(

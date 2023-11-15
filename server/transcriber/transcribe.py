@@ -8,19 +8,25 @@ import os
 
 
 class TranscriptBlock(BaseModel):
-    start: str
-    end: str
+    start: float
+    end: float
     text: str
+
+    def from_data(start: float, end: float, text: str) -> "TranscriptBlock":
+        return TranscriptBlock(start=start, end=end, text=text)
+
+    def from_dict(data: dict) -> "TranscriptBlock":
+        return TranscriptBlock.from_data(**data)
 
 
 class Transcript(BaseModel):
-    blocks: TranscriptBlock = []
+    transcript: List[TranscriptBlock] = []
 
-    def __init__(self, blocks: List[TranscriptBlock] = []):
-        self.blocks = blocks
+    def from_blocks(blocks: List[TranscriptBlock]) -> "Transcript":
+        return Transcript(transcript=blocks)
 
     def from_srt(srt_response: str) -> "Transcript":
-        blocks: List[TranscriptBlock] = []
+        transcript: List[TranscriptBlock] = []
         srt_blocks = srt_response.strip().split("\n\n")
 
         for block in srt_blocks:
@@ -38,9 +44,18 @@ class Transcript(BaseModel):
                     end_time = srt_time_to_seconds(end_time_str)
 
                     # Append the data to the transcript data list
-                    blocks.append(TranscriptBlock(start_time, end_time, text))
+                    transcript.append(
+                        TranscriptBlock.from_data(start_time, end_time, text)
+                    )
 
-        return Transcript(blocks)
+        return Transcript.from_blocks(transcript)
+
+    def from_dict(data: list) -> "Transcript":
+        blocks: List[TranscriptBlock] = []
+        for block in data:
+            blocks.append(TranscriptBlock.from_dict(block))
+
+        return Transcript.from_blocks(blocks)
 
     def __add__(self, other: "Transcript") -> "Transcript":
         """
@@ -53,8 +68,8 @@ class Transcript(BaseModel):
         mega_transcript = transcript1 + transcript2
                           ^ self        ^ other
         """
-        self_blocks_copy = [block for block in self.blocks]
-        other_blocks_copy = [block for block in other.blocks]
+        self_blocks_copy = [block.model_copy() for block in self.transcript]
+        other_blocks_copy = [block.model_copy() for block in other.transcript]
         self_end_time = self_blocks_copy[-1].end
 
         # update the times for the transcript on the right hand side of the
@@ -63,7 +78,7 @@ class Transcript(BaseModel):
             block.start += self_end_time
             block.end += self_end_time
 
-        return Transcript(self_blocks_copy + other_blocks_copy)
+        return Transcript.from_blocks(self_blocks_copy + other_blocks_copy)
 
     def __iadd__(self, other):
         """
@@ -100,7 +115,6 @@ def transcribe_file(file: BinaryIO, language: str) -> Transcript:
         whisper_transcript_srt = openai.Audio.transcribe(
             file, model="whisper-1", response_format="srt", language=language
         )
-        # os.remove(audio_filename)  # Optionally delete the audio file after processing
         transcript = Transcript.from_srt(whisper_transcript_srt)
 
     return transcript

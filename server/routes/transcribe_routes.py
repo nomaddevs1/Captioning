@@ -17,7 +17,7 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         hours, mins, seconds = duration_detector(int(totalsec))
 
     audio_file = open(audio_filename, "rb")
-    transcript = transcribe_file(audio_file)
+    transcript = transcribe_file(audio_file, language)
     audio_file.close()
 
     # os.remove(audio_filename)  # Optionally delete the audio file after processing

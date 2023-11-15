@@ -1,0 +1,17 @@
+[
+  {
+    "start": 2,
+    "end": 7,
+    "text": "Good morning, everyone."
+  },
+  {
+    "start": 10,
+    "end": 16,
+    "text": "Today, we'll discuss the new project."
+  },
+  {
+    "start": 20,
+    "end": 26,
+    "text": "First, let's go through the objectives."
+  }
+]
