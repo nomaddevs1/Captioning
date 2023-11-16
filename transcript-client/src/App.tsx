@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Text} from "@chakra-ui/react";
-import Upload from './components/Upload';
+import Upload from './pages/Upload';
+import Progress from './components/Progress';
 
 function App() {
 
