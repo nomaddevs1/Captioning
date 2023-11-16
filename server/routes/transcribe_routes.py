@@ -5,6 +5,8 @@ from transcriber import transcribe_file
 
 router = APIRouter()
 
+AUDIO_FILE_BYTES_LIMIT = 25_000_000  # 25 MB
+
 
 @router.post("/transcribe/")
 async def transcribe_audio(audio_file: UploadFile, language: str):
@@ -17,8 +19,7 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         hours, mins, seconds = duration_detector(int(totalsec))
 
     audio_file = open(audio_filename, "rb")
-    transcript = transcribe_file(audio_file, language)
+    transcript = transcribe_file(audio_file, language, AUDIO_FILE_BYTES_LIMIT)
     audio_file.close()
 
-    # os.remove(audio_filename)  # Optionally delete the audio file after processing
     return transcript

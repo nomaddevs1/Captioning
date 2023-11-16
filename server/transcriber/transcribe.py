@@ -1,7 +1,7 @@
 from typing import List, BinaryIO
 from pydantic import BaseModel
 from utils import srt_time_to_seconds
-from .util import chunkify
+from .util import chunkify_audio_file
 import re
 import openai
 import os
@@ -97,19 +97,24 @@ def transcribe_files(files: List[BinaryIO], language: str) -> Transcript:
         else:
             transcript += transcribe_file(file, language)
 
+    # close the temporary audio files; since they were created using tempfile,
+    # they should be automatically deleted when we close them.
+    for file in files:
+        file.close()
+
     return transcript
 
 
-def transcribe_file(file: BinaryIO, language: str) -> Transcript:
+def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Transcript:
     file.seek(os.SEEK_END)  # find the end of the file
     file_size_bytes = file.tell()  # get the size of the file in bytes
     file.seek(os.SEEK_SET, 0)  # return the file pointer to the beginning of the file
 
     transcript = None
-    if file_size_bytes > 25_000_000:
+    if file_size_bytes > file_size_limit:
         # if the file size exceeds the limit of the Whisper API (25 MB), split
         # the audio into multiple files:
-        files = chunkify(file, 25_000_000)
+        files = chunkify_audio_file(file, file_size_limit)
         transcript = transcribe_files(files)
     else:
         whisper_transcript_srt = openai.Audio.transcribe(

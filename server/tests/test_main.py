@@ -11,7 +11,12 @@ from fastapi.testclient import TestClient
 # Add the parent directory to sys.path so the server module can be found
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from utils import duration_detector, parse_srt, srt_time_to_seconds
-from common_fixtures import mock_client, mock_srt_response, mock_transcript, mock_openai_transcribe
+from common_fixtures import (
+    client,
+    srt_response,
+    transcript,
+    mock_openai_transcribe,
+)
 from server import app
 
 # Testing srt_time_to_seconds function
@@ -29,8 +34,8 @@ def test_duration_detector():
 
 
 # Testing parse_srt function
-def test_parse_srt(mock_srt_response):
-    transcribe_data = parse_srt(mock_srt_response)
+def test_parse_srt(srt_response):
+    transcribe_data = parse_srt(srt_response)
     assert (
         len(transcribe_data) == 23
     )  # Assuming there are 23 entries in the full SRT string.
@@ -57,12 +62,12 @@ def mock_audioread():
         yield mock
 
 
-def test_transcribe_endpoint(mock_openai_transcribe, mock_audioread, mock_client):
+def test_transcribe_endpoint(mock_openai_transcribe, mock_audioread, client):
     audio_content = b"fake audio file content"
     audio_buffer = BytesIO(audio_content)
     audio_buffer.name = "testfile.mp3"
 
-    response = mock_client.post(
+    response = client.post(
         "/transcribe/",
         files={"audio_file": (audio_buffer.name, audio_buffer, "audio/mpeg")},
         params={"language": "en"},
