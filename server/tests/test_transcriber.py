@@ -3,6 +3,7 @@ from transcriber import Transcript
 from pydub import AudioSegment
 from tempfile import NamedTemporaryFile
 import os
+import json
 
 from common_fixtures import (
     srt_response,
@@ -137,10 +138,29 @@ def test_transcribe_route_filetype_validation(mock_openai_transcribe, mock_clien
         sample_rate=44_100,  # 44.1 kHz
     )
 
-    file = NamedTemporaryFile("w+b", suffix=".flac")
+    file = NamedTemporaryFile("rb", suffix=".flac")
     audio.export(file.name, "flac", bitrate="64k")
 
     response = mock_client.post(
-        "/transcribe/", files={"audio_file": {"test.flac", file, "audio/x-flac"}}
+        "/transcribe/", files={"audio_file": file}, params={"language": "en"}
     )
+
+    file.close()
+
     assert response.status_code == 400
+    assert json.loads(response.json())["error"] == "unsupported file format flac"
+
+
+def test_bad_file_upload(mock_openai_transcribe, mock_client):
+    audio_file = NamedTemporaryFile("w+b", suffix=".mp3")
+    # create a garbage mp3 file filled with >25MB worth of zeros, should cause an exception to be
+    # raised when pydub tries to parse this audio file
+    audio_file.write(b"\0" * 26_000_000)
+    response = mock_client.post(
+        "/transcribe/", files={"audio_file": audio_file}, params={"language": "en"}
+    )
+
+    audio_file.close()
+
+    assert response.status_code == 400
+    assert json.loads(response.json())["error"] == "error transcribing the file"

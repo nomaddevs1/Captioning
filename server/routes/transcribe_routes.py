@@ -18,6 +18,8 @@ SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm"]
 async def transcribe_audio(audio_file: UploadFile, language: str):
     audio_filename = audio_file.filename
     file_extension = audio_filename.split(".")[-1]
+    print(audio_filename)
+    print(file_extension)
 
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
         return JSONResponse(
@@ -35,7 +37,16 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         hours, mins, seconds = duration_detector(int(totalsec))
 
     audio_file = open(audio_filename, "rb")
-    transcript = transcribe_file(audio_file, language, AUDIO_FILE_BYTES_LIMIT)
+    try:
+        transcript = transcribe_file(audio_file, language, AUDIO_FILE_BYTES_LIMIT)
+    except Exception as e:
+        audio_file.close()
+        print(e)
+        return JSONResponse(
+            ErrorMessage(error="error transcribing the file").model_dump_json(),
+            status.HTTP_400_BAD_REQUEST,
+        )
+
     audio_file.close()
 
     return transcript
