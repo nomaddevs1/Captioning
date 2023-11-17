@@ -1,26 +1,52 @@
 import audioread
-import openai
-from fastapi import APIRouter, UploadFile
+from fastapi import APIRouter, UploadFile, status
 from fastapi.responses import JSONResponse
-from utils import duration_detector, parse_srt
+from fastapi.encoders import jsonable_encoder
+from utils import duration_detector
+from models.status import ErrorMessage
+from transcriber import transcribe_file, Transcript
 
 router = APIRouter()
 
+AUDIO_FILE_BYTES_LIMIT = 25_000_000  # 25 MB
+SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm"]
 
-@router.post("/transcribe/")
+
+@router.post(
+    "/transcribe/", responses={200: {"model": Transcript}, 400: {"model": ErrorMessage}}
+)
 async def transcribe_audio(audio_file: UploadFile, language: str):
     audio_filename = audio_file.filename
+    file_extension = audio_filename.split(".")[-1]
+    print(audio_filename)
+    print(file_extension)
+
+    if file_extension not in SUPPORTED_FILE_EXTENSIONS:
+        return JSONResponse(
+            ErrorMessage(
+                error=f"unsupported file format {file_extension}"
+            ).model_dump_json(),
+            status.HTTP_400_BAD_REQUEST,
+        )
+
     with open(audio_filename, "wb") as f:
         f.write(audio_file.file.read())
 
     with audioread.audio_open(audio_filename) as audio_file:
         totalsec = audio_file.duration
         hours, mins, seconds = duration_detector(int(totalsec))
-    with open(audio_filename, "rb") as audio_file:
-        transcript = openai.Audio.transcribe(
-            file=audio_file, model="whisper-1", response_format="srt", language=language
+
+    audio_file = open(audio_filename, "rb")
+    try:
+        transcript = transcribe_file(audio_file, language, AUDIO_FILE_BYTES_LIMIT)
+    except Exception as e:
+        audio_file.close()
+        print(e)
+        return JSONResponse(
+            ErrorMessage(error="error transcribing the file").model_dump_json(),
+            status.HTTP_400_BAD_REQUEST,
         )
 
-    # os.remove(audio_filename)  # Optionally delete the audio file after processing
-    transcribe_data = parse_srt(transcript)
-    return JSONResponse(content={"transcription": transcribe_data})
+    audio_file.close()
+
+    return transcript

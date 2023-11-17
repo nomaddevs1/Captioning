@@ -1,11 +1,6 @@
 from pydantic import BaseModel
 from typing import List
-
-
-class TranscriptBlock(BaseModel):
-    start: str
-    end: str
-    text: str
+from transcriber import TranscriptBlock
 
 
 class TranscriptSettings(BaseModel):
@@ -15,7 +10,7 @@ class TranscriptSettings(BaseModel):
     font: str = None
 
 
-class TranscriptData(BaseModel):
+class TranscriptDataModel(BaseModel):
     settings: TranscriptSettings = None
     transcript: List[TranscriptBlock] = None
     raw_html: str = None

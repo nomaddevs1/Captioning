@@ -38,11 +38,11 @@ jobs:
       - name: Run PyTest with coverage
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: coverage run -m pytest -v
+        run: coverage run -m pytest
         working-directory: server
 
       - name: Print coverage report
-        run: coverage report --show-missing
+        run: coverage report
         working-directory: server
 
     # Add additional jobs for deployment if needed

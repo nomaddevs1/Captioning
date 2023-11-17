@@ -1,35 +1,15 @@
-from fastapi.testclient import TestClient
-
-from pdf_generator import render_html, generate_pdf
-from server import app
-import pytest
 import re
 
-
-@pytest.fixture
-def client():
-    with TestClient(app) as c:
-        yield c
+from pdf_generator import render_html, generate_pdf
+from common_fixtures import mock_client, transcript_dict
 
 
-def test_render_html():
+def test_render_html(transcript_dict):
     transcript_data = {
         "settings": {
             # add settings here like color, font size, font type, bg color, etc.
         },
-        "transcript": [
-            {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
-            {
-                "start": "00:00:10",
-                "end": "00:00:16",
-                "text": "Today, we'll discuss the new project.",
-            },
-            {
-                "start": "00:00:20",
-                "end": "00:00:26",
-                "text": "First, let's go through the objectives.",
-            },
-        ],
+        "transcript": transcript_dict,
     }
 
     expected_html = """\
@@ -46,9 +26,9 @@ def test_render_html():
   </style>
 </head>
 <body>
-  <p><strong>00:00:02:00:00:07</strong> - Good morning, everyone.</p>
-  <p><strong>00:00:10:00:00:16</strong> - Today, we'll discuss the new project.</p>
-  <p><strong>00:00:20:00:00:26</strong> - First, let's go through the objectives.</p>
+  <p><strong>2:7</strong> - Good morning, everyone.</p>
+  <p><strong>10:16</strong> - Today, we'll discuss the new project.</p>
+  <p><strong>20:26</strong> - First, let's go through the objectives.</p>
 </body>
 </html>\
 """
@@ -131,57 +111,31 @@ def test_generate_pdf():
     assert len(pdf_data) > 0
 
 
-def test_generate_pdf_route_valid_data(client):
+def test_generate_pdf_route_valid_data(mock_client, transcript_dict):
     mock_html_text = "<h1>Title</h2>"
-    mock_transcript = [
-        {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
-        {
-            "start": "00:00:10",
-            "end": "00:00:16",
-            "text": "Today, we'll discuss the new project.",
-        },
-        {
-            "start": "00:00:20",
-            "end": "00:00:26",
-            "text": "First, let's go through the objectives.",
-        },
-    ]
 
-    response = client.post("/generate-pdf/", json={"raw_html": mock_html_text})
+    response = mock_client.post("/generate-pdf/", json={"raw_html": mock_html_text})
 
     assert response.status_code == 200
     assert response.text
 
-    response = client.post("/generate-pdf/", json={"transcript": mock_transcript})
+    response = mock_client.post("/generate-pdf/", json={"transcript": transcript_dict})
 
     assert response.status_code == 200
     assert response.text
 
 
-def test_generate_pdf_route_invalid_data(client):
+def test_generate_pdf_route_invalid_data(mock_client, transcript_dict):
     mock_html_text = "<h1>Title</h2>"
-    mock_transcript = [
-        {"start": "00:00:02", "end": "00:00:07", "text": "Good morning, everyone."},
-        {
-            "start": "00:00:10",
-            "end": "00:00:16",
-            "text": "Today, we'll discuss the new project.",
-        },
-        {
-            "start": "00:00:20",
-            "end": "00:00:26",
-            "text": "First, let's go through the objectives.",
-        },
-    ]
-    response = client.post(
+    response = mock_client.post(
         "/generate-pdf/",
-        json={"raw_html": mock_html_text, "transcript": mock_transcript},
+        json={"raw_html": mock_html_text, "transcript": transcript_dict},
     )
 
     assert response.status_code == 400
     assert response.text
 
-    response = client.post("/generate-pdf/", json={})
+    response = mock_client.post("/generate-pdf/", json={})
 
     assert response.status_code == 400
     assert response.text
