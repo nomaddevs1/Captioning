@@ -5,16 +5,20 @@ from unittest.mock import patch
 import json
 from server import app
 
-
 @pytest.fixture
-def transcript() -> dict():
+def transcript_dict() -> dict:
     with open("tests/fixtures/transcript.json", "r") as file:
         data = json.load(file)
-        yield Transcript.from_dict(data)
+        yield data
 
 
 @pytest.fixture
-def client() -> TestClient:
+def transcript(transcript_dict) -> Transcript:
+    yield Transcript.from_dict(transcript_dict)
+
+
+@pytest.fixture
+def mock_client() -> TestClient:
     with TestClient(app) as c:
         yield c
 

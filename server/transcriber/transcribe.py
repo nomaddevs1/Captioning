@@ -1,6 +1,7 @@
-from typing import List, BinaryIO
+from typing import List, BinaryIO, Union
 from pydantic import BaseModel
 from utils import srt_time_to_seconds
+from models.status import ErrorMessage
 from .util import chunkify_mp3, compress_audio_file
 import re
 import openai
@@ -20,9 +21,9 @@ class TranscriptBlock(BaseModel):
 
 
 class Transcript(BaseModel):
-    transcript: List[TranscriptBlock] = []
+    transcript: List[TranscriptBlock] = None
 
-    def from_blocks(blocks: List[TranscriptBlock]) -> "Transcript":
+    def from_blocks(blocks: List[TranscriptBlock]) -> Union["Transcript", ErrorMessage]:
         return Transcript(transcript=blocks)
 
     def from_srt(srt_response: str) -> "Transcript":

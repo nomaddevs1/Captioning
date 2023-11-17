@@ -32,7 +32,7 @@ def chunkify_mp3(
     audio = AudioSegment.from_file(file.name, "mp3")
     audio_chunks = make_chunks(audio, len(audio) / num_chunks)
     files = [NamedTemporaryFile("rb", suffix=".mp3") for _ in range(num_chunks)]
-    
+
     for i, audio_chunk in enumerate(audio_chunks):
         audio_chunk.export(files[i].name, "mp3", bitrate="64k")
 

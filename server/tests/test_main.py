@@ -12,7 +12,7 @@ from fastapi.testclient import TestClient
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 from utils import duration_detector, parse_srt, srt_time_to_seconds
 from common_fixtures import (
-    client,
+    mock_client,
     srt_response,
     transcript,
     mock_openai_transcribe,
@@ -62,12 +62,12 @@ def mock_audioread():
         yield mock
 
 
-def test_transcribe_endpoint(mock_openai_transcribe, mock_audioread, client):
+def test_transcribe_endpoint(mock_openai_transcribe, mock_audioread, mock_client):
     audio_content = b"fake audio file content"
     audio_buffer = BytesIO(audio_content)
     audio_buffer.name = "testfile.mp3"
 
-    response = client.post(
+    response = mock_client.post(
         "/transcribe/",
         files={"audio_file": (audio_buffer.name, audio_buffer, "audio/mpeg")},
         params={"language": "en"},

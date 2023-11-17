@@ -1,30 +1,14 @@
-from fastapi.testclient import TestClient
+import re
 
 from pdf_generator import render_html, generate_pdf
-from server import app
-import pytest
-import re
-import json
+from common_fixtures import mock_client, transcript_dict
 
-
-@pytest.fixture
-def client():
-    with TestClient(app) as c:
-        yield c
-
-
-@pytest.fixture
-def transcript():
-    with open("tests/fixtures/transcript.json", "r") as file:
-        yield json.load(file)
-
-
-def test_render_html(transcript):
+def test_render_html(transcript_dict):
     transcript_data = {
         "settings": {
             # add settings here like color, font size, font type, bg color, etc.
         },
-        "transcript": transcript,
+        "transcript": transcript_dict,
     }
 
     expected_html = """\
@@ -126,32 +110,31 @@ def test_generate_pdf():
     assert len(pdf_data) > 0
 
 
-def test_generate_pdf_route_valid_data(client, transcript):
+def test_generate_pdf_route_valid_data(mock_client, transcript_dict):
     mock_html_text = "<h1>Title</h2>"
 
-    response = client.post("/generate-pdf/", json={"raw_html": mock_html_text})
+    response = mock_client.post("/generate-pdf/", json={"raw_html": mock_html_text})
 
     assert response.status_code == 200
     assert response.text
 
-    response = client.post("/generate-pdf/", json={"transcript": transcript})
+    response = mock_client.post("/generate-pdf/", json={"transcript": transcript_dict})
 
     assert response.status_code == 200
     assert response.text
 
 
-def test_generate_pdf_route_invalid_data(client, transcript):
+def test_generate_pdf_route_invalid_data(mock_client, transcript_dict):
     mock_html_text = "<h1>Title</h2>"
-
-    response = client.post(
+    response = mock_client.post(
         "/generate-pdf/",
-        json={"raw_html": mock_html_text, "transcript": transcript},
+        json={"raw_html": mock_html_text, "transcript": transcript_dict},
     )
 
     assert response.status_code == 400
     assert response.text
 
-    response = client.post("/generate-pdf/", json={})
+    response = mock_client.post("/generate-pdf/", json={})
 
     assert response.status_code == 400
     assert response.text
