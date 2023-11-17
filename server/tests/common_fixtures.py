@@ -5,6 +5,7 @@ from unittest.mock import patch
 import json
 from server import app
 
+
 @pytest.fixture
 def transcript_dict() -> dict:
     with open("tests/fixtures/transcript.json", "r") as file:

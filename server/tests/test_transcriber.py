@@ -4,7 +4,13 @@ from pydub import AudioSegment
 from tempfile import NamedTemporaryFile
 import os
 
-from common_fixtures import srt_response, transcript_dict, transcript, mock_openai_transcribe, mock_client
+from common_fixtures import (
+    srt_response,
+    transcript_dict,
+    transcript,
+    mock_openai_transcribe,
+    mock_client,
+)
 from transcriber import transcribe_file
 from transcriber.util import chunkify_mp3
 
@@ -122,6 +128,7 @@ def test_transcribe_compressable_to_lt_25MB_file(mock_openai_transcribe):
 
     assert len(transcript_result.transcript) == 23
 
+
 def test_transcribe_route_filetype_validation(mock_openai_transcribe, mock_client):
     audio, _ = generate_silent_audio_segment(
         desired_file_size_bytes=1_000_000,  # 1 MB
@@ -133,5 +140,7 @@ def test_transcribe_route_filetype_validation(mock_openai_transcribe, mock_clien
     file = NamedTemporaryFile("w+b", suffix=".flac")
     audio.export(file.name, "flac", bitrate="64k")
 
-    response = mock_client.post("/transcribe/", files={"audio_file": {"test.flac", file, "audio/x-flac" }})
+    response = mock_client.post(
+        "/transcribe/", files={"audio_file": {"test.flac", file, "audio/x-flac"}}
+    )
     assert response.status_code == 400

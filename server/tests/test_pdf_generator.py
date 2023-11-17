@@ -3,6 +3,7 @@ import re
 from pdf_generator import render_html, generate_pdf
 from common_fixtures import mock_client, transcript_dict
 
+
 def test_render_html(transcript_dict):
     transcript_data = {
         "settings": {

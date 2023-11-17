@@ -21,7 +21,9 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
 
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
         return JSONResponse(
-            ErrorMessage(error=f"unsupported file format {file_extension}").model_dump_json(),
+            ErrorMessage(
+                error=f"unsupported file format {file_extension}"
+            ).model_dump_json(),
             status.HTTP_400_BAD_REQUEST,
         )
 
