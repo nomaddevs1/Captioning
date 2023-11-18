@@ -3,17 +3,16 @@ import { useContext } from 'react';
 import { TranscriptionContext } from 'src/context/TranscriptionContext';
 
 function DisplayTranscript (){
-    const transcription = useContext(TranscriptionContext);
+    const transcription: any = useContext(TranscriptionContext);
     const displayText = () => {
         if (transcription){
             const arr:Array<JSX.Element> = [];
-            for (let i = 0; i < 10; i++){
-                arr.push(<Text key={i} mb={4}>Test Text {i}</Text>);
+            for (let i = 0; i < transcription.transcriptionData.length; i++){
+                arr.push(<Text key={i} mb={4}>{transcription.transcriptionData[i].text}</Text>);
             }
             return arr;
         }
     }
-
 
     return (
         <Box height="100vh">
