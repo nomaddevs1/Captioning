@@ -57,7 +57,6 @@ function Transcript (){
         const arr:Array<JSX.Element> = [];
         const transcription = transcription_response.data.transcription;
         for (let i = 0; i < transcription.length; i++){
-            arr.push(<Text key={transcription[i].end} fontSize="sm" opacity="60%">{transcription[i].start}</Text>)
             arr.push(<Text key={i} mb={4} className="transcript-text">{transcription[i].text}</Text>);
         }
         return arr;
