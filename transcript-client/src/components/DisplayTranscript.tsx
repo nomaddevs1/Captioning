@@ -6,14 +6,11 @@ function DisplayTranscript (){
     const transcription = useContext(TranscriptionContext);
     const displayText = () => {
         if (transcription){
-            /**
             const arr:Array<JSX.Element> = [];
-            for (let i = 0; i < transcription.length; i++){
-                arr.push(<Text key={i} mb={4} className="transcript-text">{transcription[i].text}</Text>);
+            for (let i = 0; i < 10; i++){
+                arr.push(<Text key={i} mb={4}>Test Text {i}</Text>);
             }
             return arr;
-            */
-           console.log(transcription);
         }
     }
 
@@ -22,7 +19,7 @@ function DisplayTranscript (){
         <Box height="100vh">
             <Box pt={20} pl={40} pr={40} height="80vh" pos="relative">
                 <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
-
+                    {displayText()}
                 </Box>
             </Box>
             <Button mt={10}>Customize Transcript</Button>

@@ -34,7 +34,7 @@ function Upload() {
         }
       });
       //@ts-ignore
-      setTranscriptionData(data.transcription)
+      setTranscriptionData(data.transcript)
     } catch (err) {
       setIsLoading(false);
       //TODO: add toast error message
