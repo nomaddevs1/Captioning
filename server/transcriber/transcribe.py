@@ -132,7 +132,7 @@ def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Tran
             transcript = transcribe_files(files, language, file_size_limit)
         else:
             whisper_transcript_srt = openai.Audio.transcribe(
-                compressed_audio_file,
+                file=compressed_audio_file,
                 model="whisper-1",
                 response_format="srt",
                 language=language,
@@ -140,7 +140,7 @@ def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Tran
             transcript = Transcript.from_srt(whisper_transcript_srt)
     else:
         whisper_transcript_srt = openai.Audio.transcribe(
-            file, model="whisper-1", response_format="srt", language=language
+            file=file, model="whisper-1", response_format="srt", language=language
         )
         transcript = Transcript.from_srt(whisper_transcript_srt)
 

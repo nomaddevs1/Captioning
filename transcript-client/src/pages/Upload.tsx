@@ -5,6 +5,7 @@ import useUploader from 'src/hooks/useUploader';
 import  Progress  from 'src/components/Progress'
 import UploadedFileInfo from "src/components/UploadedFileInfo";
 import FileUploadArea from "src/components/FileUploadArea";
+import DisplayTranscript from "src/components/DisplayTranscript";
 import { useTranscription } from "src/hooks/useTranscription";
 
 function Upload() {
@@ -33,7 +34,7 @@ function Upload() {
         }
       });
       //@ts-ignore
-      setTranscriptionData(data.transcription)
+      setTranscriptionData(data.transcript)
     } catch (err) {
       setIsLoading(false);
       //TODO: add toast error message
@@ -50,15 +51,16 @@ function Upload() {
 
 
   return (
-        <Center textAlign="center" height="100vh">
-      {isLoading ? <Progress value={progress} /> : 
+    <Center textAlign="center" height="100vh">
+      {transcriptionData ? <DisplayTranscript/> :
+      (isLoading ? <Progress value={progress} /> : 
       uploaded ? (
         <UploadedFileInfo file={uploaded}>
           <Button width="100%" onClick={passTranscript}>Transcribe</Button>
         </UploadedFileInfo>
       ) : (
         <FileUploadArea  getInputProps={getInputProps} getRootProps={getRootProps} />
-      )}
+      ))}
     </Center>
 
   );
