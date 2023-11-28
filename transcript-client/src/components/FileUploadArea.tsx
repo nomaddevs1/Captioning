@@ -12,8 +12,8 @@ interface UploadProps {
 
 
 const FileUploadArea = ({ getInputProps, getRootProps } :UploadProps) => (
-  <Box {...getRootProps()}>
-    <Flex fontSize="2xl" alignItems="center" direction="column">
+  <Box>
+    <Flex fontSize="2xl" alignItems="center" direction="column" {...getRootProps()}>
       <img src={upload_logo} width="160px" alt="Upload" />
       <Text mt={4} mb={1}>Drag and drop file here, or</Text>
       <Box>
