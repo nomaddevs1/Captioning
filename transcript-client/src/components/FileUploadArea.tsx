@@ -1,5 +1,6 @@
 // src/components/FileUploadArea.tsx
 import React from 'react';
+import TutorialPopup from "src/components/TutorialPopup";
 import { Box, Text, Flex } from "@chakra-ui/react";
 //@ts-ignore
 import upload_logo from '../assets/upload_logo.svg';
@@ -20,6 +21,7 @@ const FileUploadArea = ({ getInputProps, getRootProps } :UploadProps) => (
         <Text fontSize="md" mb={4}>choose a file to upload</Text>
       </Box>
     </Flex>
+    <TutorialPopup text={"Test tutorial text."} />
   </Box>
 );
 
