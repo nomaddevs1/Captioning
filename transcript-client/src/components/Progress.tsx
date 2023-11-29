@@ -6,7 +6,7 @@ interface ProgressProps {
   value: number; 
 }
 
-const Progress: React.FC<ProgressProps> = ({ value }) => {
+const Progress = ({ value }: ProgressProps) => {
   return (
     <Flex
       position="fixed" 

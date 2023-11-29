@@ -5,17 +5,18 @@ import useUploader from 'src/hooks/useUploader';
 import  Progress  from 'src/components/Progress'
 import UploadedFileInfo from "src/components/UploadedFileInfo";
 import FileUploadArea from "src/components/FileUploadArea";
-import DisplayTranscript from "src/components/DisplayTranscript";
 import { useTranscription } from "src/hooks/useTranscription";
+import { useNavigate } from 'react-router-dom';
 
 function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(false)
+  // const [error, setError] = useState(false)
   const [progress, setProgress] = useState(0)
   const { getInputProps, getRootProps } = useUploader(setUploaded);
   const axios = useAxios()
-  const {transcriptionData, setTranscriptionData} = useTranscription()
+  const navigate = useNavigate();
+  const { setTranscriptionData} = useTranscription()
 
 
   const passTranscript = async (e: React.SyntheticEvent) => {
@@ -44,6 +45,7 @@ function Upload() {
         setIsLoading(false);
       }, 1000);
       setUploaded(null);
+      navigate('/transcription');
     }
   }
 }
@@ -52,15 +54,14 @@ function Upload() {
 
   return (
     <Center textAlign="center" height="100vh">
-      {transcriptionData ? <DisplayTranscript/> :
-      (isLoading ? <Progress value={progress} /> : 
+      {isLoading ? <Progress value={progress} /> : 
       uploaded ? (
         <UploadedFileInfo file={uploaded}>
           <Button width="100%" onClick={passTranscript}>Transcribe</Button>
         </UploadedFileInfo>
       ) : (
         <FileUploadArea  getInputProps={getInputProps} getRootProps={getRootProps} />
-      ))}
+      )}
     </Center>
 
   );
