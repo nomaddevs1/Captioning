@@ -1,7 +1,7 @@
 // src/components/FileUploadArea.tsx
 import React from 'react';
-import TutorialPopup from "src/components/TutorialPopup";
 import { Box, Text, Flex } from "@chakra-ui/react";
+import TutorialPopup from "src/components/TutorialPopup";
 //@ts-ignore
 import upload_logo from '../assets/upload_logo.svg';
 
@@ -23,8 +23,12 @@ const FileUploadArea = ({ getInputProps, getRootProps } :UploadProps) => (
     </Flex>
     <TutorialPopup text={
       <Box>
-        <Text mb="2">Welcome to Captioner, the assistive tool to generate transcriptions of audio files with multi-language support.</Text>
-        <Text>Upload a podcast or interview in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript.</Text>
+        <Text mb="2">
+          Welcome to Captioner, the assistive tool to generate transcriptions of audio files with multi-language support.
+        </Text>
+        <Text>
+          Upload a podcast or any other audio in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript.
+        </Text>
       </Box>
     } />
   </Box>
