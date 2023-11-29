@@ -24,13 +24,16 @@ const UploadedFileInfo= ({ file, children }: UploadedFileInfoProps) => (
       </Box>
     </Flex>
     {children} {/* Render children here */}
-    <TutorialPopup text={
-      <Box>
-        <Text>
-          Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.
-        </Text>
-      </Box>
-    } />
+    <TutorialPopup 
+      position={{pos: "fixed", bottom: "20", right: "4"}}
+      text={
+        <Box>
+          <Text>
+            Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.
+          </Text>
+        </Box>
+      } 
+    />
   </Box>
 );
 

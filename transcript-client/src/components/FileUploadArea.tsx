@@ -21,16 +21,19 @@ const FileUploadArea = ({ getInputProps, getRootProps } :UploadProps) => (
         <Text cursor="pointer" fontSize="md" mb={4}>choose a file to upload</Text>
       </Box>
     </Flex>
-    <TutorialPopup text={
-      <Box>
-        <Text mb="2">
-          Welcome to Captioner, the assistive tool to generate transcriptions of audio files with multi-language support.
-        </Text>
-        <Text>
-          Upload a podcast or any other audio in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript.
-        </Text>
-      </Box>
-    } />
+    <TutorialPopup 
+      position={{pos: "fixed", bottom: "20", right: "4"}}
+      text={
+        <Box>
+          <Text mb="2">
+            Welcome to Captioner, the assistive tool to generate transcriptions of audio files with multi-language support.
+          </Text>
+          <Text>
+            Upload a podcast or any other audio in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript.
+          </Text>
+        </Box>
+      } 
+    />
   </Box>
 );
 
