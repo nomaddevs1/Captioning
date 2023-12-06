@@ -53,7 +53,7 @@ function Upload() {
 
 
   return (
-    <Center textAlign="center" height="100vh">
+    <Center textAlign="center" height="100%">
       {isLoading ? <Progress value={progress} /> : 
       uploaded ? (
         <UploadedFileInfo file={uploaded}>
