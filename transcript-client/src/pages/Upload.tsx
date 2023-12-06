@@ -31,14 +31,14 @@ function Upload() {
     try {
       // add file format and size checks before making request
       const allowedFormats = ['.mp3', '.wav', '.m4a', '.mpga', '.mp4', '.webm', '.mpeg'];
-      const maxFileSize = 25; // max file size in MB
+      const maxFileSize = 300; // max file size in MB
 
       if (!allowedFormats.some(format => uploaded.name.toLowerCase().endsWith(format))) {
         toast.error('File format not supported');
         return;
       } // file size too large error
       else if (uploaded.size > maxFileSize * 1000000) {
-        toast.error('File size is too large. Please upload file smaller than 25 MB.');
+        toast.error('File size is too large. Please upload file smaller than 300 MB.');
         return;
       }
       const {data} = await axios.post('/transcribe/?language=en', formData, {
