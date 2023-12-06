@@ -9,4 +9,3 @@ const styles = {
 export type styles = typeof styles
 
 export default styles
-

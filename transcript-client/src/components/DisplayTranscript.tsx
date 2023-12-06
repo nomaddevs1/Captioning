@@ -8,6 +8,7 @@ function DisplayTranscript (){
         if (transcription){
             const arr:Array<JSX.Element> = [];
             for (let i = 0; i < transcription.transcriptionData.length; i++){
+              //@ts-ignore
                 arr.push(<Text key={i} mb={4}>{transcription.transcriptionData[i].text}</Text>);
             }
             return arr;

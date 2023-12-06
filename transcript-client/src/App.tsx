@@ -1,14 +1,25 @@
-import React from 'react';
-import { Box, Button, Text} from "@chakra-ui/react";
-import Upload from './pages/Upload';
-import Progress from './components/Progress';
+import { Box} from "@chakra-ui/react";
+import { Route, Routes } from 'react-router-dom';
+import TranscriptionPage from "./pages/transcript";
+import Upload from 'src/pages/Upload';
+import ProtectedRoute from "src/routes/protectedRoutes";
 
 function App() {
 
   return (
     <Box textAlign="center" fontSize="xl">
-      <Upload />
-    </Box>
+        <Routes>
+          <Route path="/upload" element={<Upload/>} />
+          <Route 
+          path="/transcription" 
+          element={
+            <ProtectedRoute>
+              <TranscriptionPage />
+            </ProtectedRoute>
+          } 
+        /> 
+        </Routes>
+      </Box>
  );
 }
 

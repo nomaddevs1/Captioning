@@ -13,10 +13,10 @@ const UploadedFileInfo= ({ file, children }: UploadedFileInfoProps) => (
     <Flex mb={4}>
       <img src={upload_logo} width="80px" alt="" />
       <Box ml={4}>
-        <Text fontSize="3xl" mb={2} mr={0}>{file.name}</Text>
+        <Text fontSize="3xl" mb={2} mr={0}>{file?.name}</Text>
         <Flex>
           <Text>NA mins,</Text>
-          <Text ml={1}>{Math.round(file.size / 1000000)} MB</Text>
+          {file ? <Text ml={1}>{Math.round(file.size / 1000000)} MB</Text> : <></>}
         </Flex>
       </Box>
     </Flex>

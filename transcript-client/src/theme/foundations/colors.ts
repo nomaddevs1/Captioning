@@ -1,4 +1,3 @@
-
 const colors = {
   neutral: {
     0: "#FFFFFF",
