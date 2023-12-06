@@ -9,6 +9,7 @@ const TranscriptionPage = () => {
    <Grid
       templateAreas={`"side main"`}
       gridTemplateColumns={"352px 1fr"}
+      height="100%"
     >
       <GridItem
             bg="primary.bay.100"

@@ -1,4 +1,4 @@
-import { Box, Text, Button } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useContext } from 'react';
 import { TranscriptionContext } from 'src/context/TranscriptionContext';
 
@@ -16,13 +16,12 @@ function DisplayTranscript (){
     }
 
     return (
-        <Box height="100vh">
-            <Box pt={20} pl={40} pr={40} height="80vh" pos="relative">
+        <Box height="100%">
+            <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
                 <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
                     {displayText()}
                 </Box>
             </Box>
-            <Button mt={10}>Customize Transcript</Button>
         </Box>
     );
 }

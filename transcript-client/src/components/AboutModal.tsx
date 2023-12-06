@@ -24,7 +24,7 @@ function AboutModal(){
                     <Box height="10px" bg="#557E4A" borderTopRadius="6"></Box>
                     <ModalHeader color="#557E4A">About Captioning</ModalHeader>
                     <ModalCloseButton mt="2" />
-                    <ModalBody>
+                    <ModalBody padding="4">
                         <Text mb="4">
                             Welcome to Captioning, the assistive tool to make audio based media accessible 
                             to people that are deaf or hard of hearing. Upload a file of a podcast, interview, 
