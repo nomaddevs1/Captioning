@@ -6,9 +6,10 @@ import  Progress  from 'src/components/Progress'
 import UploadedFileInfo from "src/components/UploadedFileInfo";
 import FileUploadArea from "src/components/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
@@ -54,7 +55,7 @@ function Upload() {
     } catch (err) {
       setIsLoading(false);
       //TODO: add toast error message
-      toast.error("Error transcribing file");
+      toast.error('Error uploading file. Please ensure file is an acceptable format.')
       console.error(err);
     } finally {
       setTimeout(() => {

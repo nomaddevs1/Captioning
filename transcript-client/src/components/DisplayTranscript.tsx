@@ -1,5 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useContext } from 'react';
+import TutorialPopup from "./TutorialPopup";
 import { TranscriptionContext } from 'src/context/TranscriptionContext';
 
 function DisplayTranscript (){
