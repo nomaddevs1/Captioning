@@ -8,7 +8,7 @@ interface TranscriptionSideBarProps {
 
 const TranscriptionSideBar = ({ children }: TranscriptionSideBarProps) => {
   return (
-    <Box backgroundColor={"primary.ivy.500"} height="100%">
+    <Box backgroundColor={"primary.ivy.500"} height="100%" padding="4">
       
         {children}
      
