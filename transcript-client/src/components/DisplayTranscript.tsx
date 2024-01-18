@@ -1,105 +1,73 @@
+import React, { useEffect, useState, useRef } from 'react';
 import { Box } from "@chakra-ui/react";
-import { useEffect, useState, useRef } from 'react';
-import TutorialPopup from "./TutorialPopup";
-import { Editor, EditorState, ContentState, convertFromRaw, RichUtils, Modifier, DraftStyleMap } from 'draft-js';
+import { Editor, EditorState, Modifier, convertFromRaw, DraftStyleMap } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { useTranscription } from 'src/context/TranscriptionContext';
 
-function DisplayTranscript (){
-  const { transcriptionData, fontSize } = useTranscription();
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-
-    // const displayText = () => {
-    //     if (transcription){
-    //         const arr:Array<JSX.Element> = [];
-    //         for (let i = 0; i < transcription.transcriptionData.length; i++){
-    //           //@ts-ignore
-    //             arr.push(<Text key={i} mb={4}>{transcription.transcriptionData[i].text}</Text>);
-    //         }
-    //         return arr;
-    //     }
-    // }
-
+function DisplayTranscript() {
+  const { transcriptionData, fontSize, fontStyle } = useTranscription();
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  const [isDataLoaded, setIsDataLoaded] = useState(false); 
   const editorRef = useRef<Editor>(null);
 
-// After component mounts
-  useEffect(() => {
-    if (editorRef.current) {
-      editorRef.current.focus();
-    }
-  }, []);
 
+  useEffect(() => {
+    editorRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (transcriptionData.length > 0) {
-      const blocks = transcriptionData.map((item, index) => ({
-        key: `block-${index}`,
-        text: item.text,
-        type: 'unstyled',
-        data: {
-          // Include any additional metadata you might want to use
-          start: item.start,
-          end: item.end,
-        },
-      }));
-
-
       const contentState = convertFromRaw({
-        blocks,
-        entityMap: {}, // No entities in this example, but you can add if needed
+        blocks: transcriptionData,
+        entityMap: {},
       });
-
-      const newEditorState = EditorState.createWithContent(contentState);
-      setEditorState(newEditorState);
+       setEditorState(EditorState.createWithContent(contentState));
+       setIsDataLoaded(true);
     }
   }, [transcriptionData]);
 
-
-  
-// Apply the current font size from the context to the selection
-  const applyFontSize = (fontSize: string) => {
-    const selection = editorState.getSelection();
-    if (!selection.isCollapsed()) {
-      const nextContentState = Modifier.applyInlineStyle(
-        editorState.getCurrentContent(),
-        selection,
-        'CUSTOM_FONT_SIZE'
-      );
-      setEditorState(EditorState.push(editorState, nextContentState, 'change-inline-style'));
-    }
-  };
-
-  // When the fontSize in the context changes, apply it to the current selection
   useEffect(() => {
-    applyFontSize(fontSize);
-  }, [fontSize]); // Re-run this effect when fontSize changes
+    if (!isDataLoaded) return;
+    let newContentState = editorState.getCurrentContent(); 
+    const selection = editorState.getSelection();
 
+    if (fontSize) {
+      newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_FONT_SIZE');
+    }
+    if (fontStyle) {
+      newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_FONT_STYLE');
+    }
+    
+    // if (wordSpacing) {
+    //   newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_WORD_SPACING');
+    // }
+ if (newContentState !== editorState.getCurrentContent()) {
+    const newEditorState = EditorState.push(editorState, newContentState, 'change-inline-style');
+    setEditorState(EditorState.forceSelection(newEditorState, selection)); 
+}
+  }, [fontSize, fontStyle, isDataLoaded]); 
 
-
-
-  const styleMap = {
+  const styleMap: DraftStyleMap = {
     'CUSTOM_FONT_SIZE': {
-      fontSize: fontSize // Use the font size from context
+      fontSize: fontSize,
     },
+    'CUSTOM_FONT_STYLE': {
+      fontFamily: fontStyle,
+    },
+    // Additional styles will be added here as needed
   };
-
 
   const getBlockStyle = (block) => {
+    // Implementation for block style based on the block type
     return 'myBlockStyle';
-  }
-    return (
-        // <Box height="100%">
-        //     <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
-        //         <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
-        //             {displayText()}
-        //         </Box>
-        //     </Box>
-        // </Box>
-        <Box height="100%">
+  };
+
+  return (
+    <Box height="100%">
       <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
         <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
           <Editor
-            ref= {editorRef}
+            ref={editorRef}
             customStyleMap={styleMap}
             editorState={editorState}
             onChange={setEditorState}
@@ -108,7 +76,8 @@ function DisplayTranscript (){
         </Box>
       </Box>
     </Box>
-    );
+  );
 }
 
 export default DisplayTranscript;
+

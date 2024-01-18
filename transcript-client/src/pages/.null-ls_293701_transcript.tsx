@@ -27,25 +27,25 @@ const TranscriptionPage = () => {
       <GridItem bg="primary.bay.100" area={"side"} top="0" right="0" height="100%">
         <TranscriptionSideBar>
           <TranscriptionBarItem title={"Transcription Settings"}>
-            <SelectInput 
-              label="Font Size"
-              onChange={(value) => updateContextValue(setFontSize, value)}
-              options={fontSizeOptions}
-            />
-            <SelectInput 
-              label="Font Style"
-              onChange={(value) => updateContextValue(setFontStyle, value)}
-              options={fontStyleOptions}
-            />
-            <SelectInput 
-              label="Line Height"
-              onChange={(value) => updateContextValue(setLineHeight, parseFloat(value))}
-              options={lineHeightOptions}
-            />
-            <SelectInput 
-              label="Word Spacing"
-              onChange={(value) => updateContextValue(setWordSpacing, parseFloat(value))}
-              options={wordSpacingOptions}
+            // <SelectInput 
+            //   label="Font Size"
+            //   onChange={(value) => updateContextValue(setFontSize, value)}
+            //   options={fontSizeOptions}
+            // />
+            // <SelectInput 
+            //   label="Font Style"
+            //   onChange={(value) => updateContextValue(setFontStyle, value)}
+            //   options={fontStyleOptions}
+            // />
+            // <SelectInput 
+            //   label="Line Height"
+            //   onChange={(value) => updateContextValue(setLineHeight, parseFloat(value))}
+            //   options={lineHeightOptions}
+            // />
+            // <SelectInput 
+            //   label="Word Spacing"
+            //   onChange={(value) => updateContextValue(setWordSpacing, parseFloat(value))}
+            //   options={wordSpacingOptions}
             />
           </TranscriptionBarItem>
         </TranscriptionSideBar>
