@@ -15,27 +15,24 @@ interface TextInputProps {
   options: Val[] 
 }
 
-export const SelectInput = ({label, value, ...props }: TextInputProps) => {
-  // Define options for the select
-  const options = [
-    { value: 'Comic', label: 'Comic' },
-    { value: 'SansSerif', label: 'SansSerif' },
-    { value: 'Serif', label: 'Serif' },
-    { value: 'Mono', label: 'Mono' },
-  ];
+// SelectInput component
 
-  // Set the current value for the select
+export const SelectInput = ({ label, value, onChange, options }: TextInputProps) => {
+  // Find the current selected value based on the value prop
   const selectedValue = options.find(option => option.value === value);
 
+  // Handle change event for Select
+  const handleChange = (selectedOption: Val) => {
+    onChange(selectedOption.value); // Propagate the change up
+  };
+
   return (
-<FormControl m="1px">
-    <FormLabel>{label}</FormLabel>
+    <FormControl>
+      <FormLabel>{label}</FormLabel>
       <Select
-        required={true}
         value={selectedValue}
-        name="series"
         options={options}
-        {...props} // Spread additional props here if needed
+        onChange={handleChange} // Set the selected value on change
       />
     </FormControl>
   );
