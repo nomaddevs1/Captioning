@@ -12,6 +12,10 @@ export const fontSizeOptions: SelectOption[] = [
   { value: '12px', label: '12px' },
   { value: '14px', label: '14px' },
   { value: '16px', label: '16px' },
+  { value: '18px', label: '18px' },
+  { value: '20px', label: '20px' },
+  { value: '22px', label: '22px' },
+  { value: '24px', label: '24px' },
   // ...additional font sizes
 ];
 
@@ -31,7 +35,7 @@ export const fontStyleOptions: SelectOption[] = [
   { value: 'Source Sans Pro', label: 'Source Sans Pro' }, // Sans-serif
   { value: 'Montserrat', label: 'Montserrat' }, // Sans-serif
   { value: 'Oswald', label: 'Oswald' }, // Sans-serif
-  
+  { value: 'Chiller', label: 'Chiller' }, // Sans-serif
   // ...additional font styles
 ];
 
@@ -48,6 +52,8 @@ export const wordSpacingOptions: SelectOption[] = [
   { value: '0', label: 'Default' },
   { value: '2px', label: '2px' },
   { value: '5px', label: '5px' },
+  { value: '7px', label: '7px' },
+  { value: '8px', label: '9px' },
   // ...additional word spacings
 ];
 

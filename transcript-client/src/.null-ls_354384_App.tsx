@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, Redirect } from 'react-router-dom';
 import TranscriptionPage from "./pages/transcript";
 import Upload from 'src/pages/Upload';
 import Header from "./components/Header";
@@ -12,10 +12,9 @@ function App() {
       <Header />
       <Box height="100%" width="100%" mt="80px">
         <Routes>
-          <Route exact path="/" element={
-              <Navigate replace to="/upload"/>
-            }/>
-           
+          <Route exact path="/">
+            <Redirect to="/upload"/>
+          </Route>
           <Route path="/upload" element={<Upload/>} />
           <Route 
             path="/transcription" 

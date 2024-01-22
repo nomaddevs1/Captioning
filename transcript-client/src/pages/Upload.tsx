@@ -55,6 +55,7 @@ function Upload() {
     } catch (err) {
       setIsLoading(false);
       //TODO: add toast error message
+      console.log(err)
       toast.error('Error uploading file. Please ensure file is an acceptable format.')
       console.error(err);
     } finally {

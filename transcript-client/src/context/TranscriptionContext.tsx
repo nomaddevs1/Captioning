@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface TranscriptionContextType {
+  //@ts-ignore
   transcriptionData: TranscriptionData | null // Define the type for your transcription data appropriately
   setTranscriptionData: (data: TranscriptionData | null) => void;
   fontSize: string;
@@ -43,6 +44,7 @@ export const TranscriptionProvider: React.FC = ({ children }) => {
   const [highlightColor, setHighlightColor] = useState<string>('#FFFF00');
   const [lineHeight, setLineHeight] = useState<number>(1.5);
   const [fontStyle, setFontStyle] = useState<string>('Arial');
+  const [wordSpacing, setWordSpacing] = useState<string>('normal')
 
   return (
     <TranscriptionContext.Provider value={{
@@ -52,6 +54,7 @@ export const TranscriptionProvider: React.FC = ({ children }) => {
       fontColor, setFontColor,
       highlightColor, setHighlightColor,
       lineHeight, setLineHeight,
+      wordSpacing, setWordSpacing,
     }}>
       {children}
     </TranscriptionContext.Provider>

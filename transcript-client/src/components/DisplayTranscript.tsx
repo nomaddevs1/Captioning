@@ -1,16 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Box } from "@chakra-ui/react";
-import { Editor, EditorState, Modifier, convertFromRaw, DraftStyleMap } from 'draft-js';
+//@ts-ignore
+import { Editor, EditorState, Modifier, convertFromRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
 import { useTranscription } from 'src/context/TranscriptionContext';
 
+
 function DisplayTranscript() {
-  const { transcriptionData, fontSize, fontStyle } = useTranscription();
+  const { transcriptionData, fontSize, fontStyle, wordSpacing, lineHeight } = useTranscription();
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
-  const [isDataLoaded, setIsDataLoaded] = useState(false); 
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const editorRef = useRef<Editor>(null);
-
-
+// const [editorState, setEditorState, isDataLoaded] = useInitializeEditorState(transcriptionData);
   useEffect(() => {
     editorRef.current?.focus();
   }, []);
@@ -21,8 +22,8 @@ function DisplayTranscript() {
         blocks: transcriptionData,
         entityMap: {},
       });
-       setEditorState(EditorState.createWithContent(contentState));
-       setIsDataLoaded(true);
+      setEditorState(EditorState.createWithContent(contentState));
+      setIsDataLoaded(true);
     }
   }, [transcriptionData]);
 
@@ -37,33 +38,25 @@ function DisplayTranscript() {
     if (fontStyle) {
       newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_FONT_STYLE');
     }
-    
-    // if (wordSpacing) {
-    //   newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_WORD_SPACING');
-    // }
- if (newContentState !== editorState.getCurrentContent()) {
-    const newEditorState = EditorState.push(editorState, newContentState, 'change-inline-style');
-    setEditorState(EditorState.forceSelection(newEditorState, selection)); 
-}
-  }, [fontSize, fontStyle, isDataLoaded]); 
 
-  const styleMap: DraftStyleMap = {
+    if (newContentState !== editorState.getCurrentContent()) {
+      const newEditorState = EditorState.push(editorState, newContentState, 'change-inline-style');
+      setEditorState(newEditorState); // Removed forceSelection for simplicity
+    }
+  }, [fontSize, fontStyle, isDataLoaded]); // Removed editorState from dependencies
+
+  const styleMap = {
     'CUSTOM_FONT_SIZE': {
       fontSize: fontSize,
     },
     'CUSTOM_FONT_STYLE': {
       fontFamily: fontStyle,
     },
-    // Additional styles will be added here as needed
-  };
-
-  const getBlockStyle = (block) => {
-    // Implementation for block style based on the block type
-    return 'myBlockStyle';
+    // Word spacing moved to wrapper style
   };
 
   return (
-    <Box height="100%">
+    <Box height="100%" style={{ wordSpacing: wordSpacing, lineHeight: lineHeight, fontSize: fontSize, fontFamily: fontStyle }}>
       <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
         <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
           <Editor
@@ -71,7 +64,7 @@ function DisplayTranscript() {
             customStyleMap={styleMap}
             editorState={editorState}
             onChange={setEditorState}
-            blockStyleFn={getBlockStyle}
+            // blockStyleFn and blockRendererFn removed for simplicity
           />
         </Box>
       </Box>

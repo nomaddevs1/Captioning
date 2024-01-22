@@ -1,24 +1,52 @@
 import { useEffect } from 'react';
-import { EditorState, Modifier } from 'draft-js';
+import { Modifier, EditorState } from 'draft-js';
 
-const useEditorStyles = (editorState, setEditorState, isDataLoaded, styles) => {
+interface UseApplyEditorStylesProps {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+  isDataLoaded: boolean;
+  fontSize: string;
+  fontStyle: string;
+}
+
+const useApplyEditorStyles = ({
+  editorState,
+  setEditorState,
+  isDataLoaded,
+  fontSize,
+  fontStyle,
+}: UseApplyEditorStylesProps): void => {
   useEffect(() => {
     if (!isDataLoaded) return;
 
     let newContentState = editorState.getCurrentContent();
     const selection = editorState.getSelection();
 
-    Object.entries(styles).forEach(([styleType, styleValue]) => {
-      if (styleValue) {
-        newContentState = Modifier.applyInlineStyle(newContentState, selection, `CUSTOM_${styleType.toUpperCase()}`);
-      }
-    });
+    // Apply font size style
+    if (fontSize) {
+      newContentState = Modifier.applyInlineStyle(
+        newContentState,
+        selection,
+        'CUSTOM_FONT_SIZE'
+      );
+    }
 
+    // Apply font style
+    if (fontStyle) {
+      newContentState = Modifier.applyInlineStyle(
+        newContentState,
+        selection,
+        'CUSTOM_FONT_STYLE'
+      );
+    }
+
+    // Only update the editor state if there are changes
     if (newContentState !== editorState.getCurrentContent()) {
       const newEditorState = EditorState.push(editorState, newContentState, 'change-inline-style');
-      setEditorState(EditorState.forceSelection(newEditorState, selection));
+      setEditorState(newEditorState);
     }
-  }, [editorState,styles, isDataLoaded]);
+  }, [fontSize, fontStyle, isDataLoaded, setEditorState]);
 };
 
-export default useEditorStyles;
+export default useApplyEditorStyles;
+
