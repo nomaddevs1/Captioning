@@ -23,7 +23,6 @@ const TranscriptionPage = () => {
     <Grid
       templateAreas={`"side main"`}
       gridTemplateColumns={"352px 1fr"}
-      
     >
       <GridItem
         bg="primary.bay.100"
@@ -49,24 +48,26 @@ const TranscriptionPage = () => {
               onChange={(value) => updateContextValue(setFontStyle, value)}
               options={fontStyleOptions}
             />
-            {/* @ts-ignore */}
-            <SelectInput
-              label="Line Height"
-              //@ts-ignore
-              onChange={(value) =>
-                updateContextValue(setLineHeight, parseFloat(value))
-              }
-              options={lineHeightOptions}
-            />
-            {/* @ts-ignore */}
-            <SelectInput
-              label="Word Spacing"
-              //@ts-ignore
-              onChange={(value) =>
-                updateContextValue(setWordSpacing, parseFloat(value))
-              }
-              options={wordSpacingOptions}
-            />
+            <Grid templateColumns="47% 47%" gap="6%">
+              {/* @ts-ignore */}
+              <SelectInput
+                label="Line Height"
+                //@ts-ignore
+                onChange={(value) =>
+                  updateContextValue(setLineHeight, parseFloat(value))
+                }
+                options={lineHeightOptions}
+              />
+              {/* @ts-ignore */}
+              <SelectInput
+                label="Word Spacing"
+                //@ts-ignore
+                onChange={(value) =>
+                  updateContextValue(setWordSpacing, parseFloat(value))
+                }
+                options={wordSpacingOptions}
+              />
+            </Grid>
             <ColorPickerComponent text="Transcript Font Color" onChange={(value) => {
               updateContextValue(setFontColor, value)
             }} />
