@@ -1,56 +1,39 @@
+import { Box, Text } from "@chakra-ui/react";
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/dist/css/rcp.css";
+import { rcpStyle } from "src/utils/rcp";
 
-// ColorPickerInput.tsx
-import { useState } from 'react';
-import { SketchPicker } from 'react-color';
-import { Box, FormLabel, FormControl } from '@chakra-ui/react';
-
-interface ColorPickerInputProps {
-  label: string;
-  value: string;
-  onChange: (color: string) => void;
+interface ColorPickerInput {
+  text: string;
+  onChange: (value: string) => void;
 }
 
-const ColorPickerInput = ({ label, value, onChange }: ColorPickerInputProps) => {
-  const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  console.log(displayColorPicker)
-  const handleClick = () => {
-    setDisplayColorPicker(!displayColorPicker);
-  };
 
-  const handleClose = () => {
-    setDisplayColorPicker(false);
-  };
+const ColorPickerComponent = ({ text, onChange }: ColorPickerInput) => {
+  const [color, setColor] = useColor("#00FF00");
 
-  const handleChange = (color) => {
-    onChange(color.hex);
+  const handleChange = (value: any) => {
+    setColor(value);
+    onChange(value?.hex);
   };
 
   return (
-    <FormControl>
-      <FormLabel>{label}</FormLabel>
-      <Box
-        bg={value}
-        width="36px"
-        height="14px"
-        borderRadius="2px"
-        onClick={handleClick}
-        cursor="pointer"
-      />
-      {true ? (
-        <Box position="absolute" zIndex="2">
-          <Box
-            position="fixed"
-            top="0px"
-            right="0px"
-            bottom="0px"
-            left="0px"
-            onClick={handleClose}
-          />
-          <SketchPicker color={value} onChange={handleChange} />
-        </Box>
-      ) : null}
-    </FormControl>
+    <>
+      <style>{rcpStyle}</style>
+      <Box mt="20px">
+        <Text
+          mb="20px"
+          width="80%"
+          fontSize="1.1rem"
+          fontWeight="400"
+          color={"neutral.50"}
+        >
+          {text}
+        </Text>
+        <ColorPicker height={50} color={color} onChange={handleChange} />
+      </Box>
+    </>
   );
 };
 
-export default ColorPickerInput;
+export default ColorPickerComponent;

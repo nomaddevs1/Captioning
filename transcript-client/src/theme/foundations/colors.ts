@@ -1,4 +1,4 @@
-const colors = {
+export const colors = {
   neutral: {
     0: "#FFFFFF",
     5: "#FEFEFE",
@@ -68,6 +68,5 @@ const colors = {
   },
 } as const
 
-export type colors = typeof colors
 
-export default colors
+

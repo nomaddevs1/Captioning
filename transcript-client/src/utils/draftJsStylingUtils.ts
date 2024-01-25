@@ -1,5 +1,5 @@
 // src/utils/draftJsStylingUtils.ts
-import { ContentState, EditorState, Modifier, SelectionState } from 'draft-js';
+import {  EditorState, Modifier } from 'draft-js';
 
 export const applyInlineStyle = (
   editorState: EditorState,

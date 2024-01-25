@@ -1,5 +1,4 @@
-import { ReactNode } from "react";
-import { Checkbox, Box, FormLabel, FormControl } from "@chakra-ui/react";
+import { FormLabel, FormControl } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
 
 
@@ -11,7 +10,7 @@ interface Val{
 interface TextInputProps {
   label: string,
   value: string;
-  props?: ReactNode;
+  onChange: (value: string) => void;
   options: Val[] 
 }
 
@@ -28,10 +27,11 @@ export const SelectInput = ({ label, value, onChange, options }: TextInputProps)
 
   return (
     <FormControl>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel  width="80%" fontSize="1.1rem" fontWeight="400" color={"neutral.50"}>{label}</FormLabel>
       <Select
         value={selectedValue}
         options={options}
+        //@ts-ignore
         onChange={handleChange} // Set the selected value on change
       />
     </FormControl>

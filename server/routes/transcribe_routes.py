@@ -1,15 +1,15 @@
 import audioread
 from fastapi import APIRouter, UploadFile, status
-from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
-from utils import duration_detector
+from fastapi.responses import JSONResponse
 from models.status import ErrorMessage
-from transcriber import transcribe_file, Transcript
+from transcriber import Transcript, transcribe_file
+from utils import duration_detector
 
 router = APIRouter()
 
 AUDIO_FILE_BYTES_LIMIT = 25_000_000  # 25 MB
-SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm"]
+SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm", "m4a"]
 
 
 @router.post(
@@ -18,8 +18,6 @@ SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm"]
 async def transcribe_audio(audio_file: UploadFile, language: str):
     audio_filename = audio_file.filename
     file_extension = audio_filename.split(".")[-1]
-    print(audio_filename)
-    print(file_extension)
 
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
         return JSONResponse(
@@ -41,7 +39,6 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         transcript = transcribe_file(audio_file, language, AUDIO_FILE_BYTES_LIMIT)
     except Exception as e:
         audio_file.close()
-        print(e)
         return JSONResponse(
             ErrorMessage(error="error transcribing the file").model_dump_json(),
             status.HTTP_400_BAD_REQUEST,

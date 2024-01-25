@@ -8,11 +8,11 @@ import ProtectedRoute from "src/routes/protectedRoutes";
 function App() {
 
   return (
-    <Flex height="100vh" flexDirection="column">
+    <Flex height="100vh" flexDirection="column" overflowY={'hidden'}>
       <Header />
       <Box height="100%" width="100%" mt="80px">
         <Routes>
-          <Route exact path="/" element={
+          <Route path="/" element={
               <Navigate replace to="/upload"/>
             }/>
            
