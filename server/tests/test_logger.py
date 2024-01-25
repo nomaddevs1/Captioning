@@ -7,7 +7,7 @@ def test_log_to_file():
     logging.info("Hello World!")
 
     lines = None
-    with open("/tmp/app.log") as file:
+    with open("/tmp/transcript_app.log") as file:
         lines = file.readlines()
 
     assert lines[0] == "Hello World!\n"
