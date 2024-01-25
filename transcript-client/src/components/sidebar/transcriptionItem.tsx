@@ -13,7 +13,7 @@ const TranscriptionBarItem = ({ title, children }: TranscriptionItemProps) => {
         {title}
       </Text>
       {children}
-      <Button mt="20px" mb="30px">Save Transcript</Button>
+      <Button mt="10px" width="100%" mb="70px">Save Transcript</Button>
     </Box>
   )
 }
