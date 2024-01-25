@@ -130,7 +130,7 @@ def test_transcribe_compressable_to_lt_25MB_file(mock_openai_transcribe):
     assert len(transcript_result.transcript) == 23
 
 
-def test_transcribe_route_filetype_validation(mock_openai_transcribe, mock_client):
+def test_transcribe_route_filetype_validation_err(mock_openai_transcribe, mock_client):
     audio, _ = generate_silent_audio_segment(
         desired_file_size_bytes=1_000_000,  # 1 MB
         bits_per_sample=16,  # cd quality
@@ -148,6 +148,7 @@ def test_transcribe_route_filetype_validation(mock_openai_transcribe, mock_clien
     file.close()
 
     assert response.status_code == 400
+    assert response.headers.get("Content-Type") == "application/json"
     assert json.loads(response.json())["error"] == "unsupported file format flac"
 
 
@@ -162,5 +163,6 @@ def test_bad_file_upload(mock_openai_transcribe, mock_client):
 
     audio_file.close()
 
-    assert response.status_code == 400
+    assert response.status_code == 500
+    assert response.headers.get("Content-Type") == "application/json"
     assert json.loads(response.json())["error"] == "error transcribing the file"
