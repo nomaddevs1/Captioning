@@ -80,8 +80,8 @@ function DisplayTranscript() {
   };
 
   return (
-    <Box height="100%" style={{ wordSpacing: wordSpacing, lineHeight: lineHeight, fontSize: fontSize, fontFamily: fontStyle, color: fontColor }}>
-      <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
+    <Box height="82vh" style={{ wordSpacing: wordSpacing, lineHeight: lineHeight, fontSize: fontSize, fontFamily: fontStyle, color: fontColor }}>
+      <Box pt={8} pl={20} pr={20} pb={6} height="100%" pos="relative">
         <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
           <Editor
             ref={editorRef}

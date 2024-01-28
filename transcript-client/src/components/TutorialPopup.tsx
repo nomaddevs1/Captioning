@@ -27,7 +27,7 @@ function TutorialPopup (tutorial: TutorialPopupProps) {
         <Button sx={BUTTON_STYLE} onClick={() => setShowTutorial(true)}>?</Button>
     )
     return (
-        <Box sx={tutorial.position}>
+        <Box sx={tutorial.position} zIndex="1000">
             <Box width="400px" bg="white" borderRadius="8" mb="4">
                 <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
                 <Box p="2" textAlign="left" fontSize="md">{tutorial.text}</Box>

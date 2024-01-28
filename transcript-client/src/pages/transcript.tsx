@@ -1,8 +1,9 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Flex, Button, Box, Text } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 import TranscriptionBarItem from "src/components/sidebar/transcriptionItem";
 import { SelectInput } from "src/components/forms/SelectInput";
 import { useTranscription } from "src/context/TranscriptionContext";
+import TutorialPopup from "src/components/TutorialPopup";
 import DisplayTranscript from "src/components/DisplayTranscript";
 import {
   updateContextValue,
@@ -78,7 +79,20 @@ const TranscriptionPage = () => {
         </TranscriptionSideBar>
       </GridItem>
       <GridItem area={"main"}>
-        <DisplayTranscript />
+        <Flex flexDirection="column">
+          <DisplayTranscript />
+          <Button alignSelf="center" mb="10px" width="350px">Interactive Transcript</Button>
+        </Flex>
+        <TutorialPopup 
+          position={{pos: "fixed", bottom: "20", right: "4"}}
+          text={
+            <Box>
+              <Text>
+                Upload a podcast or any other audio in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript.
+              </Text>
+            </Box>
+          } 
+        />
       </GridItem>
     </Grid>
   );
