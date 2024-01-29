@@ -1,4 +1,4 @@
-const spacing = {
+export const spacing = {
   px: "0.5rem",
   0: "0",
   4: "0.25rem",
@@ -14,4 +14,4 @@ const spacing = {
   120: "7.5rem",
 }
 
-export default spacing
+

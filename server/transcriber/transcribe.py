@@ -1,7 +1,7 @@
-from typing import List, BinaryIO, Union
+from typing import BinaryIO, List, Union
+from models.status import ErrorMessage
 from pydantic import BaseModel
 from utils import srt_time_to_seconds
-from models.status import ErrorMessage
 from .util import chunkify_mp3, compress_audio_file
 import re
 import openai
@@ -172,5 +172,4 @@ def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Tran
             file=file, model="whisper-1", response_format="srt", language=language
         )
         transcript = Transcript.from_srt(whisper_transcript_srt)
-
     return transcript

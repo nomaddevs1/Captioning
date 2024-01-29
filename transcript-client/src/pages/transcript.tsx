@@ -1,29 +1,110 @@
-import DisplayTranscript from 'src/components/DisplayTranscript';
 import { Grid, GridItem } from "@chakra-ui/react";
-import TranscriptionSideBar from 'src/components/sidebar/TranscriptionSideBar';
-import TranscriptionBarItem from 'src/components/sidebar/transcriptionItem';
-import { SelectInput } from 'src/components/forms/TextInput';
+import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
+import TranscriptionBarItem from "src/components/sidebar/transcriptionItem";
+import { SelectInput } from "src/components/forms/SelectInput";
+import { useTranscription } from "src/context/TranscriptionContext";
+import DisplayTranscript from "src/components/DisplayTranscript";
+import {
+  updateContextValue,
+  fontSizeOptions,
+  fontStyleOptions,
+  lineHeightOptions,
+  wordSpacingOptions,
+} from "src/utils/transcriptionUtils";
+
+import "react-color-palette/dist/css/rcp.css";
+import ColorPickerComponent from "src/components/forms/ColorPickerInput";
+import StyleSwitch from "src/components/forms/SwitchButtonIcon";
 
 const TranscriptionPage = () => {
+  const {
+    setFontSize,
+    setFontStyle,
+    setLineHeight,
+    setWordSpacing,
+    setFontColor,
+    setHighlightColor,
+    isBold, setIsBold, isItalic, setIsItalic, isUnderline, setIsUnderline
+  } = useTranscription();
+  // You can use updateContextValue for all setters
   return (
-   <Grid
-      templateAreas={`"side main"`}
-      gridTemplateColumns={"352px 1fr"}
-      height="100%"
-    >
+    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
       <GridItem
-            bg="primary.bay.100"
-            area={"side"}
-            top="0"
-            right="0"
-            height="100%"
-          >
-            <TranscriptionSideBar >
-            <TranscriptionBarItem title={"Transcription Settings"}>
-                <SelectInput/> 
-            </TranscriptionBarItem>
-            </TranscriptionSideBar>
-          </GridItem>
+        bg="primary.bay.100"
+        area={"side"}
+        top="0"
+        right="0"
+        height={"100vh"}
+        overflowY={"auto"}
+      >
+        <TranscriptionSideBar>
+          <TranscriptionBarItem title={"Transcription Settings"}>
+            {/* @ts-ignore */}
+            <SelectInput
+              label="Font Size"
+              //@ts-ignore
+              onChange={(value) => updateContextValue(setFontSize, value)}
+              options={fontSizeOptions}
+            />
+            {/* @ts-ignore */}
+            <SelectInput
+              label="Font Style"
+              //@ts-ignore
+              onChange={(value) => updateContextValue(setFontStyle, value)}
+              options={fontStyleOptions}
+            />
+            <Grid templateColumns="47% 47%" gap="6%" >
+              {/* @ts-ignore */}
+              <SelectInput
+                label="Line Height"
+                //@ts-ignore
+                onChange={(value) =>
+                  updateContextValue(setLineHeight, parseFloat(value))
+                }
+                options={lineHeightOptions}
+              />
+              {/* @ts-ignore */}
+              <SelectInput
+                label="Word Spacing"
+                //@ts-ignore
+                onChange={(value) =>
+                  updateContextValue(setWordSpacing, parseFloat(value))
+                }
+                options={wordSpacingOptions}
+              />
+            </Grid>
+            <Grid templateColumns="30% 30% 30%" gap="4%" mb={2} mt={2}>
+              <StyleSwitch
+                label="Bold"
+                isChecked={isBold}
+                onChange={setIsBold}
+              />
+              <StyleSwitch
+                label="Italic"
+                isChecked={isItalic}
+                onChange={setIsItalic}
+              />
+              <StyleSwitch
+                label="Underline"
+                isChecked={isUnderline}
+                onChange={setIsUnderline}
+              />
+            </Grid>
+            <ColorPickerComponent
+              text="Transcript Font Color"
+              onChange={(value) => {
+                updateContextValue(setFontColor, value);
+              }}
+            />
+            <ColorPickerComponent
+              text="Highlight Text"
+              onChange={(value) => {
+                updateContextValue(setHighlightColor, value);
+              }}
+            />
+          </TranscriptionBarItem>
+        </TranscriptionSideBar>
+      </GridItem>
       <GridItem area={"main"}>
         <DisplayTranscript />
       </GridItem>

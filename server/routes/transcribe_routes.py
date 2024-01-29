@@ -9,7 +9,7 @@ import logging
 router = APIRouter()
 
 AUDIO_FILE_BYTES_LIMIT = 25_000_000  # 25 MB
-SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm"]
+SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm", "m4a"]
 
 
 @router.post(
@@ -18,8 +18,6 @@ SUPPORTED_FILE_EXTENSIONS = ["mp3", "mp4", "mpeg", "mpga", "wav", "webm"]
 async def transcribe_audio(audio_file: UploadFile, language: str):
     audio_filename = audio_file.filename
     file_extension = audio_filename.split(".")[-1]
-    print(audio_filename)
-    print(file_extension)
 
     # we could just convert the file into an mp3 with ffmpeg and be done with it
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
