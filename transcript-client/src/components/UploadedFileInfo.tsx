@@ -9,6 +9,13 @@ interface UploadedFileInfoProps {
   children?: ReactNode; 
 }
 
+const tutorial_list = [
+  {
+    position: {pos: "fixed", top: "200", left: "380"},
+    text: "Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'."
+  }
+]
+
 const UploadedFileInfo= ({ file, children }: UploadedFileInfoProps) => (
   <Box>
     <Flex mb={4}>
@@ -24,16 +31,7 @@ const UploadedFileInfo= ({ file, children }: UploadedFileInfoProps) => (
       </Box>
     </Flex>
     {children} {/* Render children here */}
-    <TutorialPopup 
-      position={{pos: "fixed", bottom: "20", right: "4"}}
-      text={
-        <Box>
-          <Text>
-            Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.
-          </Text>
-        </Box>
-      } 
-    />
+    <TutorialPopup tutorials={tutorial_list}/>
   </Box>
 );
 

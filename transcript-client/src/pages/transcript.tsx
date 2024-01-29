@@ -16,6 +16,10 @@ import {
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/forms/ColorPickerInput";
 
+const tutorials = [
+
+]
+
 const TranscriptionPage = () => {
   const { setFontSize, setFontStyle, setLineHeight, setWordSpacing, setFontColor, setHighlightColor } =
     useTranscription();
@@ -83,16 +87,6 @@ const TranscriptionPage = () => {
           <DisplayTranscript />
           <Button alignSelf="center" mb="10px" width="350px">Interactive Transcript</Button>
         </Flex>
-        <TutorialPopup 
-          position={{pos: "fixed", bottom: "20", right: "4"}}
-          text={
-            <Box>
-              <Text>
-                Upload a podcast or any other audio in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript.
-              </Text>
-            </Box>
-          } 
-        />
       </GridItem>
     </Grid>
   );
