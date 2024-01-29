@@ -1,100 +1,127 @@
 import { useEffect, useState, useRef } from 'react';
-import { Box } from "@chakra-ui/react";
-//@ts-ignore
-import { Editor, EditorState, Modifier, convertFromRaw, SelectionState } from 'draft-js';
-import { useTranscription } from 'src/context/TranscriptionContext';
+import { Editor, EditorState, RichUtils, Modifier, convertFromRaw } from 'draft-js';
 import 'draft-js/dist/Draft.css';
+import { Box } from "@chakra-ui/react";
+import { useTranscription } from 'src/context/TranscriptionContext';
 
+const DisplayTranscript = () => {
+  const {
+    transcriptionData,
+    fontSize,
+    fontStyle,
+    wordSpacing,
+    lineHeight,
+    fontColor,
+    highlightColor,
+    isBold,
+    setIsBold,
+    isItalic,
+    setIsItalic,
+    isUnderline,
+    setIsUnderline
+  } = useTranscription();
 
-function DisplayTranscript() {
-  const { transcriptionData, fontSize, fontStyle, wordSpacing, lineHeight, fontColor, highlightColor } = useTranscription();
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const editorRef = useRef<Editor>(null);
-  const lastSelectionRef = useRef<SelectionState | null>(null);
+  const editorRef = useRef(null);
 
-// const [editorState, setEditorState, isDataLoaded] = useInitializeEditorState(transcriptionData);
+  // Initialize the editor with the transcription data
   useEffect(() => {
-    editorRef.current?.focus();
-  }, []);
-
-  useEffect(() => {
-    //@ts-ignore
-    if (transcriptionData?.length > 0) {
+    if (transcriptionData) {
       const contentState = convertFromRaw({
         blocks: transcriptionData,
         entityMap: {},
       });
       setEditorState(EditorState.createWithContent(contentState));
-      setIsDataLoaded(true);
     }
   }, [transcriptionData]);
 
+  // Apply styles to selected text and update state based on current selection
   useEffect(() => {
-    if (!isDataLoaded) return;
+    const selection = editorState.getSelection();
 
-  let newContentState = editorState.getCurrentContent(); 
-  let selection = editorState.getSelection();
-  
-  // Check if there is a current selection
-  if (!selection.isCollapsed()) {
-    lastSelectionRef.current = selection;
-  }
-  
-  // If fontColor is set and there is a last known selection, apply the style
-  if (fontColor && lastSelectionRef.current) {
-    newContentState = Modifier.applyInlineStyle(
-      newContentState,
-      lastSelectionRef.current,
-      'CUSTOM_HIGHLIGTH_COLOR'
-    );
-    
-    // We create a new editor state with the new content
-    let newEditorState = EditorState.push(editorState, newContentState, 'change-inline-style');
-    
-    // And then force the editor to select the last known selection
-    newEditorState = EditorState.forceSelection(newEditorState, lastSelectionRef.current);
-    
-    // Finally, we update the editor state
-    setEditorState(newEditorState);
-  }
-    // // if (fontSize) {
-    // //   newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_FONT_SIZE');
-    // // }
-    // // if (fontStyle) {
-    // //   newContentState = Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_FONT_STYLE');
-    // // }
-  }, [isDataLoaded, highlightColor]); // Removed editorState from dependencies
+    if (!selection.isCollapsed()) {
+      let newContentState = editorState.getCurrentContent();
+
+      // Apply or remove styles based on the toggle state
+      const styles = { BOLD: isBold, ITALIC: isItalic, UNDERLINE: isUnderline };
+      Object.keys(styles).forEach(style => {
+        newContentState = styles[style]
+          ? Modifier.applyInlineStyle(newContentState, selection, style)
+          : Modifier.removeInlineStyle(newContentState, selection, style);
+      });
+      
+       newContentState = highlightColor
+      ? Modifier.applyInlineStyle(newContentState, selection, 'CUSTOM_HIGHLIGHT_COLOR')
+      : Modifier.removeInlineStyle(newContentState, selection, 'CUSTOM_HIGHLIGHT_COLOR');
+
+
+      if (newContentState !== editorState.getCurrentContent()) {
+        const newEditorState = EditorState.push(editorState, newContentState, 'change-inline-style');
+        setEditorState(EditorState.forceSelection(newEditorState, selection));
+      }
+    }
+  }, [isBold, isItalic, isUnderline, highlightColor]);
+
+  // Update the state of the style toggles based on the current selection
+  useEffect(() => {
+    const currentStyle = editorState.getCurrentInlineStyle();
+    setIsBold(currentStyle.has('BOLD'));
+    setIsItalic(currentStyle.has('ITALIC'));
+    setIsUnderline(currentStyle.has('UNDERLINE'));
+  }, [editorState, setIsBold, setIsItalic, setIsUnderline]);
 
   const styleMap = {
-    // 'CUSTOM_FONT_SIZE': {
-    //   fontSize: fontSize,
-    // },
-    // 'CUSTOM_FONT_STYLE': {
-    //   fontFamily: fontStyle,
-    // },
-    'CUSTOM_HIGHLIGTH_COLOR': {
-      backgroundColor: highlightColor
+    'CUSTOM_HIGHLIGHT_COLOR': {
+      backgroundColor: highlightColor,
+    },
+    'BOLD': {
+      fontWeight: 'bold',
+    },
+    'ITALIC': {
+      fontStyle: 'italic',
+    },
+    'UNDERLINE': {
+      textDecoration: 'underline',
+    },
+  };
+
+  const handleKeyCommand = (command: string) => {
+    let newState;
+    if (command === 'bold') {
+      newState = RichUtils.toggleInlineStyle(editorState, 'BOLD');
+    } else if (command === 'italic') {
+      newState = RichUtils.toggleInlineStyle(editorState, 'ITALIC');
+    } else if (command === 'underline') {
+      newState = RichUtils.toggleInlineStyle(editorState, 'UNDERLINE');
     }
-    // Word spacing moved to wrapper style
+
+    if (newState) {
+      setEditorState(newState);
+      return 'handled';
+    }
+
+    return 'not-handled';
+  };
+
+  const onEditorChange = (newEditorState: any) => {
+    setEditorState(newEditorState);
   };
 
   return (
-    <Box height="82vh" style={{ wordSpacing: wordSpacing, lineHeight: lineHeight, fontSize: fontSize, fontFamily: fontStyle, color: fontColor }}>
-      <Box pt={8} pl={20} pr={20} pb={6} height="100%" pos="relative">
+    <Box height="100%" style={{ wordSpacing, lineHeight, fontSize, fontFamily: fontStyle, color: fontColor }}>
+      <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
         <Box overflowY="auto" height="100%" bg="primary.moss.100" p={6} textAlign="left">
           <Editor
             ref={editorRef}
             customStyleMap={styleMap}
             editorState={editorState}
-            onChange={setEditorState}
-            // blockStyleFn and blockRendererFn removed for simplicity
+            onChange={onEditorChange}
+            handleKeyCommand={handleKeyCommand}
           />
         </Box>
       </Box>
     </Box>
   );
-}
+};
 
 export default DisplayTranscript;
-

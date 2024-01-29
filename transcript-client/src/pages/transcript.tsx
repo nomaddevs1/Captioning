@@ -15,6 +15,7 @@ import {
 
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/forms/ColorPickerInput";
+import StyleSwitch from "src/components/forms/SwitchButtonIcon";
 
 const tutorial_list = [
   {
@@ -40,14 +41,18 @@ const tutorial_list = [
 ]
 
 const TranscriptionPage = () => {
-  const { setFontSize, setFontStyle, setLineHeight, setWordSpacing, setFontColor, setHighlightColor } =
-    useTranscription();
+  const {
+    setFontSize,
+    setFontStyle,
+    setLineHeight,
+    setWordSpacing,
+    setFontColor,
+    setHighlightColor,
+    isBold, setIsBold, isItalic, setIsItalic, isUnderline, setIsUnderline
+  } = useTranscription();
   // You can use updateContextValue for all setters
   return (
-    <Grid
-      templateAreas={`"side main"`}
-      gridTemplateColumns={"352px 1fr"}
-    >
+    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
       <GridItem
         bg="primary.bay.100"
         area={"side"}
@@ -57,7 +62,7 @@ const TranscriptionPage = () => {
         overflowY={"auto"}
       >
         <TranscriptionSideBar>
-          <TranscriptionBarItem title={"Transcription Settings"} >
+          <TranscriptionBarItem title={"Transcription Settings"}>
             {/* @ts-ignore */}
             <SelectInput
               label="Font Size"
@@ -72,7 +77,7 @@ const TranscriptionPage = () => {
               onChange={(value) => updateContextValue(setFontStyle, value)}
               options={fontStyleOptions}
             />
-            <Grid templateColumns="47% 47%" gap="6%">
+            <Grid templateColumns="47% 47%" gap="6%" >
               {/* @ts-ignore */}
               <SelectInput
                 label="Line Height"
@@ -92,12 +97,35 @@ const TranscriptionPage = () => {
                 options={wordSpacingOptions}
               />
             </Grid>
-            <ColorPickerComponent text="Transcript Font Color" onChange={(value) => {
-              updateContextValue(setFontColor, value)
-            }} />
-            <ColorPickerComponent text="Highlight Text" onChange={(value) => {
-              updateContextValue(setHighlightColor, value)
-            }} />
+            <Grid templateColumns="30% 30% 30%" gap="4%" mb={2} mt={2}>
+              <StyleSwitch
+                label="Bold"
+                isChecked={isBold}
+                onChange={setIsBold}
+              />
+              <StyleSwitch
+                label="Italic"
+                isChecked={isItalic}
+                onChange={setIsItalic}
+              />
+              <StyleSwitch
+                label="Underline"
+                isChecked={isUnderline}
+                onChange={setIsUnderline}
+              />
+            </Grid>
+            <ColorPickerComponent
+              text="Transcript Font Color"
+              onChange={(value) => {
+                updateContextValue(setFontColor, value);
+              }}
+            />
+            <ColorPickerComponent
+              text="Highlight Text"
+              onChange={(value) => {
+                updateContextValue(setHighlightColor, value);
+              }}
+            />
           </TranscriptionBarItem>
         </TranscriptionSideBar>
       </GridItem>

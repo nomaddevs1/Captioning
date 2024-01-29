@@ -27,7 +27,7 @@ export const SelectInput = ({ label, value, onChange, options }: TextInputProps)
 
   return (
     <FormControl>
-      <FormLabel  width="80%" fontSize="1.1rem" fontWeight="400" color={"neutral.50"}>{label}</FormLabel>
+      <FormLabel  width="80%" fontSize="1.1rem" fontWeight="400" color={"neutral.50"} >{label}</FormLabel>
       <Select
         value={selectedValue}
         options={options}
