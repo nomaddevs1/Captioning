@@ -1,25 +1,6 @@
 
 import  { createContext, useContext, useState } from 'react';
-import { TranscriptionData } from 'src/types/transcriptionDataTypes';
-
-interface TranscriptionContextType {
-  //@ts-ignore
-  transcriptionData: TranscriptionData[] | null // Define the type for your transcription data appropriately
-  //@ts-ignore
-  setTranscriptionData: (data: TranscriptionData[] | null) => void;
-  fontSize: string;
-  setFontSize: (fontSize: string) => void;
-  fontStyle: string;
-  setFontStyle: (fontStyle: string) => void;
-  fontColor: string;
-  setFontColor: (color: string) => void;
-  highlightColor: string;
-  setHighlightColor: (color: string) => void;
-  lineHeight: number;
-  setLineHeight: (lineHeight: number) => void;
-  wordSpacing: string;
-  setWordSpacing: (wordSpacing: string) => void;
-}
+import { TranscriptionContextType, TranscriptionData } from 'src/types/transcriptionDataTypes';
 
 const defaultState: TranscriptionContextType = {
   transcriptionData: null,
@@ -35,7 +16,14 @@ const defaultState: TranscriptionContextType = {
   lineHeight: 1.5,
   setLineHeight: () => {},
   wordSpacing: 'normal',
-  setWordSpacing: () => {},
+  setWordSpacing: () => { },
+  isBold: false,
+  setIsBold: () => {},
+  isItalic: false,
+  setIsItalic: () => {},
+  isUnderline: false,
+  setIsUnderline: () => {}
+
 };
 
 export const TranscriptionContext = createContext<TranscriptionContextType>(defaultState);
@@ -48,6 +36,11 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [lineHeight, setLineHeight] = useState<number>(1.5);
   const [fontStyle, setFontStyle] = useState<string>('Arial');
   const [wordSpacing, setWordSpacing] = useState<string>('normal')
+  const [isBold, setIsBold] = useState<boolean>(false);
+  const [isItalic, setIsItalic] = useState<boolean>(false);
+  const [isUnderline, setIsUnderline] = useState<boolean>(false);
+
+
   return (
     <TranscriptionContext.Provider value={{
       transcriptionData, setTranscriptionData,
@@ -57,6 +50,9 @@ export const TranscriptionProvider = ({ children }: any) => {
       highlightColor, setHighlightColor,
       lineHeight, setLineHeight,
       wordSpacing, setWordSpacing,
+       isBold, setIsBold,
+      isItalic, setIsItalic,
+      isUnderline, setIsUnderline
     }}>
       {children}
     </TranscriptionContext.Provider>

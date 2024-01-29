@@ -1,12 +1,7 @@
-import os
-import re
 from typing import BinaryIO, List, Union
-
-import openai
 from models.status import ErrorMessage
 from pydantic import BaseModel
 from utils import srt_time_to_seconds
-
 from .util import chunkify_mp3, compress_audio_file
 import re
 import openai
