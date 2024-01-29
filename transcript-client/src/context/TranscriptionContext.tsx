@@ -11,7 +11,7 @@ const defaultState: TranscriptionContextType = {
   setFontColor: () => {},
   fontStyle: 'Arial',
   setFontStyle: () => {},
-  highlightColor: '#FFFF00',
+  highlightColor: '',
   setHighlightColor: () => {},
   lineHeight: 1.5,
   setLineHeight: () => {},
@@ -32,7 +32,7 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [transcriptionData, setTranscriptionData] = useState<TranscriptionData[]  | null>(null);
   const [fontSize, setFontSize] = useState<string>('16px');
   const [fontColor, setFontColor] = useState<string>('#000000');
-  const [highlightColor, setHighlightColor] = useState<string>('#FFFF00');
+  const [highlightColor, setHighlightColor] = useState<string>('');
   const [lineHeight, setLineHeight] = useState<number>(1.5);
   const [fontStyle, setFontStyle] = useState<string>('Arial');
   const [wordSpacing, setWordSpacing] = useState<string>('normal')
