@@ -57,3 +57,11 @@ API docs are generated using Swagger. You can access the docs with the `/docs` e
 5. Setup the OpenAI env key with `export OPENAI_API_KEY='key will be here'`
 6. Start the app with `uvicorn server:app --reload`
 7. Test the app by going to http://localhost:8000
+
+### Environment Variables
+
+KEY | DEFAULT | DESCRIPTION
+----|---------|-------------
+`OPEN_API_KEY` | n/a | OpenAI API key used to interface with the Whisper model
+`PRODUCTION_URL` | "https://your-production-url.com" | URL of the production server
+`LOG_FILE` | `None` | Filepath to save rolling server logs to. If no value is given, logs are not saved to any file.
