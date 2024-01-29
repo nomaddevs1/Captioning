@@ -1,11 +1,12 @@
-from typing import List, BinaryIO, Union
+from typing import BinaryIO, List, Union
+from models.status import ErrorMessage
 from pydantic import BaseModel
 from utils import srt_time_to_seconds
-from models.status import ErrorMessage
 from .util import chunkify_mp3, compress_audio_file
 import re
 import openai
 import os
+import logging
 
 
 class TranscriptBlock(BaseModel):
@@ -62,7 +63,7 @@ class Transcript(BaseModel):
         """
         This allows for appending transcripts with the + operator.
 
-        The "other" transcript will have it's start and end times increased by
+        The "other" transcript will have its start and end times increased by
         whatever the last end time in the "self" transcript is.
 
         ex.
@@ -93,6 +94,18 @@ class Transcript(BaseModel):
 def transcribe_files(
     files: List[BinaryIO], language: str, file_size_limit: int
 ) -> Transcript:
+    """
+    Transcribes multiple audio files. This is mostly used for file chunks from a
+    larger audio file
+
+    Args:
+        files (List[BinaryIO]): Audio files to transcribe
+        language (str): Spoken language in the audio file
+        file_size_limit (int): Size limit for the file
+
+    Returns:
+        Transcript: Transcript data generated from the given audio files
+    """
     transcript: Transcript = None
     for file in files:
         if transcript == None:
@@ -114,21 +127,37 @@ def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Tran
     imposed by `file_size_limit`, it is split into chunks of audio that contain
     less than `file_size_limit` bytes.
 
-    Potentially raises a pydub.exceptions.CouldntDecodeError
+    Could raise a pydub.exceptions.CouldntDecodeError
     """
     file.seek(0, os.SEEK_END)  # find the end of the file
     file_size_bytes = file.tell()  # get the size of the file in bytes
     file.seek(0, os.SEEK_SET)  # return the file pointer to the beginning of the file
+    logging.debug(
+        f"Audio file for transcription '{file.name}' contains {file_size_bytes} bytes"
+    )
 
     transcript = None
     if file_size_bytes > file_size_limit:
         # if the file size exceeds the limit of the Whisper API (25 MB), split
         # the audio into multiple files:
+        logging.debug(
+            f"Audio file '{file.name}' was larger than 25 MB, attempting MP3 "
+            "compression to shrink the audio to <25 MB..."
+        )
         compressed_audio_file, compressed_file_size = compress_audio_file(file)
         if compressed_file_size > file_size_limit:
+            logging.debug(
+                f"MP3 compression was not enough to bring {file.name} size under "
+                "25 MB, now slicing the file into <25 MB chunks..."
+            )
+            file.close()
             files = chunkify_mp3(
                 compressed_audio_file, compressed_file_size, file_size_limit
             )
+            logging.debug(
+                f"{compressed_audio_file.name} sliced into {len(files)} chunks."
+            )
+            compressed_audio_file.close()
             transcript = transcribe_files(files, language, file_size_limit)
         else:
             whisper_transcript_srt = openai.Audio.transcribe(
@@ -143,5 +172,4 @@ def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Tran
             file=file, model="whisper-1", response_format="srt", language=language
         )
         transcript = Transcript.from_srt(whisper_transcript_srt)
-
     return transcript

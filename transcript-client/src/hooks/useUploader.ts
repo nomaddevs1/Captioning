@@ -4,7 +4,6 @@ import { useDropzone } from "react-dropzone";
 
 const useUploader = (setUploaded:  React.Dispatch<React.SetStateAction<File | null>>) => {
     const onDrop = useCallback((acceptedFiles: Array<File>) => {
-        console.log(acceptedFiles)
         setUploaded(acceptedFiles[0]);
     }, [setUploaded]);
 
@@ -21,3 +20,7 @@ const useUploader = (setUploaded:  React.Dispatch<React.SetStateAction<File | nu
 
 
 export default useUploader
+
+
+
+
