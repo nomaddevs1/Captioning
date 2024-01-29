@@ -1,11 +1,14 @@
 import { Box, Button, SystemStyleObject, Text } from "@chakra-ui/react";
-import { ReactJSXElement } from "node_modules/@emotion/react/dist/declarations/types/jsx-namespace";
 import { useState } from 'react';
 
 
-interface TutorialPopupProps {
+interface Tutorial {
     position: SystemStyleObject;
     text: String;
+}
+
+interface TutorialPopupProps {
+    tutorials: Tutorial[];
 }
 
 const BUTTON_STYLE = {
@@ -22,16 +25,18 @@ const BUTTON_STYLE = {
     right: '4'
 };
 
-function TutorialPopup (tutorials: any) {
+const TutorialPopup: React.FC<TutorialPopupProps> = ({tutorials}) => {
     const [showTutorial, setShowTutorial] = useState(false);
-    let tutorial_list: Array<ReactJSXElement> = [];
+    let tutorial_list: Array<JSX.Element> = [];
     for (let i = 0; i < tutorials.length; i++){
-        <Box sx={tutorials[i].position} width="400px" bg="white" borderRadius="8" mb="4">
-            <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
-            <Box p="2" textAlign="left" fontSize="md">
-                <Text>{tutorials[i].text}</Text>
+        tutorial_list.push(
+            <Box sx={tutorials[i].position} width="350px" bg="white" borderRadius="8" mb="4" zIndex="1000">
+                <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
+                <Box p="2" textAlign="left" fontSize="md">
+                    <Text>{tutorials[i].text}</Text>
+                </Box>
             </Box>
-        </Box>
+        )
     }
     
     if (!showTutorial) return (

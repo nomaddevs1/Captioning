@@ -1,4 +1,4 @@
-import { Grid, GridItem, Flex, Button, Box, Text } from "@chakra-ui/react";
+import { Grid, GridItem, Flex, Button } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 import TranscriptionBarItem from "src/components/sidebar/transcriptionItem";
 import { SelectInput } from "src/components/forms/SelectInput";
@@ -16,8 +16,23 @@ import {
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/forms/ColorPickerInput";
 
-const tutorials = [
-
+const tutorial_list = [
+  {
+    position: {pos: "fixed", left: "380", top: "200"},
+    text: "Use the sidebar to adjust the font style and size of the transcript text, or adjust the spacing between lines and words."
+  },
+  {
+    position: {pos: "fixed", left: "380", top: "500"},
+    text: "Adjust the color of the text or select lines within the display of the text to highlight specific sections."
+  },
+  {
+    position: {pos: "fixed", left: "380", bottom: "5"},
+    text: "When you are done customizing the text, click 'Save Transcript' to download a pdf file to your computer with your chosen accessability settings."
+  },
+  {
+    position: {pos: "fixed", right: "100", bottom: "20"},
+    text: "Click on 'Interactive Transcript' to switch to an interactive experience with media controls that will highlight text as is it spoken in your uploaded audio file."
+  }
 ]
 
 const TranscriptionPage = () => {
@@ -87,6 +102,7 @@ const TranscriptionPage = () => {
           <DisplayTranscript />
           <Button alignSelf="center" mb="10px" width="350px">Interactive Transcript</Button>
         </Flex>
+        <TutorialPopup tutorials={tutorial_list}/>
       </GridItem>
     </Grid>
   );

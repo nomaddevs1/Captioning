@@ -11,7 +11,7 @@ interface UploadedFileInfoProps {
 
 const tutorial_list = [
   {
-    position: {pos: "fixed", top: "200", left: "380"},
+    position: {pos: "fixed", bottom: "20", right: "4"},
     text: "Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'."
   }
 ]
