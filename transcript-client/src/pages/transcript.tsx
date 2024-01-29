@@ -18,6 +18,10 @@ import ColorPickerComponent from "src/components/forms/ColorPickerInput";
 
 const tutorial_list = [
   {
+    position: {pos: "fixed", right: "100", top: "40"},
+    text: "Now that the transcription is generated you will see the text of your audio file in this field, you are able to edit the text directly to fix any mistakes in the transcription process."
+  },
+  {
     position: {pos: "fixed", left: "380", top: "200"},
     text: "Use the sidebar to adjust the font style and size of the transcript text, or adjust the spacing between lines and words."
   },
