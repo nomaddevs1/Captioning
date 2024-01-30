@@ -132,7 +132,6 @@ const TranscriptionPage = () => {
       <GridItem area={"main"}>
         <Flex flexDirection="column">
           <DisplayTranscript />
-          <Button alignSelf="center" mb="10px" width="350px">Interactive Transcript</Button>
         </Flex>
         <TutorialPopup tutorials={tutorial_list}/>
       </GridItem>
