@@ -1,4 +1,4 @@
-import { Box, Button, Text } from "@chakra-ui/react"
+import { Box, Button, Text , Grid} from "@chakra-ui/react"
 import { ReactNode } from "react"
 
 interface TranscriptionItemProps {
@@ -13,7 +13,10 @@ const TranscriptionBarItem = ({ title, children }: TranscriptionItemProps) => {
         {title}
       </Text>
       {children}
-      <Button mt="10px" width="100%" mb="70px">Save Transcript</Button>
+           <Grid templateColumns="50% 50%" gap="4%" m={2}>
+        <Button mt="10px" width="100%" mb="70px">Save Transcript</Button>
+        <Button variant={"delete"} mt="10px" width="100%" mb="70px">Reset</Button>
+        </Grid>
     </Box>
   )
 }

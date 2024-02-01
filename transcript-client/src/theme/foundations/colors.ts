@@ -15,6 +15,9 @@ export const colors = {
     900: "#000000",
   },
   primary: {
+    gray: {
+      100:"#63695f"
+    },
     moss: {
       50: "#ECF0C2",
       100: "#D2D69C",

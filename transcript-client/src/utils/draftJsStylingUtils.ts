@@ -1,19 +1,41 @@
 // src/utils/draftJsStylingUtils.ts
-import {  EditorState, Modifier } from 'draft-js';
+//@ts-ignore
+import {  EditorState, Modifier, RichUtils } from 'draft-js';
 
-export const applyInlineStyle = (
-  editorState: EditorState,
-  style: string
-): EditorState => {
-  const selection = editorState.getSelection();
-  if (selection.isCollapsed()) {
-    return editorState;
+
+export const styleMap = (highlightColor?: string) => {
+  console.log('styleMap', highlightColor);
+  return {
+    'CUSTOM_HIGHLIGHT_COLOR': {
+      backgroundColor: highlightColor,
+    },
+    'BOLD': {
+      fontWeight: 'bold',
+    },
+    'ITALIC': {
+      fontStyle: 'italic',
+    },
+    'UNDERLINE': {
+      textDecoration: 'underline',
+    },
   }
-  
-  const contentState = editorState.getCurrentContent();
-  const contentStateWithStyle = Modifier.applyInlineStyle(contentState, selection, style);
-  return EditorState.push(editorState, contentStateWithStyle, 'change-inline-style');
-};
+}
 
-// Add more utility functions here as needed
 
+  export const handleKeyCommand = (command: string, editorState: EditorState, setEditorState: (editorState: EditorState) => void) => {
+    let newState;
+    if (command === "bold") {
+      newState = RichUtils.toggleInlineStyle(editorState, "BOLD");
+    } else if (command === "italic") {
+      newState = RichUtils.toggleInlineStyle(editorState, "ITALIC");
+    } else if (command === "underline") {
+      newState = RichUtils.toggleInlineStyle(editorState, "UNDERLINE");
+    }
+
+    if (newState) {
+      setEditorState(newState);
+      return "handled";
+    }
+
+    return "not-handled";
+  };
