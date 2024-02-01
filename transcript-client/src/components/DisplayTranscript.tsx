@@ -2,7 +2,8 @@ import { useEffect, useState, useRef } from "react";
 //@ts-ignore
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
+import {ArrowCounterClockwise, Eraser} from "@phosphor-icons/react"
 import { useTranscription } from "src/context/TranscriptionContext";
 import { handleKeyCommand, styleMap } from "src/utils/draftJsStylingUtils";
 import useEditorHook from "src/hooks/useEditor";
@@ -24,35 +25,41 @@ const DisplayTranscript = () => {
     setIsUnderline,
   } = useTranscription();
   const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
+  EditorState.createEmpty()
   );
   const [initialContentState, setInitialContentState] = useState<EditorState | null>(null)
+   
   const [currentStyleMap, setCurrentStyleMap] = useState(() =>
     styleMap(highlightColor)
   );
   const editorRef = useRef(null);
- 
+  const { resetStyles } = useTranscription()
+  
   useEffect(() => {
     setCurrentStyleMap(styleMap(highlightColor));
   }, [highlightColor]);
-
   useEditorHook({
-    setInitialContentState,
-    editorState,
-    setEditorState,
-    transcriptionData,
-    isBold,
-    setIsBold,
-    isItalic,
-    setIsItalic,
-    isUnderline,
-    setIsUnderline,
-    highlightColor,
+     setInitialContentState,
+     editorState,
+     setEditorState,
+     transcriptionData,
+     isBold,
+     setIsBold,
+     isItalic,
+     setIsItalic,
+     isUnderline,
+     setIsUnderline,
+     highlightColor,
   });
-
+  
   const onEditorChange = (newEditorState: EditorState) => {
     setEditorState(newEditorState);
   };
+
+  const resetEditor = () => {
+    setEditorState(initialContentState)
+    resetStyles();
+  }
 
   return (
     <Box
@@ -66,13 +73,18 @@ const DisplayTranscript = () => {
       }}
     >
       <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
+        <Button variant="outline" size="sm" pos={"fixed"} top={"85px"} right={1} onClick={resetEditor}>
+          <Eraser size={32} weight="fill"/>
+        </Button>
         <Box
           overflowY="auto"
           height="100%"
-          bg="primary.moss.100"
+          bg="white"
+          borderRadius={4}
           p={6}
           textAlign="left"
         >
+          
           <Editor
             ref={editorRef}
             customStyleMap={currentStyleMap}

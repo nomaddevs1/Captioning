@@ -4,7 +4,7 @@ import {  EditorState, Modifier, RichUtils } from 'draft-js';
 
 
 export const styleMap = (highlightColor?: string) => {
-  console.log('styleMap', highlightColor);
+
   return {
     'CUSTOM_HIGHLIGHT_COLOR': {
       backgroundColor: highlightColor,

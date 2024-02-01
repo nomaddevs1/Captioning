@@ -13,10 +13,7 @@ const TranscriptionBarItem = ({ title, children }: TranscriptionItemProps) => {
         {title}
       </Text>
       {children}
-           <Grid templateColumns="50% 50%" gap="4%" m={2}>
-        <Button mt="10px" width="100%" mb="70px">Save Transcript</Button>
-        <Button variant={"delete"} mt="10px" width="100%" mb="70px">Reset</Button>
-        </Grid>
+        <Button mt="10px" width="100%" mb="70px" color="black">Save Transcript</Button>
     </Box>
   )
 }
