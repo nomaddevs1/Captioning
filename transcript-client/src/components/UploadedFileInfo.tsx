@@ -30,12 +30,11 @@ const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) =
         <Flex alignItems="center">
           <Select placeholder="Language" width="68%" bg="primary.moss.100" value={selectedLanguage} onChange={handleLanguageChange}>
             <option value='da'>Danish</option>
-            <option value='nl'>Dutch</option>
             <option value='en'>English</option>
             <option value='fr'>French</option>
             <option value='de'>German</option>
             <option value='ja'>Japanese</option>
-            <option value='no'>Norwegia n</option>
+            <option value='no'>Norwegian</option>
             <option value='pl'>Polish</option>
             <option value='pt'>Portuguese</option>
             <option value='es'>Spanish</option>
