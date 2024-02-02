@@ -22,7 +22,7 @@ const ColorPickerComponent = ({ text, onChange }: ColorPickerInput) => {
       <style>{rcpStyle}</style>
       <Box>
         <Text
-          mb="20px"
+          mt="20px"
           width="80%"
           fontSize="1.1rem"
           fontWeight="400"

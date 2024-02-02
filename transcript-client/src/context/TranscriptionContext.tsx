@@ -22,8 +22,8 @@ const defaultState: TranscriptionContextType = {
   isItalic: false,
   setIsItalic: () => {},
   isUnderline: false,
-  setIsUnderline: () => {}
-
+  setIsUnderline: () => {},
+  resetStyles : () => {}
 };
 
 export const TranscriptionContext = createContext<TranscriptionContextType>(defaultState);
@@ -40,6 +40,14 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isItalic, setIsItalic] = useState<boolean>(false);
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
 
+  const resetStyles = () => {
+  setFontSize(defaultState.fontSize);
+  setFontStyle(defaultState.fontStyle);
+  setFontColor(defaultState.fontColor);
+  setLineHeight(defaultState.lineHeight);
+  setWordSpacing(defaultState.wordSpacing);
+  // Add any additional style resets here
+};
 
   return (
     <TranscriptionContext.Provider value={{
@@ -52,7 +60,8 @@ export const TranscriptionProvider = ({ children }: any) => {
       wordSpacing, setWordSpacing,
        isBold, setIsBold,
       isItalic, setIsItalic,
-      isUnderline, setIsUnderline
+      isUnderline, setIsUnderline,
+      resetStyles
     }}>
       {children}
     </TranscriptionContext.Provider>

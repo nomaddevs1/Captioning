@@ -1,7 +1,7 @@
 export const styles = {
   global: () => ({
     body: {
-      bg: "primary.moss.50",
+      bg: "primary.gray.50",
     },
   }),
 } as const

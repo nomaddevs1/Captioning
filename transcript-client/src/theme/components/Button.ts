@@ -38,6 +38,21 @@ const Button = defineStyleConfig({
         },
       },
     },
+    delete: {
+      bg: "secondary.rust.100",
+      color: "neutral.900",
+      _hover: {
+        bg: "neutral.200",
+        color: "neutral.900",
+      },
+      _disabled: {
+        bg: "primary.moss.50",
+        color: "neutral.800",
+        _hover: {
+          bg: "primary.moss.50 !important",
+        },
+      },
+    },
     accent: {
       bg: "primary.moss.100",
       color: "neutral.900",
