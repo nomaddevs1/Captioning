@@ -20,6 +20,7 @@ function Upload() {
   const axios = useAxios()
   const navigate = useNavigate();
   const { setTranscriptionData} = useTranscription()
+  const [languageCode, setLanguageCode] = useState("en")
 
 
   const passTranscript = async (e: React.SyntheticEvent) => {
@@ -42,9 +43,9 @@ function Upload() {
         toast.error('File size is too large. Please upload file smaller than 300 MB.');
         return;
       }
-      const {data} = await axios.post('/transcribe/?language=en', formData, {
+      const {data} = await axios.post(`/transcribe/?language=${languageCode}`, formData, {
         onUploadProgress: (progressEvent) => {
-          //@ts-ignore
+          //@ts-ignorex
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           setProgress(prevProgress => Math.min(percentCompleted, 100)); // Update based on previous progress
           toast.success('File successfully uploaded');
@@ -71,7 +72,7 @@ function Upload() {
     <Center textAlign="center" height="100%">
       {isLoading ? <Progress value={progress} /> : 
       uploaded ? (
-        <UploadedFileInfo file={uploaded}>
+        <UploadedFileInfo file={uploaded} onChange={(value) =>setLanguageCode(value)}>
           <Button width="100%" onClick={passTranscript}>Transcribe</Button>
         </UploadedFileInfo>
       ) : (
