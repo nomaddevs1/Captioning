@@ -8,7 +8,7 @@ import FileUploadArea from "src/components/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Upload() {
@@ -55,9 +55,7 @@ function Upload() {
       setTranscriptionData(data.transcript)
     } catch (err) {
       setIsLoading(false);
-      //TODO: add toast error message
       toast.error('Error uploading file. Please ensure file is an acceptable format.')
-      console.error(err);
     } finally {
       setTimeout(() => {
         setIsLoading(false);

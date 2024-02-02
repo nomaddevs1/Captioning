@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flex, CircularProgress, CircularProgressLabel, Text } from "@chakra-ui/react";
 import upload_logo from 'src/assets/upload_logo.svg'; 
 
