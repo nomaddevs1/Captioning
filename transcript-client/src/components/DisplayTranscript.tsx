@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { Box, Button } from "@chakra-ui/react";
-import {ArrowCounterClockwise, Eraser} from "@phosphor-icons/react"
+import {Eraser} from "@phosphor-icons/react"
 import { useTranscription } from "src/context/TranscriptionContext";
 import { handleKeyCommand, styleMap } from "src/utils/draftJsStylingUtils";
 import useEditorHook from "src/hooks/useEditor";
