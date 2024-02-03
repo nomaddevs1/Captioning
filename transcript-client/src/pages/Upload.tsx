@@ -13,8 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const tutorial_list = [
   {
-    position: {pos: "fixed", bottom: "20", right: "4"},
-    text: "UPLOAD PAGE TUTORIAL TEXT"
+    position: {pos: "fixed", top: "100px", right: "4"},
+    text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'."
   },
 ]
 
@@ -77,7 +77,7 @@ function Upload({updateTutorialList}: any) {
 
 
   return (
-    <Center textAlign="center" height="100%" mt="80px">
+    <Center textAlign="center" height="100%">
       {isLoading ? <Progress value={progress} /> : 
       uploaded ? (
         <UploadedFileInfo file={uploaded} onChange={(value) =>setLanguageCode(value)}>
