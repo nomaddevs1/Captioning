@@ -3,7 +3,6 @@ import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 import TranscriptionBarItem from "src/components/sidebar/transcriptionItem";
 import { SelectInput } from "src/components/forms/SelectInput";
 import { useTranscription } from "src/context/TranscriptionContext";
-import TutorialPopup from "src/components/TutorialPopup";
 import DisplayTranscript from "src/components/DisplayTranscript";
 import {
   updateContextValue,
@@ -40,7 +39,9 @@ const tutorial_list = [
   }
 ]
 
-const TranscriptionPage = () => {
+const TranscriptionPage = ({updateTutorialList}: any) => {
+  updateTutorialList(tutorial_list);
+
   const {
     setFontSize,
     setFontStyle,
@@ -52,7 +53,7 @@ const TranscriptionPage = () => {
   } = useTranscription();
   // You can use updateContextValue for all setters
   return (
-    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"} mt="80px">
+    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
       <GridItem
         bg="primary.bay.100"
         area={"side"}
