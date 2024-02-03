@@ -20,7 +20,7 @@ interface TutorialPopupProps {
     tutorials: Tutorial[];
 }
 
-const TutorialPopup: React.FC<TutorialPopupProps> = ({tutorials}) => {
+const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -33,13 +33,13 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({tutorials}) => {
         }
     }
 
-    const renderCurrentTutorial = () => {
+    const displayTutorial = () => {
         const currentTutorial = tutorials[currentIndex];
 
         if(!currentTutorial){
             return null;
         }
-
+        
         return (
             <Box sx={currentTutorial.position} width="350px" bg="white" borderRadius="8" mb="4" zIndex="1000" boxShadow="lg">
                 <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
@@ -57,7 +57,7 @@ const TutorialPopup: React.FC<TutorialPopupProps> = ({tutorials}) => {
             <Modal isOpen={isOpen} onClose={nextTutorial} size="sm" motionPreset="none">
                 <ModalOverlay bg='blackAlpha.500'/>
                 <ModalContent>
-                    {renderCurrentTutorial()}
+                    {displayTutorial()}
                 </ModalContent>
             </Modal>
         </>
