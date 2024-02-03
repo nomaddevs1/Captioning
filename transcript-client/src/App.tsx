@@ -2,11 +2,10 @@ import { Box, Flex } from "@chakra-ui/react";
 import { Route, Routes, Navigate } from 'react-router-dom';
 import TranscriptionPage from "./pages/transcript";
 import Upload from 'src/pages/Upload';
-import Header from "./components/Header";
 import ProtectedRoute from "src/routes/protectedRoutes";
+import Header from 'src/components/Header'
 
 function App() {
-
   return (
     <Flex height="100vh" flexDirection="column" overflowY={'hidden'}>
       <Header />

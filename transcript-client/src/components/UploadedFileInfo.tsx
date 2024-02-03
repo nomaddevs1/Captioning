@@ -1,5 +1,4 @@
 import { useState, ReactNode } from 'react';
-import TutorialPopup from "src/components/TutorialPopup";
 import { Box, Text, Flex, Select } from "@chakra-ui/react";
 //@ts-ignore
 import upload_logo from '../assets/upload_logo.svg';
@@ -10,12 +9,6 @@ interface UploadedFileInfoProps {
   onChange: (language: string) => void;
 }
 
-const tutorial_list = [
-  {
-    position: {pos: "fixed", bottom: "20", right: "4"},
-    text: "Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'."
-  }
-]
 
 const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState(''); // State for selected language
@@ -56,7 +49,6 @@ const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) =
       </Box>
     </Flex>
     {children} {/* Render children here */}
-    <TutorialPopup tutorials={tutorial_list}/>
   </Box>
   );
     };

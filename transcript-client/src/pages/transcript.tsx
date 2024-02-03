@@ -52,7 +52,7 @@ const TranscriptionPage = () => {
   } = useTranscription();
   // You can use updateContextValue for all setters
   return (
-    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
+    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"} mt="80px">
       <GridItem
         bg="primary.bay.100"
         area={"side"}
@@ -133,7 +133,6 @@ const TranscriptionPage = () => {
         <Flex flexDirection="column">
           <DisplayTranscript />
         </Flex>
-        <TutorialPopup tutorials={tutorial_list}/>
       </GridItem>
     </Grid>
   );

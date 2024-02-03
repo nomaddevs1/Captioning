@@ -1,7 +1,6 @@
 // src/components/FileUploadArea.tsx
 import React from 'react';
 import { Box, Text, Flex } from "@chakra-ui/react";
-import TutorialPopup from "src/components/TutorialPopup";
 //@ts-ignore
 import upload_logo from '../assets/upload_logo.svg';
 
@@ -9,14 +8,6 @@ interface UploadProps {
   getInputProps: () => JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>;
   getRootProps: () => JSX.IntrinsicAttributes & React.ClassAttributes<HTMLDivElement> & React.HTMLAttributes<HTMLDivElement>;
 }
-
-const tutorial_list = [
-  {
-    position: {pos: "fixed", bottom: "20", right: "4"},
-    text: "Upload a podcast or any other audio in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm) and follow the prompts to display the transcript."
-  }
-]
-
 
 const FileUploadArea = ({ getInputProps, getRootProps } :UploadProps) => (
   <Box>
@@ -28,7 +19,6 @@ const FileUploadArea = ({ getInputProps, getRootProps } :UploadProps) => (
         <Text cursor="pointer" fontSize="md" mb={4}>choose a file to upload</Text>
       </Box>
     </Flex>
-    <TutorialPopup tutorials={tutorial_list}/>
   </Box>
 );
 

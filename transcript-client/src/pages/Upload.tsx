@@ -69,7 +69,7 @@ function Upload() {
 
 
   return (
-    <Center textAlign="center" height="100%">
+    <Center textAlign="center" height="100%" mt="80px">
       {isLoading ? <Progress value={progress} /> : 
       uploaded ? (
         <UploadedFileInfo file={uploaded} onChange={(value) =>setLanguageCode(value)}>
