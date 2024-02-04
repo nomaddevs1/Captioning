@@ -7,12 +7,17 @@ interface Downloader {
 }
 
 
-
-
 const useDownloader = (): Downloader => {
     const { transcriptionData, fontColor, fontSize, fontStyle } = useTranscription();
+    console.log('transcriptionData:', transcriptionData);
     const [isLoading, setIsLoading] = useState(false);
-
+    // TODO: Add more settings, figure out bg_color
+    const settings = {
+        bg_color: '',
+        font_color: fontColor || '',
+        font_size: fontSize || '', 
+        font: fontStyle || '', 
+      };
     const generatePDF = async (): Promise<Blob> => {
     setIsLoading(true);
       try {
@@ -22,10 +27,7 @@ const useDownloader = (): Downloader => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            bg_color: '',
-            font_color: fontColor,
-            font_size: fontSize,
-            font: fontStyle,
+            settings,
             transcript: transcriptionData,
             raw_html: '',
           }),
