@@ -1,14 +1,12 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { Route, Routes, Navigate } from 'react-router-dom';
 import TranscriptionPage from "./pages/transcript";
-import { AudioProvider } from "./context/AudioContext";
 import Upload from 'src/pages/Upload';
 import Header from "./components/Header";
 import ProtectedRoute from "src/routes/protectedRoutes";
 
 function App() {
   return (
-    <AudioProvider> {/* Wrap the entire application with AudioProvider */}
       <Flex height="100vh" flexDirection="column" overflowY={'hidden'}>
         <Header />
         <Box height="100%" width="100%" mt="80px">
@@ -29,7 +27,6 @@ function App() {
           </Routes>
         </Box>
       </Flex>
-    </AudioProvider>
   );
 }
 
