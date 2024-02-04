@@ -1,5 +1,4 @@
 import { useState, ReactNode } from 'react';
-import TutorialPopup from "src/components/TutorialPopup";
 import { Box, Text, Flex, Select } from "@chakra-ui/react";
 //@ts-ignore
 import upload_logo from '../assets/upload_logo.svg';
@@ -25,6 +24,7 @@ const languages = [
   { label: 'Ukrainian', value: 'uk' },
   { label: 'Vietnamese', value: 'vi' },
 ];
+
 
 const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState('');
@@ -58,16 +58,6 @@ const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) =
         </Box>
       </Flex>
       {children}
-      <TutorialPopup
-        position={{ pos: "fixed", bottom: "20", right: "4" }}
-        text={
-          <Box>
-            <Text>
-              Now that the file has been uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.
-            </Text>
-          </Box>
-        }
-      />
     </Box>
   );
 };
