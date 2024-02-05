@@ -1,39 +1,66 @@
-import { Box, Button, SystemStyleObject } from "@chakra-ui/react";
 import { useState } from 'react';
+import {
+    useDisclosure,
+    Button,
+    SystemStyleObject,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    Box,
+    Text
+} from "@chakra-ui/react"
 
-interface TutorialPopupProps {
+
+interface Tutorial {
     position: SystemStyleObject;
-    text: JSX.Element;
+    text: String;
 }
 
-const BUTTON_STYLE = {
-    bg: 'none',
-    border: 'solid 3px',
-    float: 'right',
-    borderRadius: '50%',
-    borderColor: "#557E4A",
-    fontSize: 'xlg',
-    width: '56px',
-    height: '56px',
-    pos: 'fixed',
-    bottom: '4',
-    right: '4'
-};
+interface TutorialPopupProps {
+    tutorials: Tutorial[];
+}
 
-function TutorialPopup (tutorial: TutorialPopupProps) {
-    const [showTutorial, setShowTutorial] = useState(false);
-    
-    if (!showTutorial) return (
-        <Button sx={BUTTON_STYLE} onClick={() => setShowTutorial(true)}>?</Button>
-    )
-    return (
-        <Box sx={tutorial.position}>
-            <Box width="400px" bg="white" borderRadius="8" mb="4">
+const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const nextTutorial = () => {
+        if (currentIndex < tutorials.length - 1) {
+            setCurrentIndex(prevIndex => prevIndex + 1);
+        } else {
+            onClose();
+            setCurrentIndex(0);
+        }
+    }
+
+    const displayTutorial = () => {
+        const currentTutorial = tutorials[currentIndex];
+
+        if(!currentTutorial){
+            return null;
+        }
+        
+        return (
+            <Box sx={currentTutorial.position} width="350px" bg="white" borderRadius="8" mb="4" zIndex="1000" boxShadow="lg">
                 <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
-                <Box p="2" textAlign="left" fontSize="md">{tutorial.text}</Box>
+                <Box p="2" textAlign="left" fontSize="md">
+                    <Text>{currentTutorial.text}</Text>
+                </Box>
             </Box>
-            <Button sx={BUTTON_STYLE} onClick={() => setShowTutorial(false)}>X</Button>
-        </Box>
+        );
+    };
+
+    return (
+        <>
+            <Button onClick={onOpen} variant="link" fontSize="lg" color="white">Help</Button>
+
+            <Modal isOpen={isOpen} onClose={nextTutorial} size="sm" motionPreset="none">
+                <ModalOverlay bg='blackAlpha.500'/>
+                <ModalContent>
+                    {displayTutorial()}
+                </ModalContent>
+            </Modal>
+        </>
     );
 }
 

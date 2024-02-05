@@ -28,7 +28,7 @@ interface TranscriptionContextType {
   setIsItalic: (isItalic: boolean) => void;
   isUnderline: boolean;
   setIsUnderline: (isUnderline: boolean) => void;
-
+  resetStyles: () => void;
 }
 
 export {TranscriptionData, TranscriptionContextType}

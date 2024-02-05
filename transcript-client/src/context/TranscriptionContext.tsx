@@ -46,33 +46,22 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
 
+
   return (
-    <TranscriptionContext.Provider
-      value={{
-        transcriptionData,
-        setTranscriptionData,
-        fontSize,
-        setFontSize,
-        fontStyle,
-        setFontStyle,
-        fontColor,
-        setFontColor,
-        highlightColor,
-        setHighlightColor,
-        lineHeight,
-        setLineHeight,
-        wordSpacing,
-        setWordSpacing,
-        isBold,
-        setIsBold,
-        isItalic,
-        setIsItalic,
-        isUnderline,
-        setIsUnderline,
-        audioFile,
-        setAudioFile,
-      }}
-    >
+    <TranscriptionContext.Provider value={{
+      transcriptionData, setTranscriptionData,
+      fontSize, setFontSize,
+      fontStyle, setFontStyle,
+      fontColor, setFontColor,
+      highlightColor, setHighlightColor,
+      lineHeight, setLineHeight,
+      wordSpacing, setWordSpacing,
+       isBold, setIsBold,
+      isItalic, setIsItalic,
+      isUnderline, setIsUnderline,
+      resetStyles,
+      audioFile, setAudioFile
+    }}>
       {children}
     </TranscriptionContext.Provider>
   );

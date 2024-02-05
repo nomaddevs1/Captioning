@@ -1,6 +1,5 @@
 export const rcpStyle = `
   .rcp-body {
-    background-color: #90C985; /* Replace with your desired color */
     border: none;
     height: 100%;
     width: 100%;

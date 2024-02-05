@@ -12,21 +12,30 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function Upload() {
-  const { setAudioFile } = useAudioContext();
-  const [isLoading, setIsLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [uploaded, setUploaded] = useState<File | null>(null);
+const tutorial_list = [
+  {
+    position: {pos: "fixed", top: "100px", right: "4"},
+    text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'."
+  },
+]
 
+function Upload({updateTutorialList}: any) {
+  const [uploaded, setUploaded] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false)
+  // const [error, setError] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const { getInputProps, getRootProps } = useUploader(setUploaded);
+  const axios = useAxios()
+  const navigate = useNavigate();
+  const { setTranscriptionData} = useTranscription()
+  const [languageCode, setLanguageCode] = useState("en")
+
+  updateTutorialList(tutorial_list);
+  
   const onFileUploaded = (file: File | null) => {
     setUploaded(file);
   };
-
-  const { getInputProps, getRootProps } = useUploader(onFileUploaded);
-  const axios = useAxios();
-  const navigate = useNavigate();
-  const { setTranscriptionData } = useTranscription();
-
+  
   const passTranscript = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -47,9 +56,9 @@ function Upload() {
         toast.error('File size is too large. Please upload file smaller than 300 MB.');
         return;
       }
-      const {data} = await axios.post('/transcribe/?language=en', formData, {
+      const {data} = await axios.post(`/transcribe/?language=${languageCode}`, formData, {
         onUploadProgress: (progressEvent) => {
-          //@ts-ignore
+          //@ts-ignorex
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           setProgress(prevProgress => Math.min(percentCompleted, 100)); // Update based on previous progress
           toast.success('File successfully uploaded');
@@ -71,21 +80,19 @@ function Upload() {
   }
 }
 
-return (
-  <Center textAlign="center" height="100%">
-    {isLoading ? (
-      <Progress value={progress} />
-    ) : uploaded ? (
-      <UploadedFileInfo file={uploaded}>
-        <Button width="100%" onClick={passTranscript}>
-          Transcribe
-        </Button>
-      </UploadedFileInfo>
-    ) : (
-      <FileUploadArea getInputProps={getInputProps} getRootProps={getRootProps} />
-    )}
-  </Center>
-);
+  return (
+    <Center textAlign="center" height="100%">
+      {isLoading ? <Progress value={progress} /> : 
+      uploaded ? (
+        <UploadedFileInfo file={uploaded} onChange={(value) =>setLanguageCode(value)}>
+          <Button width="100%" onClick={passTranscript}>Transcribe</Button>
+        </UploadedFileInfo>
+      ) : (
+        <FileUploadArea  getInputProps={getInputProps} getRootProps={getRootProps} />
+      )}
+    </Center>
+
+  );
 }
 
 export default Upload;
