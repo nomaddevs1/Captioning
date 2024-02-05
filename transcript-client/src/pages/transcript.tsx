@@ -1,12 +1,9 @@
-import { Button, Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, Box } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 import TranscriptionBarItem from "src/components/sidebar/transcriptionItem";
 import { SelectInput } from "src/components/forms/SelectInput";
 import { useTranscription } from "src/context/TranscriptionContext";
-import { useAudioContext } from "src/context/AudioContext";
 import DisplayTranscript from "src/components/DisplayTranscript";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import {
   updateContextValue,
   fontSizeOptions,
@@ -27,42 +24,9 @@ const TranscriptionPage = () => {
     setWordSpacing,
     setFontColor,
     setHighlightColor,
-    setAudioFile,
     isBold, setIsBold, isItalic, setIsItalic, isUnderline, setIsUnderline
   } = useTranscription();
 
-  const {
-    audioFile,
-    setAudioFile: setContextAudioFile,
-    play,
-    pause,
-    isPlaying,
-    currentTime,
-  } = useAudioContext(); // Access audio file, playback functions, and playback position from context
-  
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-
-  // Retrieve the uploaded file from the route state
-  const location = useLocation();
-  const uploadedFile = (location.state as any)?.uploadedFile as File | undefined;
-
-  // Handle the uploaded file, you may want to set it in the audio context or perform other actions
-  useEffect(() => {
-    // Handle the uploaded file, you may want to set it in the audio context or perform other actions
-    if (uploadedFile && !audioFile) {
-      setContextAudioFile(uploadedFile);
-      // Additional processing if needed
-    }
-  }, [uploadedFile, audioFile, setContextAudioFile]);
-
-  const handlePlayPause = () => {
-    if (isAudioPlaying) {
-      pause(); // Pause the audio playback
-    } else {
-      play(); // Start or resume the audio playback
-    }
-    setIsAudioPlaying(!isAudioPlaying);
-  };
   // You can use updateContextValue for all setters
   return (
     <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
@@ -76,9 +40,6 @@ const TranscriptionPage = () => {
       >
         <TranscriptionSideBar>
           <TranscriptionBarItem title={"Transcription Settings"}>
-            <Button onClick={isPlaying ? pause : play}>
-              {isPlaying ? "Pause Audio" : "Play Audio"}
-            </Button>
             {/* @ts-ignore */}
             <SelectInput
               label="Font Size"
@@ -146,7 +107,9 @@ const TranscriptionPage = () => {
         </TranscriptionSideBar>
       </GridItem>
       <GridItem area={"main"}>
-        <DisplayTranscript />
+        <Box display="flex" flexDirection="column" height="85vh" position="relative">
+          <DisplayTranscript />
+        </Box>
       </GridItem>
     </Grid>
   );
