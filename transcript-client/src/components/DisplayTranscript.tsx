@@ -1,10 +1,14 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from 'react';
+import 'draft-js/dist/Draft.css';
+import { Box, Button } from "@chakra-ui/react";
+import { useTranscription } from 'src/context/TranscriptionContext';
+import AudioControls from './AudioControls';
+import { useAudioContext } from 'src/context/AudioContext';
+import { useLocation } from "react-router-dom";
 //@ts-ignore
 import { Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import { Box, Button } from "@chakra-ui/react";
 import {Eraser} from "@phosphor-icons/react"
-import { useTranscription } from "src/context/TranscriptionContext";
 import { handleKeyCommand, styleMap } from "src/utils/draftJsStylingUtils";
 import useEditorHook from "src/hooks/useEditor";
 
@@ -33,6 +37,57 @@ const DisplayTranscript = () => {
     styleMap(highlightColor)
   );
   const editorRef = useRef(null);
+
+  const [showAudioControls, setShowAudioControls] = useState(false);
+
+  const {
+    audioFile,
+    setAudioFile: setContextAudioFile,
+    play,
+    pause,
+    isPlaying,
+    setCurrentTime,
+    currentTime,
+    duration,
+  } = useAudioContext(); // Access audio file, playback functions, and playback position from context
+  
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+
+  useEffect(() => {
+    // Update the playback time whenever the audio is playing
+    if (isAudioPlaying) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  }, [isAudioPlaying, setCurrentTime]);
+
+
+  // Retrieve the uploaded file from the route state
+  const location = useLocation();
+  const uploadedFile = (location.state as any)?.uploadedFile as File | undefined;
+  const audioRef = useRef(new Audio());
+
+  // Handle the uploaded file, you may want to set it in the audio context or perform other actions
+  useEffect(() => {
+    // Handle the uploaded file, you may want to set it in the audio context or perform other actions
+    if (uploadedFile && !audioFile) {
+      setContextAudioFile(uploadedFile);
+      // Additional processing if needed
+    }
+  }, [uploadedFile, audioFile, setContextAudioFile]);
+
+  const handlePlayPause = () => {
+    if (isAudioPlaying) {
+      pause(); // Pause the audio playback
+    } else {
+      play(); // Start or resume the audio playback
+    }
+    setIsAudioPlaying(!isAudioPlaying);
+  };
+
+  const toggleShowAudioControls = () => {
+    setShowAudioControls(!showAudioControls);
+  };
+
   const { resetStyles } = useTranscription()
   
   useEffect(() => {
@@ -84,7 +139,6 @@ const DisplayTranscript = () => {
           p={6}
           textAlign="left"
         >
-          
           <Editor
             ref={editorRef}
             customStyleMap={currentStyleMap}
@@ -94,6 +148,18 @@ const DisplayTranscript = () => {
           />
         </Box>
       </Box>
+      {showAudioControls ? (
+          <AudioControls
+            isPlaying={isAudioPlaying}
+            onPlayPause={handlePlayPause}
+            currentTime={currentTime}
+            duration={duration}
+          />
+        ) : (
+          <Button onClick={toggleShowAudioControls} position="fixed" bottom={4} left={800} bg="primary.ivy.400" p={4}>
+            Interactive Transcript
+          </Button>
+        )}
     </Box>
   );
 };

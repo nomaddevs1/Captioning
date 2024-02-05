@@ -8,15 +8,28 @@ interface Downloader {
 
 
 const useDownloader = (): Downloader => {
-    const { transcriptionData, fontColor, fontSize, fontStyle } = useTranscription();
-    console.log('transcriptionData:', transcriptionData);
+    const { 
+      transcriptionData, fontColor, fontSize,
+      fontStyle, lineHeight, wordSpacing, 
+      isBold, isItalic, isUnderline 
+    } = useTranscription();
+    //console.log('transcriptionData:', transcriptionData);
     const [isLoading, setIsLoading] = useState(false);
     // TODO: Add more settings, figure out bg_color
+
     const settings = {
         bg_color: '',
         font_color: fontColor || '',
         font_size: fontSize || '', 
-        font: fontStyle || '', 
+        font: fontStyle || '',
+        line_height: lineHeight.toString() || '',
+        word_spacing: wordSpacing.toString()+'px' || '',
+        font_weight: 'normal',
+        font_style: 'normal',
+        text_decoration: 'none',
+        //font_weight: isBold ? 'bold': 'normal',
+        //font_style: isItalic ? 'italic': 'normal',
+        //text_decoration: isUnderline ? 'underline': 'none',
       };
     const generatePDF = async (): Promise<Blob> => {
     setIsLoading(true);

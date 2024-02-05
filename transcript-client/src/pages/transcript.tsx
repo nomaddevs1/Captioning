@@ -19,6 +19,7 @@ const TranscriptionPage = ({ updateTutorialList }: any) => {
   updateTutorialList(tutorial_list);
   const transcriptionContext = useTranscription();
 
+
   return (
     <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
       <GridItem
@@ -84,3 +85,4 @@ const TranscriptionPage = ({ updateTutorialList }: any) => {
 };
 
 export default TranscriptionPage;
+

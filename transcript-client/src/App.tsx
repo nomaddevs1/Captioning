@@ -9,6 +9,7 @@ import { useState } from "react";
 
 
 function App() {
+
   const [tutorialList, setTutorialList] = useState([
     {
       position: {pos: "fixed", bottom: "20", right: "4"},
@@ -19,6 +20,7 @@ function App() {
   const updateTutorialList = (newTutorialList: any) => {
     setTutorialList(newTutorialList);
   };
+
 
   return (
     <Flex height="100vh" flexDirection="column" overflowY={'hidden'}>
