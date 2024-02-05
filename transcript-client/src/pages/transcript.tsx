@@ -55,7 +55,6 @@ const TranscriptionPage = ({updateTutorialList}: any) => {
     setHighlightColor,
     isBold, setIsBold, isItalic, setIsItalic, isUnderline, setIsUnderline
   } = useTranscription();
-
   // You can use updateContextValue for all setters
   return (
     <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
@@ -145,4 +144,3 @@ const TranscriptionPage = ({updateTutorialList}: any) => {
 };
 
 export default TranscriptionPage;
-

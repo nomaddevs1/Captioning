@@ -6,9 +6,8 @@ import  Progress  from 'src/components/Progress'
 import UploadedFileInfo from "src/components/UploadedFileInfo";
 import FileUploadArea from "src/components/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
-import { useAudioContext } from "src/context/AudioContext";
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,14 +30,10 @@ function Upload({updateTutorialList}: any) {
   const [languageCode, setLanguageCode] = useState("en")
 
   updateTutorialList(tutorial_list);
-  
-  const onFileUploaded = (file: File | null) => {
-    setUploaded(file);
-  };
-  
+
   const passTranscript = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  e.preventDefault();
+  setIsLoading(true);
   if (uploaded) {
     const formData = new FormData();
     formData.append('audio_file', uploaded);
@@ -65,8 +60,7 @@ function Upload({updateTutorialList}: any) {
         }
       });
       //@ts-ignore
-      setTranscriptionData(data.transcript);
-      navigate('/transcription', { state: { uploadedFile: uploaded } }); // Pass the uploaded file to the TranscriptionPage
+      setTranscriptionData(data.transcript)
     } catch (err) {
       setIsLoading(false);
       toast.error('Error uploading file. Please ensure file is an acceptable format.')
@@ -74,11 +68,13 @@ function Upload({updateTutorialList}: any) {
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
-      setAudioFile(null); // Clear the audio file from the audio context
       setUploaded(null);
+      navigate('/transcription');
     }
   }
 }
+
+
 
   return (
     <Center textAlign="center" height="100%">
