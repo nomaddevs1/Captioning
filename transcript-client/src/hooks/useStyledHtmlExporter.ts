@@ -24,12 +24,10 @@ const useStyledHtmlExporter = (
       font-family: '${fontStyle}'; 
       word-spacing: ${wordSpacing}px; 
       line-height: ${lineHeight}; 
-      color: ${fontColor};
-      background-color: ${highlightColor};`;
+      color: ${fontColor};`;
 
     return `<div style="${additionalStyles}">${rawHtml}</div>`;
   }, [editorState, fontSize, fontStyle, wordSpacing, lineHeight, fontColor, highlightColor]);
-
   return styledHtml;
 };
 
