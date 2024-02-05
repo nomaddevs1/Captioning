@@ -15,6 +15,8 @@ import useEditorHook from "src/hooks/useEditor";
 const DisplayTranscript = () => {
   const {
     transcriptionData,
+    editorState,
+    setEditorState,
     fontSize,
     fontStyle,
     wordSpacing,
@@ -28,9 +30,7 @@ const DisplayTranscript = () => {
     isUnderline,
     setIsUnderline,
   } = useTranscription();
-  const [editorState, setEditorState] = useState(() =>
-  EditorState.createEmpty()
-  );
+
   const [initialContentState, setInitialContentState] = useState<EditorState | null>(null)
    
   const [currentStyleMap, setCurrentStyleMap] = useState(() =>
