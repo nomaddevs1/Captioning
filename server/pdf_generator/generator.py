@@ -18,9 +18,9 @@ def generate_pdf(html_data: str):
         html_data,
         False,
         options={
-            "margin-top": "0in",
-            "margin-bottom": "0in",
-            "margin-left": "0in",
-            "margin-right": "0in",
+            "margin-top": "1in",
+            "margin-bottom": "1in",
+            "margin-left": "1in",
+            "margin-right": "1in",
         },
     )
