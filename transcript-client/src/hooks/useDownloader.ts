@@ -24,9 +24,12 @@ const useDownloader = (): Downloader => {
         font: fontStyle || '',
         line_height: lineHeight.toString() || '',
         word_spacing: wordSpacing.toString()+'px' || '',
-        font_weight: isBold ? 'bold': 'normal',
-        font_style: isItalic ? 'italic': 'normal',
-        text_decoration: isUnderline ? 'underline': 'none',
+        font_weight: 'normal',
+        font_style: 'normal',
+        text_decoration: 'none',
+        //font_weight: isBold ? 'bold': 'normal',
+        //font_style: isItalic ? 'italic': 'normal',
+        //text_decoration: isUnderline ? 'underline': 'none',
       };
     const generatePDF = async (): Promise<Blob> => {
     setIsLoading(true);
