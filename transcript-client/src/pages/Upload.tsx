@@ -35,7 +35,7 @@ function Upload({updateTutorialList}: any) {
   const onFileUploaded = (file: File | null) => {
     setUploaded(file);
   };
-  
+  const {setAudioFile} = useAudioContext()
   const passTranscript = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setIsLoading(true);
