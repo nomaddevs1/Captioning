@@ -61,3 +61,29 @@ export const wordSpacingOptions: SelectOption[] = [
 export const updateContextValue = (setter: React.Dispatch<React.SetStateAction<any>>, value: any) => {
   setter(value);
 };
+
+
+export const selectOptions = [
+  { label: "Font Size", options: fontSizeOptions, setter: "setFontSize" },
+  { label: "Font Style", options: fontStyleOptions, setter: "setFontStyle" },
+  {
+    label: "Line Height",
+    options: lineHeightOptions,
+    setter: "setLineHeight",
+    isFloat: true,
+  },
+  {
+    label: "Word Spacing",
+    options: wordSpacingOptions,
+    setter: "setWordSpacing",
+    isFloat: true,
+  },
+];
+
+
+export const styleSwitches = [
+  { label: "Bold", stateKey: "isBold", setter: "setIsBold" },
+  { label: "Italic", stateKey: "isItalic", setter: "setIsItalic" },
+  { label: "Underline", stateKey: "isUnderline", setter: "setIsUnderline" },
+];
+
