@@ -19,6 +19,21 @@
       {%- if settings["font"] %}
       font-family: {{ settings.font }};
       {%- endif %}
+      {%- if settings["line_height"] %}
+      line-height: {{ settings.line_height }};
+      {%- endif %}
+      {%- if settings["word_spacing"] %}
+      word-spacing: {{ settings.word_spacing }};
+      {%- endif %}
+      {%- if settings["font_weight"] %}
+      font-weight: {{ settings.font_weight }};
+      {%- endif %}
+      {%- if settings["font_style"] %}
+      font-style: {{ settings.font_style }};
+      {%- endif %}
+      {%- if settings["text_decoration"] %}
+      text-decoration: {{ settings.text_decoration }};
+      {%- endif %}
     }
   </style>
 </head>
