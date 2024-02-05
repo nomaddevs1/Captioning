@@ -1,6 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { Route, Routes, Navigate } from 'react-router-dom';
-import TranscriptionPage from "./pages/transcript";
+import TranscriptionPage from "./pages/Transcript";
 import Upload from 'src/pages/Upload';
 import ProtectedRoute from "src/routes/protectedRoutes";
 import Header from 'src/components/Header'
