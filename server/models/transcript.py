@@ -15,8 +15,6 @@ class TranscriptSettings(BaseModel):
     text_decoration: str = None
 
 
-
-
 class TranscriptDataModel(BaseModel):
     settings: TranscriptSettings = None
     transcript: List[TranscriptBlock] = None
