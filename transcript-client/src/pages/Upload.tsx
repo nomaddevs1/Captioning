@@ -64,13 +64,11 @@ function Upload({updateTutorialList}: any) {
         }
       });
       //@ts-ignore
-     
-        toast.success('File successfully uploaded');
-   
-     setTimeout(() => {
+      toast.success('File successfully uploaded');
+      setTimeout(() => {
       setTranscriptionData(data.transcript);
-       navigate('/transcription', { state: { uploadedFile: uploaded } });
-       }, 1000)
+        navigate('/transcription', { state: { uploadedFile: uploaded } });
+       }, 1000) // Pass the uploaded file to the TranscriptionPage
     } catch (err) {
       setIsLoading(false);
       toast.error('Error uploading file. Please ensure file is an acceptable format.')
