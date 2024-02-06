@@ -22,7 +22,6 @@ const AudioControls: React.FC<AudioControlsProps> = ({
     // This calculation assumes the input's max value is 100 for percentage.
     const percentage = parseFloat(e.target.value);
    const newTime = (percentage / 100) * duration;
-   console.log(newTime);
     onSeek(newTime);
 };
 

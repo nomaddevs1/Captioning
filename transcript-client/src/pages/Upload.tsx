@@ -60,13 +60,17 @@ function Upload({updateTutorialList}: any) {
         onUploadProgress: (progressEvent) => {
           //@ts-ignorex
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setProgress(prevProgress => Math.min(percentCompleted, 100)); // Update based on previous progress
-          toast.success('File successfully uploaded');
+          setProgress(()=> Math.min(percentCompleted, 100)); // Update based on previous progress
         }
       });
       //@ts-ignore
+     
+        toast.success('File successfully uploaded');
+   
+     setTimeout(() => {
       setTranscriptionData(data.transcript);
-      navigate('/transcription', { state: { uploadedFile: uploaded } }); // Pass the uploaded file to the TranscriptionPage
+       navigate('/transcription', { state: { uploadedFile: uploaded } });
+       }, 1000)
     } catch (err) {
       setIsLoading(false);
       toast.error('Error uploading file. Please ensure file is an acceptable format.')

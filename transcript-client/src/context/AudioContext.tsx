@@ -12,6 +12,7 @@ type AudioContextType = {
   setCurrentTime: (time: number) => void;
   duration: number; // Add duration property
   setDuration: (duration: number) => void; // Setter for duration
+  updateJump: (duration: number) => void; // Setter for duration
 };
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -51,6 +52,11 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     animationFrameId = requestAnimationFrame(updatePlaybackTime);
   };
 
+  const updateJump = (time: number) => {
+    audioRef.current.currentTime = time;
+    setCurrentTime(time);
+  }
+
   const contextValue: AudioContextType = {
     audioFile,
     setAudioFile,
@@ -61,6 +67,7 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     setCurrentTime,
     duration,
     setDuration,
+    updateJump
   };
 
   return (

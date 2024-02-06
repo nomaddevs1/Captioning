@@ -45,11 +45,10 @@ const DisplayTranscript = () => {
     play,
     pause,
     isPlaying,
-    setCurrentTime,
     currentTime,
     duration,
+    updateJump
   } = useAudioContext(); // Access audio file, playback functions, and playback position from context
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isInteractiveMode, setIsInteractiveMode] = useState(false);
   const location = useLocation();
   const uploadedFile = (location.state as any)?.uploadedFile as
@@ -73,18 +72,6 @@ const DisplayTranscript = () => {
     highlightColor,
   });
 
-  useEffect(() => {
-    // Update the playback time whenever the audio is playing
-    if (isAudioPlaying) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  }, [isAudioPlaying, setCurrentTime]);
-
-  useEffect(() => {
-    if (isPlaying) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  }, [isPlaying, setCurrentTime, audioRef.current.currentTime]);
 
   // Handle the uploaded file, you may want to set it in the audio context or perform other actions
   useEffect(() => {
@@ -99,45 +86,23 @@ const DisplayTranscript = () => {
     setCurrentStyleMap(styleMap(highlightColor));
   }, [highlightColor]);
 
-  // const handlePlayPause = () => {
-  //   if (isAudioPlaying) {
-  //     pause(); // Pause the audio playback
-  //   } else {
-  //     play(); // Start or resume the audio playback
-  //   }
-  //   setIsAudioPlaying(!isAudioPlaying);
-  // };
-
   const toggleInteractiveMode = () => {
+    if (isInteractiveMode) {
+      pause();
+    }
     setIsInteractiveMode(!isInteractiveMode);
     toggleShowAudioControls();
   };
 
   const handleSeek = (time: number) => {
-    console.log(time)
     if (audioRef.current) {
       audioRef.current.currentTime = time;
       lastSeekTimeRef.current = Date.now();
-      setCurrentTime(time);
+      updateJump(time)
     }
   };
 
-  useEffect(() => {
-    const audio = audioRef.current;
 
-    const updateCurrentTime = () => {
-      // Skip update if a seek operation was recently performed
-      if (Date.now() - lastSeekTimeRef.current > 1000) { // Debounce time after seek
-        setCurrentTime(currentTime);
-      }
-    }
-
-    audio.addEventListener("timeupdate", updateCurrentTime);
-
-    return () => {
-      audio.removeEventListener("timeupdate", updateCurrentTime);
-    };
-  }, []);
 
   // Render each segment of the transcript for interactive mode
   const renderTranscriptSegments = (segments: TranscriptionData[] | null) =>
