@@ -258,6 +258,8 @@ const DisplayTranscript: React.FC = () => {
           onSeek={handleSeek}
           isPlaying={isPlaying}
           onPlayPause={() => {
+            console.log('hello')
+            console.log(isPlaying)
             isPlaying ? pause() : play();
           }}
           currentTime={currentTime}

@@ -25,6 +25,7 @@ export const AudioProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   const audioRef = useRef(new Audio());
 
   const play = () => {
+    console.log(audioFile);
     if (audioFile && !isPlaying) {
       audioRef.current.src = URL.createObjectURL(audioFile);
       audioRef.current.currentTime = currentTime; // Set the playback position
