@@ -8,25 +8,35 @@ interface Downloader {
 }
 
 const useDownloader = (): Downloader => {
-    // get the editor state and the styles from the context
     const { 
+      /* Case 1: get styledHtml from editorState*/
       editorState,
-      highlightColor,
-      fontColor, 
-      fontSize,
-      fontStyle, 
-      lineHeight, 
-      wordSpacing
+      /* Case 2: transcriptData + settings being passed to the server
+      transcriptData,
+      */
+      highlightColor,fontColor, fontSize,
+      fontStyle, lineHeight, wordSpacing
     } = useTranscription();
+    /* Case 1*/
     // use the useStyledHtmlExporter hook to get the styled html
     const styledHtml = useStyledHtmlExporter(editorState, {
-      fontSize,
-      fontStyle,
-      wordSpacing,
-      lineHeight,
-      fontColor,
-      highlightColor
+      fontSize,fontStyle,wordSpacing,
+      lineHeight,fontColor,highlightColor
     });
+    /* Case 2
+    // Settings object to be passed to server
+    const settings = {
+      bg_color: '',
+      font_color: fontColor || '',
+      font_size: fontSize || '', 
+      font: fontStyle || '',
+      line_height: lineHeight.toString() || '',
+      word_spacing: wordSpacing.toString()+'px' || '',
+      font_weight: 'normal',
+      font_style: 'normal',
+      text_decoration: 'none',
+    };
+    */
     // create a state to keep track of the loading state
     const [isLoading, setIsLoading] = useState(false);
     const generatePDF = async (): Promise<Blob> => {
@@ -40,7 +50,12 @@ const useDownloader = (): Downloader => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            /* Case 1*/
             raw_html: styledHtml,
+            /* Case 2 
+            settings,
+            transcript: transcriptionData,
+            */
           }),
         });
   
