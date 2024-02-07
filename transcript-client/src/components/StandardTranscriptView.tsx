@@ -1,4 +1,3 @@
-// src/components/StandardTranscriptView.tsx
 import React, { useState } from 'react';
 //@ts-ignore
 import { Editor, EditorState } from 'draft-js';
@@ -8,13 +7,14 @@ import useEditorHook from 'src/hooks/useEditor';
 import { useTranscription } from 'src/context/TranscriptionContext';
 
 interface StandardTranscriptViewProps {
+    setInitialContentState: (editorState: EditorState) => void;
     editorRef: React.MutableRefObject<null>,
   editorState: EditorState;
   onChange: (editorState: EditorState) => void;
   setEditorState: (editorState: EditorState) => void;
 }
 
-const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({ editorRef, editorState, onChange, setEditorState }) => {
+const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({ setInitialContentState, editorRef, editorState, onChange, setEditorState }) => {
     const {
       transcriptionData,
       fontSize,
@@ -32,8 +32,7 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({ editorR
     } = useTranscription();
 
  
-  const [initialContentState, setInitialContentState] =
-    useState<EditorState | null>(null);
+
   const [currentStyleMap] = useState(() =>
     styleMap(highlightColor)
   );

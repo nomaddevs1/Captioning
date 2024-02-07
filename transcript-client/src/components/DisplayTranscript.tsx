@@ -212,7 +212,7 @@
 
 
 // src/components/DisplayTranscript.tsx
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Box, Button } from '@chakra-ui/react';
 
 import { useDisplayTranscriptContext } from 'src/hooks/useDisplayTranscriptContext';
@@ -222,6 +222,7 @@ import { Eraser } from '@phosphor-icons/react';
 import { TranscriptionSegment } from 'src/types/transcriptionDataTypes';
 import InteractiveTranscriptView from 'src/components/InteractiveTranscript';
 import  StandardTranscriptView  from 'src/components/StandardTranscriptView';
+import { EditorState } from 'draft-js';
 
 const DisplayTranscript: React.FC = () => {
   const {
@@ -241,12 +242,13 @@ const DisplayTranscript: React.FC = () => {
     duration,
     currentTime
   } = useDisplayTranscriptContext();
-
+  const [initialContentState, setInitialContentState] =
+    useState<EditorState | null>(null);
   const editorRef = useRef(null);
 
   return (
-    <Box height="full" p={5}>
-      <Button onClick={resetEditor} leftIcon={<Eraser size={24} />} colorScheme="teal" variant="solid" size="sm">
+    <Box height="100%" p={5}>
+      <Button onClick={() =>resetEditor(initialContentState)} leftIcon={<Eraser size={24} />} colorScheme="teal" variant="solid" size="sm">
         Reset Editor
       </Button>
       <Button onClick={toggleInteractiveMode} ml={4} colorScheme={isInteractiveMode ? "pink" : "blue"} variant="outline" size="sm">
@@ -258,15 +260,13 @@ const DisplayTranscript: React.FC = () => {
           onSeek={handleSeek}
           isPlaying={isPlaying}
           onPlayPause={() => {
-            console.log('hello')
-            console.log(isPlaying)
             isPlaying ? pause() : play();
           }}
           currentTime={currentTime}
           duration={duration}
         />
       )}
-      <Box mt={4}>
+      <Box mt={4} height="85vh" pos="relative">
         {isInteractiveMode && transcriptionData ? (
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
@@ -274,13 +274,12 @@ const DisplayTranscript: React.FC = () => {
             currentTime={0} // You would replace this with the actual current time state from the audio context
           />
         ) : (
-          <StandardTranscriptView
+            <StandardTranscriptView
+              setInitialContentState={setInitialContentState}
               editorRef={editorRef}
               setEditorState={setEditorState}
               editorState={editorState}
               onChange={onEditorChange}
-//               
-            // Assuming you have a styling map for DraftJS
           />
         )}
       </Box>

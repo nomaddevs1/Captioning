@@ -10,7 +10,7 @@ interface InteractiveTranscriptViewProps {
 }
 
 const InteractiveTranscriptView: React.FC<InteractiveTranscriptViewProps> = ({ segments, onSegmentClick, currentTime }) => {
-    console.log(currentTime)
+  
   return (<>
     {segments.map((segment, index) => (
         <Box key={index} onClick={() => onSegmentClick(segment.start)}
