@@ -51,7 +51,6 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
 
   return (
     <Box
-      height="100%"
       style={{
         wordSpacing,
         lineHeight,
@@ -60,14 +59,7 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
         color: fontColor,
       }}
     >
-      <Box
-        overflowY="auto"
-        height="100%"
-        bg="white"
-        borderRadius={4}
-        p={6}
-        textAlign="left"
-      >
+      <Box height="100%">
         <Editor
           ref={editorRef}
           customStyleMap={currentStyleMap}

@@ -33,7 +33,7 @@ const DisplayTranscript: React.FC = () => {
   
 
   return (
-    <Box height="100%" p={5}>
+    <Box height="100%" p={4}>
       <Button
         onClick={() => resetEditor(initialContentState)}
         leftIcon={<Eraser size={24} />}
@@ -65,21 +65,23 @@ const DisplayTranscript: React.FC = () => {
           duration={duration}
         />
       )}
-      <Box mt={4} height="85vh" pos="relative" overflowY={"auto"}>
-        {isInteractiveMode && transcriptionData ? (
+      {isInteractiveMode && transcriptionData ? (
+        <Box height="73vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}
             currentTime={currentTime} 
           />
-        ) : (
+        </Box>
+      ) : (
+        <Box height="80vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
           <StandardTranscriptView
             setInitialContentState={setInitialContentState}
             editorRef={editorRef}
             // onChange={onEditorChange}
           />
-        )}
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 };
