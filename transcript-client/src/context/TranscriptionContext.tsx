@@ -3,11 +3,8 @@ import {
   TranscriptionContextType,
   TranscriptionData,
 } from "src/types/transcriptionDataTypes";
-import { EditorState } from 'draft-js';
 
 interface ExtendedTranscriptionContextType extends TranscriptionContextType {
-  editorState: EditorState;
-  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
   audioFile: File | null;
   setAudioFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
@@ -16,8 +13,6 @@ const defaultState: ExtendedTranscriptionContextType = {
   transcriptionData: null,
   setTranscriptionData: () => null,
   fontSize: "16px",
-  editorState: EditorState.createEmpty(),
-  setEditorState: () => {},
   setFontSize: () => {},
   fontColor: "#000000",
   setFontColor: () => {},
@@ -47,7 +42,6 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [transcriptionData, setTranscriptionData] = useState<
     TranscriptionData[] | null
   >(null);
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const [fontSize, setFontSize] = useState<string>("16px");
   const [fontColor, setFontColor] = useState<string>("#000000");
   const [highlightColor, setHighlightColor] = useState<string>("");
@@ -72,8 +66,6 @@ export const TranscriptionProvider = ({ children }: any) => {
       value={{
         transcriptionData,
         setTranscriptionData,
-        editorState,
-        setEditorState,
         fontSize,
         setFontSize,
         fontStyle,
