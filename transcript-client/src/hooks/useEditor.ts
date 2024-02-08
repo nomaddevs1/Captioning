@@ -1,11 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 //@ts-ignore
 import { convertFromRaw, EditorState, Modifier } from "draft-js";
+import { useEditor } from "src/context/EditorContext";
 
 interface UseEditorHookProps {
   setInitialContentState: (content: EditorState) => void;
-  editorState: EditorState;
-  setEditorState: (editorState: EditorState) => void;
   transcriptionData: any; // Assuming transcriptionData matches RawDraftContentState structure
   isBold: boolean;
   setIsBold: (isBold: boolean) => void;
@@ -18,8 +17,6 @@ interface UseEditorHookProps {
 
 function useEditorHook({
   setInitialContentState,
-  editorState,
-  setEditorState,
   transcriptionData,
   isBold,
   setIsBold,
@@ -29,18 +26,26 @@ function useEditorHook({
   setIsUnderline,
   highlightColor,
 }: UseEditorHookProps) {
-  // Initialize the editor with the transcription data
+
+  const { editorState, setEditorState } = useEditor();
+
   useEffect(() => {
-    if (transcriptionData) {
+    if (transcriptionData && !editorStateHasContent(editorState)) {
       const contentState = convertFromRaw({
         blocks: transcriptionData,
         entityMap: {},
       });
       const initialEditorState = EditorState.createWithContent(contentState);
-      setInitialContentState(initialEditorState);
       setEditorState(EditorState.createWithContent(contentState));
+      setInitialContentState(initialEditorState);
+    
     }
-  }, [transcriptionData, setEditorState]);
+  }, [transcriptionData]);
+
+
+  const editorStateHasContent =(editorState: EditorState): boolean => {
+    return editorState.getCurrentContent().hasText();
+  }
 
   // Apply styles to selected text and update state based on current selection
   useEffect(() => {

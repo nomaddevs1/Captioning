@@ -1,28 +1,50 @@
 import { Box, Button, Flex, Text, Progress } from "@chakra-ui/react";
-import { formatTime, calculatePercentage } from "../utils/audioUtils";
-//@ts-ignore
-import play_icon from "../assets/play_icon.png";
-//@ts-ignore
-import pause_icon from "../assets/pause_icon.png";
-
-
+import { Pause, Play } from "@phosphor-icons/react";
+import { formatTime, calculatePercentage } from "src/utils/audioUtils";
 
 interface AudioControlsProps {
   isPlaying: boolean;
   onPlayPause: () => void;
   currentTime: number;
   duration: number;
+  onSeek: (time: number) => void;
 }
 
-const AudioControls: React.FC<AudioControlsProps> = ({ isPlaying, onPlayPause, currentTime, duration }) => {
+const AudioControls: React.FC<AudioControlsProps> = ({
+  isPlaying,
+  onPlayPause,
+  currentTime,
+  duration,
+  onSeek,
+}) => {
+
+ const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // This calculation assumes the input's max value is 100 for percentage.
+    const percentage = parseFloat(e.target.value);
+   const newTime = (percentage / 100) * duration;
+    onSeek(newTime);
+};
+
   return (
-    <Box position="fixed" bottom={0} left={360} width="75%" bg="primary.moss.50" p={4}>
+    <Box
+      bottom={0}
+      left={360}
+      width="75%"
+      p={4}
+    >
       <Flex align="center" justify="space-between">
-      <Box onClick={onPlayPause} cursor="pointer">
-          {isPlaying ? <img src={pause_icon} alt="Pause Icon" /> : <img src={play_icon} alt="Play Icon" />}
+        <Box onClick={onPlayPause} cursor="pointer">
+          {!isPlaying ? <Play size={32} /> : <Pause size={32} />}
         </Box>
         <Text>{formatTime(currentTime)}</Text>
-        <Progress value={calculatePercentage(currentTime, duration)} width="60%" color="primary.moss.400" />
+        <input
+          type="range"
+          value={calculatePercentage(currentTime, duration)}
+          onChange={handleSeekChange}
+          style={{ width: "60%" }}
+          min="0"
+          max="100"
+        />
         <Text>{formatTime(duration)}</Text>
       </Flex>
     </Box>

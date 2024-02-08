@@ -31,4 +31,13 @@ interface TranscriptionContextType {
   resetStyles: () => void;
 }
 
-export {TranscriptionData, TranscriptionContextType}
+
+interface TranscriptionSegment {
+  start: number;
+  end: number;
+  text: string;
+}
+
+
+
+export {TranscriptionData, TranscriptionContextType, TranscriptionSegment}
