@@ -13,7 +13,6 @@ const useDownloader = (): Downloader => {
       fontStyle, lineHeight, wordSpacing, 
       isBold, isItalic, isUnderline 
     } = useTranscription();
-    //console.log('transcriptionData:', transcriptionData);
     const [isLoading, setIsLoading] = useState(false);
     // TODO: Add more settings, figure out bg_color
 

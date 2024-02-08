@@ -1,21 +1,19 @@
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranscription } from "src/context/TranscriptionContext";
 import { useAudioContext } from "src/context/AudioContext";
 //@ts-ignore
 import { EditorState, ContentState } from "draft-js";
 import { TranscriptionData } from "src/types/transcriptionDataTypes";
 import { useLocation } from "react-router-dom";
+import { useEditor } from "src/context/EditorContext";
 
 interface UseDisplayTranscriptContextReturn {
   transcriptionData: TranscriptionData[] | null;
-  editorState: EditorState;
-  setEditorState: (editorState: EditorState) => void;
   toggleInteractiveMode: () => void;
   isInteractiveMode: boolean;
   handleSeek: (time: number) => void;
   showAudioControls: boolean;
   toggleShowAudioControls: () => void;
-  onEditorChange: (newEditorState: EditorState) => void;
   resetEditor: (initialEditorState: EditorState) => void;
   audioFile: any;
   play: () => void;
@@ -26,7 +24,7 @@ interface UseDisplayTranscriptContextReturn {
 }
 
 export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn => {
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const { editorState, setEditorState } = useEditor();
   const [isInteractiveMode, setIsInteractiveMode] = useState(false);
   const [showAudioControls, setShowAudioControls] = useState(false);
   const { transcriptionData, resetStyles } = useTranscription(); // Assume it returns transcription data and other relevant states
@@ -54,6 +52,9 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
     }
   }, [uploadedFile, audioFile, setContextAudioFile]);
   const toggleInteractiveMode = () => {
+    if (isInteractiveMode) {
+      pause();
+    }
     setIsInteractiveMode(!isInteractiveMode);
     toggleShowAudioControls();
   };
@@ -66,25 +67,21 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
     setShowAudioControls(!showAudioControls);
   };
 
-  const onEditorChange = (newEditorState: EditorState) => {
-    setEditorState(newEditorState);
-  };
-
   const resetEditor = (initialEditorState: EditorState) => {
+    if (initialEditorState) {
       setEditorState(initialEditorState);
       resetStyles();
+    }
   };
 
   return {
     transcriptionData,
-    editorState,
-    setEditorState,
     toggleInteractiveMode,
     isInteractiveMode,
     handleSeek,
     showAudioControls,
     toggleShowAudioControls,
-    onEditorChange,
+    // onEditorChange,
     resetEditor,
     audioFile,
     play,
