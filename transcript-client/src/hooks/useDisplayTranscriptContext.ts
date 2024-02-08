@@ -68,10 +68,10 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
   };
 
   const resetEditor = (initialEditorState: EditorState) => {
-    if (initialEditorState) {
+    // if (initialEditorState) {
       setEditorState(initialEditorState);
       resetStyles();
-    }
+    // }
   };
 
   return {
