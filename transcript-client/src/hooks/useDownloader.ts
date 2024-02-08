@@ -1,47 +1,45 @@
 import { useState } from 'react';
 import { useTranscription } from "src/context/TranscriptionContext";
+import { useEditor } from "src/context/EditorContext";
+import useStyledHtmlExporter from 'src/hooks/useStyledHtmlExporter';
 
 interface Downloader {
   generatePDF: () => Promise<Blob>;
   isLoading: boolean;
 }
 
-
 const useDownloader = (): Downloader => {
     const { 
-      transcriptionData, fontColor, fontSize,
-      fontStyle, lineHeight, wordSpacing, 
-      isBold, isItalic, isUnderline 
+      highlightColor,
+      fontColor,
+      fontSize,
+      fontStyle,
+      lineHeight,
+      wordSpacing
     } = useTranscription();
+    const { editorState } = useEditor();
+    const styledHtml = useStyledHtmlExporter(editorState, {
+      fontSize,
+      fontStyle,
+      wordSpacing,
+      lineHeight,
+      fontColor,
+      highlightColor
+    });
+    // create a state to keep track of the loading state
     const [isLoading, setIsLoading] = useState(false);
-    // TODO: Add more settings, figure out bg_color
-
-    const settings = {
-        bg_color: '',
-        font_color: fontColor || '',
-        font_size: fontSize || '', 
-        font: fontStyle || '',
-        line_height: lineHeight.toString() || '',
-        word_spacing: wordSpacing.toString()+'px' || '',
-        font_weight: 'normal',
-        font_style: 'normal',
-        text_decoration: 'none',
-        //font_weight: isBold ? 'bold': 'normal',
-        //font_style: isItalic ? 'italic': 'normal',
-        //text_decoration: isUnderline ? 'underline': 'none',
-      };
     const generatePDF = async (): Promise<Blob> => {
     setIsLoading(true);
       try {
+        // send the styled html to the server to generate the pdf
+        // TODO: replace the URL with the correct server URL
         const response = await fetch('http://localhost:8000/generate-pdf/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            settings,
-            transcript: transcriptionData,
-            raw_html: '',
+            raw_html: styledHtml,
           }),
         });
   

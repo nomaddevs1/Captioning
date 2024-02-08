@@ -10,9 +10,6 @@ class TranscriptSettings(BaseModel):
     font: str = None
     line_height: str = None
     word_spacing: str = None
-    font_weight: str = None
-    font_style: str = None
-    text_decoration: str = None
 
 
 class TranscriptDataModel(BaseModel):

@@ -17,6 +17,7 @@
     "axios": "^1.6.2",
     "chakra-react-select": "^4.7.6",
     "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
     "framer-motion": "^10.16.4",
     "react": "^18.2.0",
     "react-color-palette": "^7.1.0",
