@@ -29,7 +29,8 @@ const DisplayTranscript: React.FC = () => {
   const [initialContentState, setInitialContentState] =
     useState<EditorState | null>(null);
   const editorRef = useRef(null);
-
+  const [currentStyleMap, setCurrentStyleMap] = useState({});
+  
   
 
   return (
@@ -77,7 +78,9 @@ const DisplayTranscript: React.FC = () => {
         <Box height="80vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
           <StandardTranscriptView
             setInitialContentState={setInitialContentState}
-            editorRef={editorRef}
+              editorRef={editorRef}
+              currentStyleMap={currentStyleMap}
+              setCurrentStyleMap={setCurrentStyleMap}
             // onChange={onEditorChange}
           />
         </Box>

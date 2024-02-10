@@ -4,12 +4,8 @@ import {
   TranscriptionData,
 } from "src/types/transcriptionDataTypes";
 
-interface ExtendedTranscriptionContextType extends TranscriptionContextType {
-  audioFile: File | null;
-  setAudioFile: React.Dispatch<React.SetStateAction<File | null>>;
-}
 
-const defaultState: ExtendedTranscriptionContextType = {
+const defaultState: TranscriptionContextType = {
   transcriptionData: null,
   setTranscriptionData: () => null,
   fontSize: "16px",
@@ -18,8 +14,8 @@ const defaultState: ExtendedTranscriptionContextType = {
   setFontColor: () => {},
   fontStyle: "Arial",
   setFontStyle: () => {},
-  highlightColor: "",
-  setHighlightColor: () => {},
+  allHighlightColors: [],
+  setAllHighlightColors: () => {},
   lineHeight: 1.5,
   setLineHeight: () => {},
   wordSpacing: "normal",
@@ -36,7 +32,7 @@ const defaultState: ExtendedTranscriptionContextType = {
 };
 
 export const TranscriptionContext =
-  createContext<ExtendedTranscriptionContextType>(defaultState);
+  createContext<TranscriptionContextType>(defaultState);
 
 export const TranscriptionProvider = ({ children }: any) => {
   const [transcriptionData, setTranscriptionData] = useState<
@@ -44,7 +40,7 @@ export const TranscriptionProvider = ({ children }: any) => {
   >(null);
   const [fontSize, setFontSize] = useState<string>("16px");
   const [fontColor, setFontColor] = useState<string>("#000000");
-  const [highlightColor, setHighlightColor] = useState<string>("");
+  const [allHighlightColors, setAllHighlightColors] = useState<string[]>([]);
   const [lineHeight, setLineHeight] = useState<number>(1.5);
   const [fontStyle, setFontStyle] = useState<string>("Arial");
   const [wordSpacing, setWordSpacing] = useState<string>("normal");
@@ -52,7 +48,7 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isItalic, setIsItalic] = useState<boolean>(false);
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
-
+  
   const resetStyles = () => {
     setFontSize(defaultState.fontSize);
     setFontStyle(defaultState.fontStyle);
@@ -72,8 +68,8 @@ export const TranscriptionProvider = ({ children }: any) => {
         setFontStyle,
         fontColor,
         setFontColor,
-        highlightColor,
-        setHighlightColor,
+        allHighlightColors,
+        setAllHighlightColors,
         lineHeight,
         setLineHeight,
         wordSpacing,

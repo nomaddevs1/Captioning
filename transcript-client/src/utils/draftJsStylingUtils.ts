@@ -3,22 +3,21 @@
 import {  EditorState, Modifier, RichUtils } from 'draft-js';
 
 
-export const styleMap = (highlightColor?: string) => {
+export const styleMap = (allHighlightColors: string[]) => {
+const dynamicStyles = allHighlightColors.reduce((acc, color) => {
+  const styleKey = `HIGHLIGHT_${color.replace('#', '')}`;
+  //@ts-ignore
+    acc[styleKey] = { backgroundColor: color };
+    return acc;
+  }, {});
 
   return {
-    'CUSTOM_HIGHLIGHT_COLOR': {
-      backgroundColor: highlightColor,
-    },
-    'BOLD': {
-      fontWeight: 'bold',
-    },
-    'ITALIC': {
-      fontStyle: 'italic',
-    },
-    'UNDERLINE': {
-      textDecoration: 'underline',
-    },
-  }
+    ...dynamicStyles,
+    'BOLD': { fontWeight: 'bold' },
+    'ITALIC': { fontStyle: 'italic' },
+    'UNDERLINE': { textDecoration: 'underline' },
+  };
+
 }
 
 

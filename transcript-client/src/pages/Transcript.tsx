@@ -65,12 +65,11 @@ const TranscriptionPage = ({ updateTutorialList }: any) => {
             />
             <ColorPickerComponent
               text="Highlight Text"
-              onChange={(value) =>
-                updateContextValue(
-                  transcriptionContext.setHighlightColor,
-                  value
-                )
-              }
+              onChange={(value) => {
+                if (!transcriptionContext.allHighlightColors.includes(value)) {
+                  transcriptionContext.setAllHighlightColors([...transcriptionContext.allHighlightColors, value]);
+                }
+              }}
             />
           </TranscriptionBarItem>
         </TranscriptionSideBar>

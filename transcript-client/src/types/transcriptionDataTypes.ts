@@ -16,19 +16,21 @@ interface TranscriptionContextType {
   setFontStyle: (fontStyle: string) => void;
   fontColor: string;
   setFontColor: (color: string) => void;
-  highlightColor: string;
-  setHighlightColor: (color: string) => void;
+  allHighlightColors: string[];
+  setAllHighlightColors: (color: string[]) => void;
   lineHeight: number;
   setLineHeight: (lineHeight: number) => void;
   wordSpacing: string;
   setWordSpacing: (wordSpacing: string) => void;
-    isBold: boolean;
+  isBold: boolean;
   setIsBold: (isBold: boolean) => void;
   isItalic: boolean;
   setIsItalic: (isItalic: boolean) => void;
   isUnderline: boolean;
   setIsUnderline: (isUnderline: boolean) => void;
   resetStyles: () => void;
+  audioFile: File | null;
+  setAudioFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
 

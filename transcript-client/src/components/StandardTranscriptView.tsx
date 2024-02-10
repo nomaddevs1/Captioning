@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //@ts-ignore
 import { Editor, EditorState } from "draft-js";
 import { handleKeyCommand, styleMap } from "src/utils/draftJsStylingUtils";
@@ -10,12 +10,15 @@ import { useEditor } from "src/context/EditorContext";
 interface StandardTranscriptViewProps {
   setInitialContentState: (editorState: EditorState) => void;
   editorRef: React.MutableRefObject<null>;
+  currentStyleMap: any;
+  setCurrentStyleMap: (styles: any) => void
 }
 
 const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
   setInitialContentState,
   editorRef,
-
+  currentStyleMap,
+  setCurrentStyleMap
 }) => {
   const {
     transcriptionData,
@@ -24,7 +27,7 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
     wordSpacing,
     lineHeight,
     fontColor,
-    highlightColor,
+    allHighlightColors,
     isBold,
     setIsBold,
     isItalic,
@@ -36,7 +39,7 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
   const onChange = (newState: EditorState) => {
     setEditorState(newState);
   };
-  const [currentStyleMap] = useState(() => styleMap(highlightColor));
+
   useEditorHook({
     setInitialContentState,
     transcriptionData,
@@ -46,7 +49,8 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
     setIsItalic,
     isUnderline,
     setIsUnderline,
-    highlightColor,
+    allHighlightColors,
+    setCurrentStyleMap
   });
 
   return (

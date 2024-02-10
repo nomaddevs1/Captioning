@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 //@ts-ignore
 import { convertFromRaw, EditorState, Modifier } from "draft-js";
 import { useEditor } from "src/context/EditorContext";
+import { styleMap } from "src/utils/draftJsStylingUtils";
 
 interface UseEditorHookProps {
   setInitialContentState: (content: EditorState) => void;
@@ -12,7 +13,8 @@ interface UseEditorHookProps {
   setIsItalic: (isItalic: boolean) => void;
   isUnderline: boolean;
   setIsUnderline: (isUnderline: boolean) => void;
-  highlightColor: string;
+  allHighlightColors: string[];
+  setCurrentStyleMap: (styles: any) => void
 }
 
 function useEditorHook({
@@ -24,7 +26,8 @@ function useEditorHook({
   setIsItalic,
   isUnderline,
   setIsUnderline,
-  highlightColor,
+  allHighlightColors,
+  setCurrentStyleMap
 }: UseEditorHookProps) {
 
   const { editorState, setEditorState } = useEditor();
@@ -42,38 +45,53 @@ function useEditorHook({
     }
   }, [transcriptionData]);
 
+  useEffect(() => {
+    const newCustomStyleMap = styleMap(allHighlightColors); // Function to generate dynamic style map
+    setCurrentStyleMap(newCustomStyleMap);
+  }, [allHighlightColors]);
 
   const editorStateHasContent =(editorState: EditorState): boolean => {
     return editorState.getCurrentContent().hasText();
   }
 
-  // Apply styles to selected text and update state based on current selection
-  useEffect(() => {
+      useEffect(() => {
     const selection = editorState.getSelection();
 
+        if (!selection.isCollapsed()) {
+          let newContentState = editorState.getCurrentContent();
+          const styles = { BOLD: isBold, ITALIC: isItalic, UNDERLINE: isUnderline };
+          Object.keys(styles).forEach((style) => {
+            //@ts-ignore
+            newContentState = styles[style]
+              ? Modifier.applyInlineStyle(newContentState, selection, style)
+              : Modifier.removeInlineStyle(newContentState, selection, style);
+          });
+        
+          if (newContentState !== editorState.getCurrentContent()) {
+            const newEditorState = EditorState.push(
+              editorState,
+              newContentState,
+              "change-inline-style"
+            );
+            setEditorState(EditorState.forceSelection(newEditorState, selection));
+          }
+        }
+  }, [isBold, isItalic, isUnderline,])
+
+
+  useEffect(() => {
+    const selection = editorState.getSelection();
     if (!selection.isCollapsed()) {
       let newContentState = editorState.getCurrentContent();
+       const currentStyle = editorState.getCurrentInlineStyle();
 
-      // Apply or remove styles based on the toggle state
-      const styles = { BOLD: isBold, ITALIC: isItalic, UNDERLINE: isUnderline };
-      Object.keys(styles).forEach((style) => {
-        //@ts-ignore
-        newContentState = styles[style]
-          ? Modifier.applyInlineStyle(newContentState, selection, style)
-          : Modifier.removeInlineStyle(newContentState, selection, style);
+       allHighlightColors.forEach(color => {
+        const styleKey = `HIGHLIGHT_${color.replace('#', '')}`;
+        if (!currentStyle.has(styleKey)) {
+          newContentState = Modifier.applyInlineStyle(newContentState, selection, styleKey);
+        }
+         
       });
-
-      newContentState = highlightColor
-        ? Modifier.applyInlineStyle(
-            newContentState,
-            selection,
-            "CUSTOM_HIGHLIGHT_COLOR"
-          )
-        : Modifier.removeInlineStyle(
-            newContentState,
-            selection,
-            "CUSTOM_HIGHLIGHT_COLOR"
-          );
       if (newContentState !== editorState.getCurrentContent()) {
         const newEditorState = EditorState.push(
           editorState,
@@ -83,7 +101,7 @@ function useEditorHook({
         setEditorState(EditorState.forceSelection(newEditorState, selection));
       }
     }
-  }, [isBold, isItalic, isUnderline, highlightColor]);
+  }, [ allHighlightColors]);
 
   // Update the state of the style toggles based on the current selection
   useEffect(() => {
@@ -93,5 +111,6 @@ function useEditorHook({
     setIsUnderline(currentStyle.has("UNDERLINE"));
   }, [editorState, setIsBold, setIsItalic, setIsUnderline]);
 }
+
 
 export default useEditorHook;
