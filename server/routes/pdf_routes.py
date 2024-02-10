@@ -41,4 +41,8 @@ async def generate_pdf_route(transcript_data: TranscriptDataModel):
     pdf_data = generate_pdf(html_str)
 
     logging.info("Sending generated transcript to user...")
-    return Response(content=pdf_data, media_type="application/pdf", status_code=200)
+    response = Response(content=pdf_data, media_type="application/pdf", status_code=200)
+    response.headers[
+        "Content-Disposition"
+    ] = "inline"  # Set to inline instead of attachment
+    return response

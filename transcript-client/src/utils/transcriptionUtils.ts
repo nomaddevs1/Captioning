@@ -59,6 +59,7 @@ export const wordSpacingOptions: SelectOption[] = [
 
 // Functions to update the context values
 export const updateContextValue = (setter: React.Dispatch<React.SetStateAction<any>>, value: any) => {
+  console.log(value)
   setter(value);
 };
 

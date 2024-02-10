@@ -1,165 +1,90 @@
-import { useEffect, useState, useRef } from 'react';
-import 'draft-js/dist/Draft.css';
+import React, { useRef, useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
-import { useTranscription } from 'src/context/TranscriptionContext';
-import AudioControls from './AudioControls';
-import { useAudioContext } from 'src/context/AudioContext';
-import { useLocation } from "react-router-dom";
-//@ts-ignore
-import { Editor, EditorState } from "draft-js";
-import "draft-js/dist/Draft.css";
-import {Eraser} from "@phosphor-icons/react"
-import { handleKeyCommand, styleMap } from "src/utils/draftJsStylingUtils";
-import useEditorHook from "src/hooks/useEditor";
 
-const DisplayTranscript = () => {
+import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
+
+import AudioControls from "./AudioControls";
+import { Eraser } from "@phosphor-icons/react";
+import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
+import InteractiveTranscriptView from "src/components/InteractiveTranscript";
+import StandardTranscriptView from "src/components/StandardTranscriptView";
+//@ts-ignore
+import { EditorState } from 'draft-js';
+
+
+const DisplayTranscript: React.FC = () => {
   const {
     transcriptionData,
-    fontSize,
-    fontStyle,
-    wordSpacing,
-    lineHeight,
-    fontColor,
-    highlightColor,
-    isBold,
-    setIsBold,
-    isItalic,
-    setIsItalic,
-    isUnderline,
-    setIsUnderline,
-  } = useTranscription();
-  const [editorState, setEditorState] = useState(() =>
-  EditorState.createEmpty()
-  );
-  const [initialContentState, setInitialContentState] = useState<EditorState | null>(null)
-   
-  const [currentStyleMap, setCurrentStyleMap] = useState(() =>
-    styleMap(highlightColor)
-  );
-  const editorRef = useRef(null);
-
-  const [showAudioControls, setShowAudioControls] = useState(false);
-
-  const {
-    audioFile,
-    setAudioFile: setContextAudioFile,
-    play,
-    pause,
+    toggleInteractiveMode,
+    isInteractiveMode,
+    handleSeek,
+    showAudioControls,
+    resetEditor,
     isPlaying,
-    setCurrentTime,
-    currentTime,
+    pause,
+    play,
     duration,
-  } = useAudioContext(); // Access audio file, playback functions, and playback position from context
+    currentTime,
+  } = useDisplayTranscriptContext();
+  const [initialContentState, setInitialContentState] =
+    useState<EditorState | null>(null);
+  const editorRef = useRef(null);
+  const [currentStyleMap, setCurrentStyleMap] = useState({});
   
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-
-  useEffect(() => {
-    // Update the playback time whenever the audio is playing
-    if (isAudioPlaying) {
-      setCurrentTime(audioRef.current.currentTime);
-    }
-  }, [isAudioPlaying, setCurrentTime]);
-
-
-  // Retrieve the uploaded file from the route state
-  const location = useLocation();
-  const uploadedFile = (location.state as any)?.uploadedFile as File | undefined;
-  const audioRef = useRef(new Audio());
-
-  // Handle the uploaded file, you may want to set it in the audio context or perform other actions
-  useEffect(() => {
-    // Handle the uploaded file, you may want to set it in the audio context or perform other actions
-    if (uploadedFile && !audioFile) {
-      setContextAudioFile(uploadedFile);
-      // Additional processing if needed
-    }
-  }, [uploadedFile, audioFile, setContextAudioFile]);
-
-  const handlePlayPause = () => {
-    if (isAudioPlaying) {
-      pause(); // Pause the audio playback
-    } else {
-      play(); // Start or resume the audio playback
-    }
-    setIsAudioPlaying(!isAudioPlaying);
-  };
-
-  const toggleShowAudioControls = () => {
-    setShowAudioControls(!showAudioControls);
-  };
-
-  const { resetStyles } = useTranscription()
   
-  useEffect(() => {
-    setCurrentStyleMap(styleMap(highlightColor));
-  }, [highlightColor]);
-  useEditorHook({
-     setInitialContentState,
-     editorState,
-     setEditorState,
-     transcriptionData,
-     isBold,
-     setIsBold,
-     isItalic,
-     setIsItalic,
-     isUnderline,
-     setIsUnderline,
-     highlightColor,
-  });
-  
-  const onEditorChange = (newEditorState: EditorState) => {
-    setEditorState(newEditorState);
-  };
-
-  const resetEditor = () => {
-    setEditorState(initialContentState)
-    resetStyles();
-  }
 
   return (
-    <Box
-      height="100%"
-      style={{
-        wordSpacing,
-        lineHeight,
-        fontSize,
-        fontFamily: fontStyle,
-        color: fontColor,
-      }}
-    >
-      <Box pt={10} pl={20} pr={20} height="85vh" pos="relative">
-        <Button variant="outline" size="sm" pos={"fixed"} top={"85px"} right={1} onClick={resetEditor}>
-          <Eraser size={32} weight="fill"/>
-        </Button>
-        <Box
-          overflowY="auto"
-          height="100%"
-          bg="white"
-          borderRadius={4}
-          p={6}
-          textAlign="left"
-        >
-          <Editor
-            ref={editorRef}
-            customStyleMap={currentStyleMap}
-            editorState={editorState}
-            onChange={onEditorChange}
-            handleKeyCommand={handleKeyCommand}
+    <Box height="100%" p={4}>
+      <Button
+        onClick={() => resetEditor(initialContentState)}
+        leftIcon={<Eraser size={24} />}
+        colorScheme="teal"
+        variant="solid"
+        size="sm"
+      >
+        Reset Editor
+      </Button>
+      <Button
+        onClick={toggleInteractiveMode}
+        ml={4}
+        colorScheme={isInteractiveMode ? "pink" : "blue"}
+        variant="outline"
+        size="sm"
+      >
+        {isInteractiveMode
+          ? "Switch to Standard View"
+          : "Switch to Interactive View"}
+      </Button>
+      {showAudioControls && (
+        <AudioControls
+          onSeek={handleSeek}
+          isPlaying={isPlaying}
+          onPlayPause={() => {
+            isPlaying ? pause() : play();
+          }}
+          currentTime={currentTime}
+          duration={duration}
+        />
+      )}
+      {isInteractiveMode && transcriptionData ? (
+        <Box height="73vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
+          <InteractiveTranscriptView
+            segments={transcriptionData as TranscriptionSegment[]}
+            onSegmentClick={handleSeek}
+            currentTime={currentTime} 
           />
         </Box>
-      </Box>
-      {showAudioControls ? (
-          <AudioControls
-            isPlaying={isAudioPlaying}
-            onPlayPause={handlePlayPause}
-            currentTime={currentTime}
-            duration={duration}
+      ) : (
+        <Box height="80vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
+          <StandardTranscriptView
+            setInitialContentState={setInitialContentState}
+              editorRef={editorRef}
+              currentStyleMap={currentStyleMap}
+              setCurrentStyleMap={setCurrentStyleMap}
+            // onChange={onEditorChange}
           />
-        ) : (
-          <Button onClick={toggleShowAudioControls} position="fixed" bottom={4} left={800} bg="primary.ivy.400" p={4}>
-            Interactive Transcript
-          </Button>
-        )}
+        </Box>
+      )}
     </Box>
   );
 };
