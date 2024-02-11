@@ -1,4 +1,4 @@
-import { Grid, GridItem, Flex } from "@chakra-ui/react";
+import { Grid, GridItem, Flex, IconButton } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 //@ts-ignore
 import TranscriptionBarItem from "src/components/sidebar/TranscriptionItem";
@@ -26,8 +26,12 @@ const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
       <GridItem
         bg="primary.bay.100"
         area={"side"}
-        height={"100vh"}
+        height={{base: "40vh", md:"100vh"}}
         overflowY={"auto"}
+        position={{base: "absolute", md: "unset"}}
+        zIndex={{base: "100"}}
+        bottom="0"
+        width="100%"
       >
         <TranscriptionSideBar>
           <TranscriptionBarItem title={"Transcription Settings"}>
