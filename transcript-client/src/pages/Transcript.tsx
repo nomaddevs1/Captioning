@@ -21,9 +21,8 @@ interface TranscriptProps{
 const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
   const transcriptionContext = useTranscription();
 
-
   return (
-    <Grid templateAreas={`"side main"`} gridTemplateColumns={"352px 1fr"}>
+    <Grid templateAreas={`"side main"`} gridTemplateColumns={{base: "0 1fr", md: "352px 1fr"}}>
       <GridItem
         bg="primary.bay.100"
         area={"side"}

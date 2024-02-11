@@ -1,6 +1,6 @@
 export const standardTutorials = [
   {
-    position: {pos: "fixed", right: {mb: "100"}, top: {base: "130px", md: "180"}},
+    position: {pos: "fixed", right: {md: "10"}, top: {base: "130px", md: "180"}},
     text: "Now you will see the transcript of your audio file in this field, you are able to edit the text directly to fix any mistakes in the transcription process."
   },
   {
@@ -16,7 +16,7 @@ export const standardTutorials = [
     text: "Adjust the color of the whole text or select lines to highlight specific sections."
   },
   {
-    position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "90%"}},
+    position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "82%"}},
     text: "When you are done customizing the text, click 'Save Transcript' to download a pdf file to your computer with your chosen accessibility settings."
   },
   {

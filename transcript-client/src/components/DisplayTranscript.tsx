@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
 import AudioControls from "./AudioControls";
 import { Eraser } from "@phosphor-icons/react";
@@ -32,26 +32,27 @@ const DisplayTranscript = ({ updateTutorialList }: any) => {
 
   return (
     <Box height="100%" p={4}>
-      <Button
-        onClick={() => resetEditor(initialContentState)}
-        leftIcon={<Eraser size={24} />}
-        colorScheme="teal"
-        variant="solid"
-        size="sm"
-      >
-        Reset Editor
-      </Button>
-      <Button
-        onClick={toggleInteractiveMode}
-        ml={4}
-        colorScheme={isInteractiveMode ? "pink" : "blue"}
-        variant="outline"
-        size="sm"
-      >
-        {isInteractiveMode
-          ? "Switch to Standard View"
-          : "Switch to Interactive View"}
-      </Button>
+      <Flex flexDirection={{base: "column", md: "row"}} gap={{base: "2", md: "4"}}>
+        <Button
+          onClick={() => resetEditor(initialContentState)}
+          leftIcon={<Eraser size={24} />}
+          colorScheme="teal"
+          variant="solid"
+          size="sm"
+        >
+          Reset Editor
+        </Button>
+        <Button
+          onClick={toggleInteractiveMode}
+          colorScheme={isInteractiveMode ? "pink" : "blue"}
+          variant="outline"
+          size="sm"
+        >
+          {isInteractiveMode
+            ? "Switch to Standard View"
+            : "Switch to Interactive View"}
+        </Button>
+      </Flex>
       {showAudioControls && (
         <AudioControls
           onSeek={handleSeek}

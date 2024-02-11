@@ -10,8 +10,9 @@ interface UploadedFileInfoProps {
 }
 
 const languages = [
-  { label: 'Danish', value: 'da' },
   { label: 'English', value: 'en' },
+  { label: 'Arabic', value: 'ar' },
+  { label: 'Danish', value: 'da' },
   { label: 'French', value: 'fr' },
   { label: 'German', value: 'de' },
   { label: 'Japanese', value: 'ja' },
