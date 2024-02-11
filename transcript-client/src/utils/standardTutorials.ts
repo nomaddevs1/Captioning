@@ -1,6 +1,6 @@
-export const tutorial_list = [
+export const standardTutorials = [
   {
-    position: {pos: "fixed", right: "100", top: "140"},
+    position: {pos: "fixed", right: "100", top: "180"},
     text: "Now you will see the transcript of your audio file in this field, you are able to edit the text directly to fix any mistakes in the transcription process."
   },
   {
@@ -20,7 +20,11 @@ export const tutorial_list = [
     text: "When you are done customizing the text, click 'Save Transcript' to download a pdf file to your computer with your chosen accessibility settings."
   },
   {
-    position: {pos: "fixed", right: "200", top: "100px"},
-    text: "Click on 'Interactive View' to switch to an interactive experience with media controls that will highlight text as is it spoken in your uploaded audio file."
+    position: {pos: "fixed", left: "280", top: "160px"},
+    text: "If you would like to reset your changes to the default settings click on 'Reset Editor'."
+  },
+  {
+    position: {pos: "fixed", left: "480", top: "160px"},
+    text: "Click on 'Switch to Interactive View' to switch to an interactive experience with media controls that will highlight text as is it spoken in your uploaded audio file."
   }
 ]

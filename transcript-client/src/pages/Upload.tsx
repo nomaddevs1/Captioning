@@ -12,6 +12,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+interface UploadProps{
+  updateTutorialList: (tutorial_list: any) => void
+}
+
 const tutorial_list = [
   {
     position: {pos: "fixed", top: {base: "130px", md:"100px"}, right: {md: "4"}},
@@ -19,7 +23,7 @@ const tutorial_list = [
   },
 ]
 
-function Upload({updateTutorialList}: any) {
+function Upload({updateTutorialList}: UploadProps) {
   const [uploaded, setUploaded] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false)
   // const [error, setError] = useState(false)

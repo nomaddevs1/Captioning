@@ -9,14 +9,16 @@ import {
   selectOptions,
   styleSwitches,
 } from "src/utils/transcriptionUtils";
-import { tutorial_list } from "src/utils/tutorial_list";
 import DisplayTranscript from "src/components/DisplayTranscript";
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/forms/ColorPickerInput";
 import StyleSwitch from "src/components/forms/SwitchButtonIcon";
 
-const TranscriptionPage = ({ updateTutorialList }: any) => {
-  updateTutorialList(tutorial_list);
+interface TranscriptProps{
+  updateTutorialList: (tutorial_list: any) => void
+}
+
+const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
   const transcriptionContext = useTranscription();
 
 
@@ -76,7 +78,7 @@ const TranscriptionPage = ({ updateTutorialList }: any) => {
       </GridItem>
       <GridItem area={"main"}>
         <Flex flexDirection="column">
-          <DisplayTranscript />
+          <DisplayTranscript updateTutorialList={updateTutorialList}/>
         </Flex>
       </GridItem>
     </Grid>

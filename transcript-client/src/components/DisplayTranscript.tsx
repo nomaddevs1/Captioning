@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Box, Button } from "@chakra-ui/react";
-
 import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
-
 import AudioControls from "./AudioControls";
 import { Eraser } from "@phosphor-icons/react";
 import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
@@ -12,7 +10,7 @@ import StandardTranscriptView from "src/components/StandardTranscriptView";
 import { EditorState } from 'draft-js';
 
 
-const DisplayTranscript: React.FC = () => {
+const DisplayTranscript = ({ updateTutorialList }: any) => {
   const {
     transcriptionData,
     toggleInteractiveMode,
@@ -30,7 +28,6 @@ const DisplayTranscript: React.FC = () => {
     useState<EditorState | null>(null);
   const editorRef = useRef(null);
   const [currentStyleMap, setCurrentStyleMap] = useState({});
-  
   
 
   return (
@@ -72,6 +69,7 @@ const DisplayTranscript: React.FC = () => {
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}
             currentTime={currentTime} 
+            updateTutorialList={updateTutorialList}
           />
         </Box>
       ) : (
@@ -81,6 +79,7 @@ const DisplayTranscript: React.FC = () => {
               editorRef={editorRef}
               currentStyleMap={currentStyleMap}
               setCurrentStyleMap={setCurrentStyleMap}
+              updateTutorialList={updateTutorialList}
             // onChange={onEditorChange}
           />
         </Box>
