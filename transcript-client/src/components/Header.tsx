@@ -1,19 +1,52 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
 import AboutModal from "./AboutModal";
 import TutorialPopup from "./TutorialPopup";
+import { List } from "@phosphor-icons/react";
 
 
 function Header({ tutorialList }: any){
+    const {isOpen, onOpen, onClose} = useDisclosure()
+
     return (
-        <Flex width="100%" bg="#121212" height="80px" alignItems="center" pos="fixed" padding=" 0 6rem" boxShadow="0px 1px 2px  2px rgba(0, 0, 0, 0.13)" >
+        <Flex 
+            width="100%" 
+            bg="#121212" 
+            height="80px" 
+            alignItems="center" 
+            pos="fixed" 
+            padding=" 0 6rem" 
+            boxShadow="0px 1px 2px  2px rgba(0, 0, 0, 0.13)" 
+            justifyContent={{base: "center", md: "left"}}
+        >
             <Link to="/upload">
-                <Box as="button" color={"white"} fontWeight="bold" fontSize="30px">Captioning</Box>
+                <Box as="button" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
             </Link>
-            <Flex width="100%" alignItems="center" justifyContent="end">
+            <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
                 <TutorialPopup tutorials={tutorialList} />
-            </Flex>
+            </Box>
+            <Box display={{base: "flex", md: "none"}} alignItems="center">
+                <IconButton 
+                    aria-label="toggle-menu" 
+                    variant="link" 
+                    color="white" 
+                    icon={<List size={36} />}
+                    onClick={onOpen}
+                    pos="absolute"
+                    right="2"
+                >
+                </IconButton>
+                <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
+                    <DrawerContent mt="80px">
+                        <DrawerBody bg="primary.gray.100" display="flex" justifyContent="center">
+                            <AboutModal />
+                            <TutorialPopup tutorials={tutorialList} />
+                        </DrawerBody>
+                    </DrawerContent>
+                </Drawer>
+
+            </Box>
         </Flex>
     );
 }

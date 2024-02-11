@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const tutorial_list = [
   {
-    position: {pos: "fixed", top: "100px", right: "4"},
+    position: {pos: "fixed", top: {base: "130px", md:"100px"}, right: {md: "4"}},
     text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'."
   },
 ]

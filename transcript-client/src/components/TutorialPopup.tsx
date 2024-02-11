@@ -56,7 +56,7 @@ const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
 
             <Modal isOpen={isOpen} onClose={nextTutorial} size="sm" motionPreset="none">
                 <ModalOverlay bg='blackAlpha.500'/>
-                <ModalContent>
+                <ModalContent display={{base: "flex", md: "box"}} alignItems={{base: "center"}}>
                     {displayTutorial()}
                 </ModalContent>
             </Modal>
