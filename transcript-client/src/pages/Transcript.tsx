@@ -1,4 +1,5 @@
-import { Grid, GridItem, Flex, IconButton } from "@chakra-ui/react";
+import { useState } from "react";
+import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 //@ts-ignore
 import TranscriptionBarItem from "src/components/sidebar/TranscriptionItem";
@@ -20,21 +21,28 @@ interface TranscriptProps{
 
 const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
   const transcriptionContext = useTranscription();
+  const [collapsed, setCollapsed] = useState(true);
+
+  const toggleSidebar = () => {
+    setCollapsed(!collapsed);
+  };
+
 
   return (
     <Grid templateAreas={`"side main"`} gridTemplateColumns={{base: "0 1fr", md: "352px 1fr"}}>
       <GridItem
         bg="primary.bay.100"
         area={"side"}
-        height={{base: "40vh", md:"100vh"}}
+        height={{base: collapsed ? "40px" : "40vh", md:"100vh"}}
         overflowY={"auto"}
         position={{base: "absolute", md: "unset"}}
         zIndex={{base: "100"}}
         bottom="0"
         width="100%"
+        transition="height 0.3s ease"
       >
         <TranscriptionSideBar>
-          <TranscriptionBarItem title={"Transcription Settings"}>
+          <TranscriptionBarItem title={"Transcription Settings"} toggleSidebar={toggleSidebar} collapsed={collapsed}>
             {selectOptions.map(({ label, options, setter, isFloat }) => (
               //@ts-ignore
               <SelectInput
