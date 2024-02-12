@@ -2,9 +2,9 @@ import {Center, Button} from "@chakra-ui/react";
 import useAxios from 'src/hooks/useAxios';
 import { useState } from 'react';
 import useUploader from 'src/hooks/useUploader';
-import  Progress  from 'src/components/Progress'
-import UploadedFileInfo from "src/components/UploadedFileInfo";
-import FileUploadArea from "src/components/FileUploadArea";
+import  Progress  from 'src/components/uploads/Progress'
+import UploadedFileInfo from "src/components/uploads/UploadedFileInfo";
+import FileUploadArea from "src/components/uploads/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
 import { useAudioContext } from "src/context/AudioContext";
 import 'react-toastify/dist/ReactToastify.css';
