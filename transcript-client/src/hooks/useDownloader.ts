@@ -2,8 +2,7 @@ import { useState } from "react";
 import { useTranscription } from "src/context/TranscriptionContext";
 import { useEditor } from "src/context/EditorContext";
 import useStyledHtmlExporter from "src/hooks/useStyledHtmlExporter";
-import axios from "axios";
-import useAxios from "./useAxios";
+import useAxios from "src/hooks/useAxios";
 
 interface Downloader {
   generatePDF: () => Promise<Blob>;
@@ -12,7 +11,7 @@ interface Downloader {
 
 const useDownloader = (): Downloader => {
   const {
-    highlightColor,
+    allHighlightColors,
     fontColor,
     fontSize,
     fontStyle,
@@ -26,7 +25,7 @@ const useDownloader = (): Downloader => {
     wordSpacing,
     lineHeight,
     fontColor,
-    highlightColor,
+    allHighlightColors,
   });
   // create a state to keep track of the loading state
   const [isLoading, setIsLoading] = useState(false);
@@ -46,7 +45,6 @@ const useDownloader = (): Downloader => {
 
       if (response.status >= 200 && response.status < 300) {
         // The response is a Blob if the request succeeds
-        console.log(response);
         return response.data; // `response.data` is a Blob representing the PDF
       } else {
         console.error(

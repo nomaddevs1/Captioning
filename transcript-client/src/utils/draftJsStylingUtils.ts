@@ -20,6 +20,26 @@ const dynamicStyles = allHighlightColors.reduce((acc, color) => {
 
 }
 
+//@ts-ignore
+export const getExportOptions = (allHighlightColors) => {
+  //@ts-ignore
+  const inlineStyleOptions = allHighlightColors.reduce((styles, color) => {
+    const styleKey = `HIGHLIGHT_${color.replace('#', '')}`;
+    styles[styleKey] = { style: { backgroundColor: color } };
+    return styles;
+  }, {});
+
+  // Add standard styles
+  inlineStyleOptions['BOLD'] = { style: { fontWeight: 'bold' } };
+  inlineStyleOptions['ITALIC'] = { style: { fontStyle: 'italic' } };
+  inlineStyleOptions['UNDERLINE'] = { style: { textDecoration: 'underline' } };
+
+  return {
+    inlineStyles: inlineStyleOptions
+  };
+};
+
+
 
   export const handleKeyCommand = (command: string, editorState: EditorState, setEditorState: (editorState: EditorState) => void) => {
     let newState;

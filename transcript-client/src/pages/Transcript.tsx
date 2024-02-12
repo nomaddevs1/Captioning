@@ -2,7 +2,7 @@ import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
 //@ts-ignore
 import TranscriptionBarItem from "src/components/sidebar/TranscriptionItem";
-import { SelectInput } from "src/components/forms/SelectInput";
+import { SelectInput } from "src/components/component/SelectInput";
 import { useTranscription } from "src/context/TranscriptionContext";
 import {
   updateContextValue,
@@ -12,8 +12,8 @@ import {
 import { tutorial_list } from "src/utils/tutorial_list";
 import DisplayTranscript from "src/components/DisplayTranscript";
 import "react-color-palette/dist/css/rcp.css";
-import ColorPickerComponent from "src/components/forms/ColorPickerInput";
-import StyleSwitch from "src/components/forms/SwitchButtonIcon";
+import ColorPickerComponent from "src/components/component/ColorPickerInput";
+import StyleSwitch from "src/components/component/SwitchButtonIcon";
 
 const TranscriptionPage = ({ updateTutorialList }: any) => {
   updateTutorialList(tutorial_list);
