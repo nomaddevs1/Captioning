@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - "server/**"
+  workflow_dispatch:
 
 jobs:
   build-and-test:
