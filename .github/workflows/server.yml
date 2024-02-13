@@ -51,5 +51,5 @@ jobs:
       registry-password: ${{ secrets.GITHUB_TOKEN }}
     with:
       container-registry: ghcr.io
-      registry-username: ${{ github.actor }}
+      registry-username: ${{ github.repository_owner }}
       working-directory: ./server
