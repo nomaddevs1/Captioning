@@ -40,4 +40,4 @@ jobs:
         run: |
           docker build . \
             --tag ${{ inputs.container-registry }}/$${{ inputs.registry-username }}/capstone-server
-          docker push ${{ inputs.container-registry }}/${{ github.actor }}/capstone-server:latest
+          docker push ${{ inputs.container-registry }}/${{ inputs.registry-username }}/capstone-server:latest
