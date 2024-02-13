@@ -39,5 +39,5 @@ jobs:
         working-directory: ${{ inputs.working-directory }}
         run: |
           docker build . \
-            --tag ${{ inputs.container-registry }}/$${{ inputs.registry-username }}/capstone-server
+            --tag ${{ inputs.container-registry }}/${{ inputs.registry-username }}/capstone-server
           docker push ${{ inputs.container-registry }}/${{ inputs.registry-username }}/capstone-server:latest
