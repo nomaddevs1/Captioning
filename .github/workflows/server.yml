@@ -43,4 +43,12 @@ jobs:
         run: coverage report
         working-directory: server
 
-    # Add additional jobs for deployment if needed
+  release-container:
+    needs: build-and-test
+    uses: ./.github/workflows/server-container.yml
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      container-registry: ghcr.io
+      registry-username: ${{ github.actor }}
+      working-directory: ./server

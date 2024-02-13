@@ -1,0 +1,43 @@
+on:
+  workflow_call:
+    inputs:
+      container-registry:
+        required: true
+        type: string
+      registry-username:
+        required: true
+        type: string
+      working-directory:
+        required: false
+        default: ./
+        type: string
+      
+    secrets:
+      registry-password:
+        required: true
+
+jobs:
+  build-container:
+    runs-on: ubuntu-latest
+    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ inputs.container-registry }}
+          username: ${{ inputs.registry-username }}
+          password: ${{ secrets.registry-password }}
+
+      - name: Build and push image
+        working-directory: ${{ inputs.working-directory }}
+        run: |
+          docker build . \
+            --tag ${{ inputs.container-registry }}/$${{ inputs.registry-username }}/capstone-server
+          docker push ${{ inputs.container-registry }}/${{ github.actor }}/capstone-server:latest
