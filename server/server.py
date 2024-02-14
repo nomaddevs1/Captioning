@@ -1,16 +1,34 @@
 import openai
-from config import ADDRESS, CLIENT_URL, HOST_URL, OPEN_API_KEY, LOG_FILE
+from config import (
+    ADDRESS,
+    CLIENT_URL,
+    HOST_URL,
+    OPEN_API_KEY,
+    LOG_FILE,
+    PORT,
+    MODE,
+    scrub_sensitive_environment_variables,
+)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import pdf_routes, transcribe_routes
 from logger import init_logger
 import logging
+import uvicorn
 
+# remove API keys and other sensitive info from system environment variables:
+scrub_sensitive_environment_variables()
 openai.api_key = OPEN_API_KEY
-
 init_logger(LOG_FILE)
 
-app = FastAPI()
+app: FastAPI = None
+if MODE == "PROD":
+    # disable /docs and /redoc endpoints in production
+    app = FastAPI(redoc_url = None, docs_url = None)
+else:
+    app = FastAPI()
+    
+
 logging.info(f"Server listening at {HOST_URL}")
 # Add CORS middleware
 app.add_middleware(
@@ -23,3 +41,6 @@ app.add_middleware(
 
 app.include_router(transcribe_routes.router)
 app.include_router(pdf_routes.router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host=ADDRESS, port=int(PORT))

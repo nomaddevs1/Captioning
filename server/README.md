@@ -66,3 +66,4 @@ KEY              | DEFAULT                 | DESCRIPTION
 `APP_CLIENT_URL` | `http://127.0.0.1:3000` | URL from which authorized CORS requests should come from
 `APP_LOG_FILE`   | `None`                  | Filepath to save rolling server logs to. If no value is                                           given, logs are not saved to any file.
 `OPEN_API_KEY`   | `None`                  | OpenAI API key used to interface with the Whisper model
+`MODE`           | `DEV`                   | Mode of operation, in `PROD` (production) mode, endpoints like `/doc` and `/redoc` will be disabled
