@@ -9,6 +9,7 @@
   - [Usage](#usage)
     - [Documentation](#documentation)
   - [Installation](#installation-fast-api)
+  - [Environment Variables](#environment-variables)
 
 ## Introduction<a name="introduction"></a>
 
@@ -45,8 +46,6 @@ src
 
 API docs are generated using Swagger. You can access the docs with the `/docs` endpoint.
 
-
-
 ### Fast API<a name="installation-fast-api"></a>
 
 1. Open a new terminal tab
@@ -58,10 +57,12 @@ API docs are generated using Swagger. You can access the docs with the `/docs` e
 6. Start the app with `uvicorn server:app --reload`
 7. Test the app by going to http://localhost:8000
 
-### Environment Variables
+### Environment Variables<a name="environment-variables"></a>
 
-KEY | DEFAULT | DESCRIPTION
-----|---------|-------------
-`OPEN_API_KEY` | n/a | OpenAI API key used to interface with the Whisper model
-`PRODUCTION_URL` | "https://your-production-url.com" | URL of the production server
-`LOG_FILE` | `None` | Filepath to save rolling server logs to. If no value is given, logs are not saved to any file.
+KEY              | DEFAULT                 | DESCRIPTION
+-----------------|-------------------------|-----------------------------------------------------------
+`APP_ADDRESS`    | `http://127.0.0.1`      | Address to listen on
+`APP_PORT`       | `'8000'`                | Port to listen on
+`APP_CLIENT_URL` | `http://127.0.0.1:3000` | URL from which authorized CORS requests should come from
+`APP_LOG_FILE`   | `None`                  | Filepath to save rolling server logs to. If no value is                                           given, logs are not saved to any file.
+`OPEN_API_KEY`   | `None`                  | OpenAI API key used to interface with the Whisper model
