@@ -24,10 +24,10 @@ init_logger(LOG_FILE)
 app: FastAPI = None
 if MODE == "PROD":
     # disable /docs and /redoc endpoints in production
-    app = FastAPI(redoc_url = None, docs_url = None)
+    app = FastAPI(redoc_url=None, docs_url=None)
 else:
     app = FastAPI()
-    
+
 
 logging.info(f"Server listening at {HOST_URL}")
 # Add CORS middleware
