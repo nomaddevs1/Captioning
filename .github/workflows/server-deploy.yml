@@ -1,0 +1,39 @@
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths: [server/**]
+    types: [closed]
+  push:
+      branches: [main]
+      paths: [server/**]    
+  
+jobs:
+  unit-test:
+    uses: ./.github/workflows/server-test.yml
+  build-container:
+    if: github.event.pull_request.merged == true
+    needs: unit-test
+    runs-on: ubuntu-latest
+    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Log in to the Container registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push image to container repo
+      working-directory: server
+      run: |
+        docker build . \
+            --tag ghcr.io/${{ github.repository_owner }}/capstone-server
+        docker push ghcr.io/${{ github.repository_owner }}/capstone-server:latest
