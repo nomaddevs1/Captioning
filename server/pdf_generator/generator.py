@@ -22,5 +22,8 @@ def generate_pdf(html_data: str):
             "margin-bottom": "1in",
             "margin-left": "1in",
             "margin-right": "1in",
+            "enable-javascript": True,
+            "javascript-delay": 1000,  # may need to adjust the delay
+            "no-stop-slow-scripts": True,
         },
     )

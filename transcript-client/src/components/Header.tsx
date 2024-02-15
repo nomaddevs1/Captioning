@@ -1,7 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
 import { Link } from 'react-router-dom';
-import AboutModal from "./AboutModal";
-import TutorialPopup from "./TutorialPopup";
+import AboutModal from "./tutorials/AboutModal";
+import TutorialPopup from "./tutorials/TutorialPopup";
 
 
 function Header({ tutorialList }: any){

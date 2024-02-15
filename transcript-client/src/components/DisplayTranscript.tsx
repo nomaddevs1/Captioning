@@ -6,8 +6,8 @@ import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptConte
 import AudioControls from "./AudioControls";
 import { Eraser } from "@phosphor-icons/react";
 import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
-import InteractiveTranscriptView from "src/components/InteractiveTranscript";
-import StandardTranscriptView from "src/components/StandardTranscriptView";
+import InteractiveTranscriptView from "src/components/views/InteractiveTranscript";
+import StandardTranscriptView from "src/components/views/StandardTranscriptView";
 //@ts-ignore
 import { EditorState } from 'draft-js';
 
@@ -67,7 +67,7 @@ const DisplayTranscript: React.FC = () => {
         />
       )}
       {isInteractiveMode && transcriptionData ? (
-        <Box height="73vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
+        <Box height="70vh" overflowY={"auto"} mt={4}  flex="1" pos="relative" bg={"white"} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}

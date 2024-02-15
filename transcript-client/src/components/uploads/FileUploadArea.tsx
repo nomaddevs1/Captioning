@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Text, Flex } from "@chakra-ui/react";
 //@ts-ignore
-import upload_logo from '../assets/upload_logo.svg';
+import upload_logo from 'src/assets/upload_logo.svg';
 
 interface UploadProps {
   getInputProps: () => JSX.IntrinsicAttributes & React.ClassAttributes<HTMLInputElement> & React.InputHTMLAttributes<HTMLInputElement>;
