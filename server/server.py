@@ -3,7 +3,7 @@ from config import (
     ADDRESS,
     CLIENT_URL,
     HOST_URL,
-    OPEN_API_KEY,
+    OPENAI_API_KEY,
     LOG_FILE,
     PORT,
     MODE,
@@ -18,7 +18,7 @@ import uvicorn
 
 # remove API keys and other sensitive info from system environment variables:
 scrub_sensitive_environment_variables()
-openai.api_key = OPEN_API_KEY
+openai.api_key = OPENAI_API_KEY
 init_logger(LOG_FILE)
 
 app: FastAPI = None
@@ -27,7 +27,6 @@ if MODE == "PROD":
     app = FastAPI(redoc_url=None, docs_url=None)
 else:
     app = FastAPI()
-
 
 logging.info(f"Server listening at {HOST_URL}")
 # Add CORS middleware

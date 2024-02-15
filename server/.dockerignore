@@ -3,11 +3,7 @@ __pycache__/
 __pycache__
 *.py[cod]
 *$py.class
-*.mp3
 
-
-# Audio files
-*.mp3
 # C extensions
 *.so
 
@@ -129,6 +125,8 @@ cython_debug/
 
 tests
 README.md
+.gitignore
+deployment-files
 *.m4a
 *.mp3
 *.wav
