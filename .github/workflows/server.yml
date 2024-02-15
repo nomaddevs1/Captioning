@@ -1,5 +1,4 @@
-name: fastapi-github-actions-test
-
+name: test-server-code
 on:
   push:
     branches: [main]
