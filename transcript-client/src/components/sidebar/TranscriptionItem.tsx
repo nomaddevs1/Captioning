@@ -43,7 +43,7 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
         bg="primary.gray.100" 
         height="40px" 
         zIndex="100" 
-        width="97vw"
+        width="95vw"
         boxShadow={{base: "rgba(100,100,111,0.2) 0px 7px 29px 0px", md: "none"}}
       >
         <Text mb="0px" width="90%" fontSize="1.2625rem" fontWeight="800" color={"neutral.50"}>

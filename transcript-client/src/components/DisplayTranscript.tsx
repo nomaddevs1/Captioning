@@ -65,7 +65,7 @@ const DisplayTranscript = ({ updateTutorialList }: any) => {
         />
       )}
       {isInteractiveMode && transcriptionData ? (
-        <Box height="70vh" overflowY={"auto"} mt={4}  flex="1" pos="relative" bg={"white"} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
+        <Box height={{base: "54vh", md: "70vh"}} overflowY={"auto"} mt={4}  flex="1" pos="relative" bg={"white"} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}
@@ -74,7 +74,7 @@ const DisplayTranscript = ({ updateTutorialList }: any) => {
           />
         </Box>
       ) : (
-        <Box height="80vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
+        <Box height={{base: "64vh", md: "80vh"}} overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
           <StandardTranscriptView
             setInitialContentState={setInitialContentState}
               editorRef={editorRef}
