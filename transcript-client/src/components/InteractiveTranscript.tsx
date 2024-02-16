@@ -33,3 +33,4 @@ const InteractiveTranscriptView: React.FC<InteractiveTranscriptViewProps> = ({ s
 };
 
 export default InteractiveTranscriptView;
+

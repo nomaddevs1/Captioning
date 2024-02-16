@@ -1,4 +1,5 @@
 import { Flex, CircularProgress, CircularProgressLabel, Text } from "@chakra-ui/react";
+//@ts-ignore
 import upload_logo from 'src/assets/upload_logo.svg'; 
 
 interface ProgressProps {

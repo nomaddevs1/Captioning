@@ -19,6 +19,7 @@ from common_fixtures import (
 )
 from server import app
 
+
 # Testing srt_time_to_seconds function
 def test_srt_time_to_seconds():
     assert srt_time_to_seconds("00:01:02,000") == 62

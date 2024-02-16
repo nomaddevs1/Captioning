@@ -1,7 +1,7 @@
 import { useState, ReactNode } from 'react';
 import { Box, Text, Flex, Select } from "@chakra-ui/react";
 //@ts-ignore
-import upload_logo from '../assets/upload_logo.svg';
+import upload_logo from 'src/assets/upload_logo.svg';
 
 interface UploadedFileInfoProps {
   file: File;
