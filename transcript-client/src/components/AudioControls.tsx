@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, Progress } from "@chakra-ui/react";
+import { Box,  Flex, Text } from "@chakra-ui/react";
 import { Pause, Play } from "@phosphor-icons/react";
 import { formatTime, calculatePercentage } from "src/utils/audioUtils";
 
