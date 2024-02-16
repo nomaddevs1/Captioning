@@ -40,6 +40,7 @@ const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
         bottom="0"
         width="100%"
         transition="height 0.3s ease"
+        boxShadow={{base: "rgba(100,100,111,0.2) 0px 0px 10px", md: "none"}}
       >
         <TranscriptionSideBar>
           <TranscriptionBarItem title={"Transcription Settings"} toggleSidebar={toggleSidebar} collapsed={collapsed}>

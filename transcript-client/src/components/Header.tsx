@@ -39,13 +39,12 @@ function Header({ tutorialList }: any){
                 </IconButton>
                 <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
                     <DrawerContent mt="80px">
-                        <DrawerBody bg="primary.gray.100" display="flex" justifyContent="center">
+                        <DrawerBody bg="primary.gray.100" display="flex" flexDirection="column" gap="6px">
                             <AboutModal />
                             <TutorialPopup tutorials={tutorialList} />
                         </DrawerBody>
                     </DrawerContent>
                 </Drawer>
-
             </Box>
         </Flex>
     );

@@ -52,7 +52,7 @@ const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
 
     return (
         <>
-            <Button onClick={onOpen} variant="link" fontSize="lg" color="white">Help</Button>
+            <Button onClick={onOpen} variant="link" fontSize={{base: "xl", md: "lg"}} color="white">Help</Button>
 
             <Modal isOpen={isOpen} onClose={nextTutorial} size="sm" motionPreset="none">
                 <ModalOverlay bg='blackAlpha.500'/>
