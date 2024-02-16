@@ -1,8 +1,6 @@
 import React, { useRef, useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
-
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
-
 import AudioControls from "./AudioControls";
 import { Eraser } from "@phosphor-icons/react";
 import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
@@ -12,7 +10,7 @@ import StandardTranscriptView from "src/components/views/StandardTranscriptView"
 import { EditorState } from 'draft-js';
 
 
-const DisplayTranscript: React.FC = () => {
+const DisplayTranscript = ({ updateTutorialList }: any) => {
   const {
     transcriptionData,
     toggleInteractiveMode,
@@ -31,30 +29,30 @@ const DisplayTranscript: React.FC = () => {
   const editorRef = useRef(null);
   const [currentStyleMap, setCurrentStyleMap] = useState({});
   
-  
 
   return (
     <Box height="100%" p={4}>
-      <Button
-        onClick={() => resetEditor(initialContentState)}
-        leftIcon={<Eraser size={24} />}
-        colorScheme="teal"
-        variant="solid"
-        size="sm"
-      >
-        Reset Editor
-      </Button>
-      <Button
-        onClick={toggleInteractiveMode}
-        ml={4}
-        colorScheme={isInteractiveMode ? "pink" : "blue"}
-        variant="outline"
-        size="sm"
-      >
-        {isInteractiveMode
-          ? "Switch to Standard View"
-          : "Switch to Interactive View"}
-      </Button>
+      <Flex flexDirection={{base: "column", md: "row"}} gap={{base: "2", md: "4"}}>
+        <Button
+          onClick={() => resetEditor(initialContentState)}
+          leftIcon={<Eraser size={24} />}
+          colorScheme="teal"
+          variant="solid"
+          size="sm"
+        >
+          Reset Editor
+        </Button>
+        <Button
+          onClick={toggleInteractiveMode}
+          colorScheme={isInteractiveMode ? "pink" : "blue"}
+          variant="outline"
+          size="sm"
+        >
+          {isInteractiveMode
+            ? "Switch to Standard View"
+            : "Switch to Interactive View"}
+        </Button>
+      </Flex>
       {showAudioControls && (
         <AudioControls
           onSeek={handleSeek}
@@ -67,20 +65,22 @@ const DisplayTranscript: React.FC = () => {
         />
       )}
       {isInteractiveMode && transcriptionData ? (
-        <Box height="70vh" overflowY={"auto"} mt={4}  flex="1" pos="relative" bg={"white"} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
+        <Box height={{base: "54vh", md: "70vh"}} overflowY={"auto"} mt={4}  flex="1" pos="relative" bg={"white"} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}
             currentTime={currentTime} 
+            updateTutorialList={updateTutorialList}
           />
         </Box>
       ) : (
-        <Box height="80vh" overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
+        <Box height={{base: "64vh", md: "80vh"}} overflowY={"auto"} mt={4} pos="relative" bg="white" borderRadius={4} p={4} textAlign="left">
           <StandardTranscriptView
             setInitialContentState={setInitialContentState}
               editorRef={editorRef}
               currentStyleMap={currentStyleMap}
               setCurrentStyleMap={setCurrentStyleMap}
+              updateTutorialList={updateTutorialList}
             // onChange={onEditorChange}
           />
         </Box>

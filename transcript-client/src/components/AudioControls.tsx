@@ -28,11 +28,11 @@ const AudioControls: React.FC<AudioControlsProps> = ({
   return (
     <Box
       bottom={0}
-      left={360}
-      width="75%"
+      left={{base: 0, md: 360}}
+      width={{base: "100%", md: "75%"}}
       p={4}
     >
-      <Flex align="center" justify="space-between">
+      <Flex align="center" justify="space-between" gap="4">
         <Box onClick={onPlayPause} cursor="pointer">
           {!isPlaying ? <Play size={32} /> : <Pause size={32} />}
         </Box>

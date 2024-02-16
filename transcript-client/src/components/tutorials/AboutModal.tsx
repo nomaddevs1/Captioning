@@ -16,7 +16,7 @@ function AboutModal(){
 
     return (
         <>
-            <Button onClick={onOpen} variant="link" fontSize="lg" color={"white"} >About</Button>
+            <Button onClick={onOpen} variant="link" fontSize={{base: "xl", md: "lg"}} color="white">About</Button>
 
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
                 <ModalOverlay />
