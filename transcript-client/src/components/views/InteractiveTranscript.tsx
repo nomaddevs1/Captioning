@@ -2,20 +2,23 @@
 import React, { useRef, useEffect } from "react";
 import { Box } from "@chakra-ui/react";
 import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
+import { interactiveTutorials } from "src/utils/interactiveTutorials";
 
 interface InteractiveTranscriptViewProps {
   segments: TranscriptionSegment[];
   onSegmentClick: (startTime: number) => void;
   currentTime: number;
-
+  updateTutorialList: (tutorial_list: any) => void;
 }
 
 const InteractiveTranscriptView: React.FC<InteractiveTranscriptViewProps> = ({
   segments,
   onSegmentClick,
   currentTime,
+  updateTutorialList
 }) => {
   const segmentRefs = useRef(new Array(segments.length));
+  updateTutorialList(interactiveTutorials);
 
   useEffect(() => {
   const activeSegmentIndex = segments.findIndex(
