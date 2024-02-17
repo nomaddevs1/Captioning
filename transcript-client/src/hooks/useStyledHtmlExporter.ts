@@ -18,10 +18,7 @@ const useStyledHtmlExporter = (
   { fontSize, fontStyle, wordSpacing, lineHeight, fontColor, allHighlightColors }: StyledHtmlExporterConfig
 ): string => {
   // Convert Draft.js editor state to HTML and apply styles
-   const highlightStyles = allHighlightColors.map(color => {
-      const className = `highlight-${color.replace('#', '')}`;
-      return `.${className} { background-color: ${color}; }`;
-    }).join(' ');
+ 
   const styledHtml = useMemo(() => {
     const contentState = editorState.getCurrentContent();
     const exportOptions = getExportOptions(allHighlightColors);

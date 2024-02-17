@@ -18,7 +18,10 @@ const InteractiveTranscriptView: React.FC<InteractiveTranscriptViewProps> = ({
   updateTutorialList
 }) => {
   const segmentRefs = useRef(new Array(segments.length));
-  updateTutorialList(interactiveTutorials);
+  
+    useEffect(() => {
+    updateTutorialList(interactiveTutorials);
+  }, [updateTutorialList]);
 
   useEffect(() => {
   const activeSegmentIndex = segments.findIndex(

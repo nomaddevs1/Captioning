@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 //@ts-ignore
 import { Editor, EditorState } from "draft-js";
-import { handleKeyCommand, styleMap } from "src/utils/draftJsStylingUtils";
+import { handleKeyCommand } from "src/utils/draftJsStylingUtils";
 import { Box } from "@chakra-ui/react";
 import useEditorHook from "src/hooks/useEditor";
 import { useTranscription } from "src/context/TranscriptionContext";
@@ -42,8 +42,10 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
   const onChange = (newState: EditorState) => {
     setEditorState(newState);
   };
-  updateTutorialList(standardTutorials);
-
+    useEffect(() => {
+    updateTutorialList(standardTutorials);
+    }, [updateTutorialList]);
+  
   useEditorHook({
     setInitialContentState,
     transcriptionData,
