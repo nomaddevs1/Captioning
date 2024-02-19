@@ -22,7 +22,8 @@ function Header({ tutorialList }: any){
             padding=" 0 6rem" 
             boxShadow="0px 1px 2px  2px rgba(0, 0, 0, 0.13)" 
             justifyContent={{base: "center", md: "left"}}
-        >   <Link to="/upload">
+        >   
+            <Link to="/upload">
                 <Logo as="button" onClick={refreshPage} width="50px" height="50px" fill='white' stroke='white' stroke-width="10"/>
             </Link>
             <Link to="/upload">
