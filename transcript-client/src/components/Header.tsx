@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
-
+import {ReactComponent as Logo} from 'src/assets/header_logotext.svg';
 
 function Header({ tutorialList }: any){
     const {isOpen, onOpen, onClose} = useDisclosure()
@@ -22,7 +22,9 @@ function Header({ tutorialList }: any){
             padding=" 0 6rem" 
             boxShadow="0px 1px 2px  2px rgba(0, 0, 0, 0.13)" 
             justifyContent={{base: "center", md: "left"}}
-        >
+        >   <Link to="/upload">
+                <Logo width="50px" height="50px" fill='white' stroke='white' stroke-width="0"/>
+            </Link>
             <Link to="/upload">
                 <Box as="button" onClick={refreshPage} color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
             </Link>
