@@ -1,5 +1,5 @@
-import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody } from "@chakra-ui/react";
-import { Link } from 'react-router-dom';
+import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody, Button } from "@chakra-ui/react";
+import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
@@ -7,6 +7,10 @@ import { List } from "@phosphor-icons/react";
 
 function Header({ tutorialList }: any){
     const {isOpen, onOpen, onClose} = useDisclosure()
+    const navigate = useNavigate();
+    const refreshPage = () => {
+        navigate(0)
+    }
 
     return (
         <Flex 
@@ -20,7 +24,7 @@ function Header({ tutorialList }: any){
             justifyContent={{base: "center", md: "left"}}
         >
             <Link to="/upload">
-                <Box as="button" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
+                <Box as="button" onClick={refreshPage} color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
             </Link>
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
