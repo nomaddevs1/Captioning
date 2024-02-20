@@ -96,11 +96,15 @@ function Upload({ updateTutorialList }: UploadProps) {
           setTranscriptionData(data.transcript);
           navigate("/transcription", { state: { uploadedFile: uploaded } });
         }, 1000); // Pass the uploaded file to the TranscriptionPage
-      } catch (err) {
+      } catch (err: any) {
         setIsLoading(false);
-        toast.error(
-          "Error uploading file. Please ensure file is an acceptable format."
-        );
+        if (err.message) {
+          toast.error(err.message); // get error message from server
+        } else {
+          toast.error(
+            "Error uploading file. Please ensure file is an acceptable format."
+          );
+        }
       } finally {
         setTimeout(() => {
           setIsLoading(false);
