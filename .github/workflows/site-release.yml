@@ -14,9 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      REACT_APP_PROD: true
-
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
