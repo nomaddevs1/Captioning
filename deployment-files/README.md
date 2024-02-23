@@ -120,6 +120,7 @@ sudo certbot --nginx -n --agree-tos \
 
 ```sh
 sudo cp ./transcribro.conf /etc/nginx/sites-available/
+sudo rm /etc/nginx/sites-available/default
 sudo ln -sf /etc/nginx/sites-available/transcribro.conf /etc/nginx/sites-enabled
 sudo systemctl restart nginx.service
 ```

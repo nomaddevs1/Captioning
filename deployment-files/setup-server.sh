@@ -19,6 +19,7 @@ setupTranscribroUser() {
     useradd transcribro -m
     # add user transcribro to the docker group
     usermod -aG docker transcribro
+    ssh-keygen -t ed25519 -f transcribro -C transcribro-user
 }
 
 setupDocker() {
@@ -44,15 +45,16 @@ setupNginx() {
     # set transcribro user as owner of transcribro.conf
     chown transcribro:transcribro /etc/nginx/sites-available/transcribro.conf
     chmod 644 /etc/nginx/sites-available/transcribro.conf
+    rm /etc/nginx/sites-available/default
     ln -sf /etc/nginx/sites-available/transcribro.conf /etc/nginx/sites-enabled
     systemctl restart nginx.service
 }
 
 setupSiteFiles() {
     mkdir -p /var/www/transcribro
+    cp -ar ./site/. /var/www/transcribro
     chown transcribro:transcribro /var/www/transcribro/ -R
     chmod 664 /var/www/transcribro/ -R
-    cp -ar ./site/. /var/www/transcribro
 }
 
 if [[ $DISTRIB_ID == 'Ubuntu' ]]; then
