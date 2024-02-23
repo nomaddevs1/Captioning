@@ -34,10 +34,6 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
     with open(audio_filename, "wb") as f:
         f.write(audio_file.file.read())
 
-    with audioread.audio_open(audio_filename) as audio_file:
-        totalsec = audio_file.duration
-        hours, mins, seconds = duration_detector(int(totalsec))
-
     audio_file = open(audio_filename, "rb")
     try:
         logging.info(f"Beginning to transcribe audio file {audio_filename}")
