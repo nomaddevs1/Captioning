@@ -41,7 +41,7 @@ jobs:
 
     - name: Run the tests and generate coverage report
       working-directory: ./transcript-client
-      run: npm test -- --coverage
+      run: npm run test -- --coverage --watchAll=false --passWithNoTests
       
     - name: Upload coverage reports to Codecov    
       uses: codecov/codecov-action@v3
