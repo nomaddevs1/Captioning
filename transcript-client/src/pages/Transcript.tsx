@@ -15,11 +15,7 @@ import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/component/ColorPickerInput";
 import StyleSwitch from "src/components/component/SwitchButtonIcon";
 
-interface TranscriptProps{
-  updateTutorialList: (tutorial_list: any) => void
-}
-
-const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
+const TranscriptionPage = () => {
   const transcriptionContext = useTranscription();
   const [collapsed, setCollapsed] = useState(true);
 
@@ -90,7 +86,7 @@ const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
       </GridItem>
       <GridItem area={"main"}>
         <Flex flexDirection="column">
-          <DisplayTranscript updateTutorialList={updateTutorialList}/>
+          <DisplayTranscript/>
         </Flex>
       </GridItem>
     </Grid>

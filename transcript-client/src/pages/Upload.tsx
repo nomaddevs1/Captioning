@@ -7,16 +7,13 @@ import UploadedFileInfo from "src/components/uploads/UploadedFileInfo";
 import FileUploadArea from "src/components/uploads/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
 import { useAudioContext } from "src/context/AudioContext";
+import { useTutorialContext } from 'src/context/TutorialContext';
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-interface UploadProps {
-  updateTutorialList: (tutorial_list: any) => void;
-}
-
-const tutorial_list = [
+const uploadTutorialList = [
   {
     position: {
       pos: "fixed",
@@ -27,7 +24,7 @@ const tutorial_list = [
   },
 ];
 
-function Upload({ updateTutorialList }: UploadProps) {
+function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState(false)
@@ -37,9 +34,16 @@ function Upload({ updateTutorialList }: UploadProps) {
   const navigate = useNavigate();
   const { setTranscriptionData } = useTranscription();
   const [languageCode, setLanguageCode] = useState("en");
+  const { updateTutorialList } = useTutorialContext();
 
   useEffect(() => {
-    updateTutorialList(tutorial_list);
+    updateTutorialList(uploadTutorialList);
+    /*
+    const visitedUpload = localStorage.getItem("visitedUpload");
+    if (!visitedUpload) {
+      localStorage.setItem("visitedUpload", 'true');
+    }
+    */
   }, [updateTutorialList]);
 
   const { setAudioFile } = useAudioContext();
@@ -82,8 +86,8 @@ function Upload({ updateTutorialList }: UploadProps) {
           formData,
           {
             onUploadProgress: (progressEvent) => {
-              //@ts-ignorex
               const percentCompleted = Math.round(
+                //@ts-ignore
                 (progressEvent.loaded * 100) / progressEvent?.total
               );
               setProgress(() => Math.min(percentCompleted, 100)); // Update based on previous progress

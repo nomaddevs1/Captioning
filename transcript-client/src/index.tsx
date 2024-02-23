@@ -8,6 +8,7 @@ import App from "src/App";
 import theme from "src/theme/theme";
 import { AudioProvider } from "./context/AudioContext";
 import { EditorProvider } from "./context/EditorContext";
+import { TutorialProvider } from "./context/TutorialContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -16,13 +17,15 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ChakraProvider theme={theme}>
-        <TranscriptionProvider>
-          <EditorProvider>
-            <AudioProvider>
-              <App />
-            </AudioProvider>
-          </EditorProvider>
-        </TranscriptionProvider>
+        <TutorialProvider>
+          <TranscriptionProvider>
+            <EditorProvider>
+              <AudioProvider>
+                <App />
+              </AudioProvider>
+            </EditorProvider>
+          </TranscriptionProvider>
+        </TutorialProvider>
       </ChakraProvider>
       <ToastContainer />
     </BrowserRouter>
