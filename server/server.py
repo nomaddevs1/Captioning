@@ -38,7 +38,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
-    expose_headers=["*"]
+    expose_headers=["*"],
 )
 
 if __name__ == "__main__":
