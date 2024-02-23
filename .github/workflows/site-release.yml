@@ -1,4 +1,4 @@
-name: publish-server-container
+name: create-deployment-release
 
 on:
   workflow_dispatch:
