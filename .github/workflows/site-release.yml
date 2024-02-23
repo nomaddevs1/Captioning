@@ -39,5 +39,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: deployment-files.tar.gz
-        tag_name: "Deployment Files"
+        tag_name: "deployment-files"
 
