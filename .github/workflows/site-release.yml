@@ -14,12 +14,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      PROD: true
+
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: '18.x'
-        # cache: 'npm'
         
     - name: Install dependencies
       working-directory: ./transcript-client
