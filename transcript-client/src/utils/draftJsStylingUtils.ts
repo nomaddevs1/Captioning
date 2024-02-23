@@ -1,6 +1,6 @@
 // src/utils/draftJsStylingUtils.ts
 //@ts-ignore
-import {  EditorState, Modifier, RichUtils } from 'draft-js';
+import {  EditorState, RichUtils } from 'draft-js';
 
 
 export const styleMap = (allHighlightColors: string[]) => {

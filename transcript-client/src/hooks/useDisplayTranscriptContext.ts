@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranscription } from "src/context/TranscriptionContext";
 import { useAudioContext } from "src/context/AudioContext";
-//@ts-ignore
-import { EditorState, ContentState } from "draft-js";
+import { EditorState } from "draft-js";
 import { TranscriptionData } from "src/types/transcriptionDataTypes";
 import { useLocation } from "react-router-dom";
 import { useEditor } from "src/context/EditorContext";
@@ -24,7 +23,7 @@ interface UseDisplayTranscriptContextReturn {
 }
 
 export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn => {
-  const { editorState, setEditorState } = useEditor();
+  const { setEditorState } = useEditor();
   const [isInteractiveMode, setIsInteractiveMode] = useState(false);
   const [showAudioControls, setShowAudioControls] = useState(false);
   const { transcriptionData, resetStyles } = useTranscription(); // Assume it returns transcription data and other relevant states

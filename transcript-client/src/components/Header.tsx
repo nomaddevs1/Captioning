@@ -1,4 +1,4 @@
-import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody, Button } from "@chakra-ui/react";
+import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody } from "@chakra-ui/react";
 import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";

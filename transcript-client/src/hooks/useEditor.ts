@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-//@ts-ignore
 import { convertFromRaw, EditorState, Modifier } from "draft-js";
 import { useEditor } from "src/context/EditorContext";
 import { styleMap } from "src/utils/draftJsStylingUtils";
@@ -43,12 +42,12 @@ function useEditorHook({
       setInitialContentState(initialEditorState);
     
     }
-  }, [transcriptionData]);
+  }, [transcriptionData, editorState, setEditorState, setInitialContentState]);
 
   useEffect(() => {
     const newCustomStyleMap = styleMap(allHighlightColors); // Function to generate dynamic style map
     setCurrentStyleMap(newCustomStyleMap);
-  }, [allHighlightColors]);
+  }, [allHighlightColors, setCurrentStyleMap]);
 
   const editorStateHasContent =(editorState: EditorState): boolean => {
     return editorState.getCurrentContent().hasText();
@@ -76,7 +75,7 @@ function useEditorHook({
             setEditorState(EditorState.forceSelection(newEditorState, selection));
           }
         }
-  }, [isBold, isItalic, isUnderline,])
+  }, [isBold, isItalic, isUnderline, editorState, setEditorState])
 
 
   useEffect(() => {
@@ -101,7 +100,7 @@ function useEditorHook({
         setEditorState(EditorState.forceSelection(newEditorState, selection));
       }
     }
-  }, [ allHighlightColors]);
+  }, [allHighlightColors, editorState, setEditorState]);
 
   // Update the state of the style toggles based on the current selection
   useEffect(() => {
