@@ -4,6 +4,7 @@ from utils import duration_detector
 from models.status import ErrorMessage
 from transcriber import transcribe_file, Transcript
 import logging
+import os
 
 router = APIRouter()
 
@@ -40,6 +41,7 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         logging.info(f"Successfully generated transcript data")
     except Exception as e:
         audio_file.close()
+        os.delete(audio_filename)
         logging.error(e)
         return JSONResponse(
             ErrorMessage(error="error transcribing the file").model_dump_json(),
@@ -47,5 +49,6 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         )
 
     audio_file.close()
+    os.delete(audio_filename)
 
     return transcript
