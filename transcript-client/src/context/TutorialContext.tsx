@@ -28,7 +28,7 @@ export const TutorialProvider = ({ children }: any) => {
         },
     ]});
 
-    const toggleHelp = useRef(null);
+    const toggleHelp = useRef<HTMLButtonElement>(null);
 
     const updateTutorialList = (newTutorialList: Tutorial) => {
         setTutorialList(newTutorialList);
@@ -38,7 +38,6 @@ export const TutorialProvider = ({ children }: any) => {
         const visited = localStorage.getItem(`visited_${tutorialList.id}`);
         if(!visited && toggleHelp.current){
             localStorage.setItem(`visited_${tutorialList.id}`, 'true');
-            //@ts-ignore
             toggleHelp.current.click();
         }
     }, [tutorialList.id]);
