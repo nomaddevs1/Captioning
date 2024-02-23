@@ -1,4 +1,3 @@
-import audioread
 from fastapi import APIRouter, UploadFile, status
 from fastapi.responses import JSONResponse
 from utils import duration_detector
