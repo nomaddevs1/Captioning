@@ -1,0 +1,42 @@
+name: publish-server-container
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths: [transcript-client/**]
+    types: [closed]
+  push:
+    branches: [main]
+    paths: [transcript-client/**]
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      working-directory: ./transcript-client
+      run: npm install
+
+    - name: Install dependencies
+      working-directory: ./transcript-client
+      run: npm run build
+
+    - name: Move built static files into deployment-files directory
+      run: mv ./transcript-client/build ./deployment-files/site
+
+    - name: Package deployment files into a tar.gz archive
+      run: tar -czvf deployment-files.tar.gz ./deployment-files
+
+    - name: Create release for deployment files
+      uses: softprops/action-gh-release@v1
+      with:
+        files: deployment-files.tar.gz
+
