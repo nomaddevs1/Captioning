@@ -1,6 +1,6 @@
 services:
   server:
-    image: ghcr.io/raian621/capstone-server:latest
+    image: ghcr.io/nomaddevs1/capstone-server:latest
     ports:
       - "8000:8000"
     environment:
