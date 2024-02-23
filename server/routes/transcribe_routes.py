@@ -19,7 +19,7 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
     audio_filename = audio_file.filename
     file_extension = audio_filename.split(".")[-1]
 
-    # we could just convert the file into an mp3 with ffmpeg and be done with it
+    # we could just convert the file into an mp3 with ffmpeg and be done with it :shrug:
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
         logging.warning(
             f"User uploaded a file with unsupported file extension '{file_extension}'."
