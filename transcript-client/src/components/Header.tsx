@@ -1,21 +1,24 @@
-import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody, Button } from "@chakra-ui/react";
+import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody, Button, useColorModeValue, useColorMode, Switch } from "@chakra-ui/react";
 import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 
 function Header({ tutorialList }: any){
+
+    const { colorMode, toggleColorMode } = useColorMode();
     const {isOpen, onOpen, onClose} = useDisclosure()
     const navigate = useNavigate();
     const refreshPage = () => {
-        navigate(0)
+        navigate(0)     
     }
-
+    const drawerBgColor = useColorModeValue("primary.gray.100", "black");
     return (
         <Flex 
             width="100%" 
-            bg="#121212" 
+            bg= {useColorModeValue("#121212", "black")} 
             height="80px" 
             alignItems="center" 
             pos="fixed" 
@@ -29,6 +32,14 @@ function Header({ tutorialList }: any){
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
                 <TutorialPopup tutorials={tutorialList} />
+               <Flex justify="flex-end" p={4}>
+                <IconButton
+                   aria-label="Toggle dark mode"
+                 icon={colorMode === 'dark' ? <FaSun /> : <FaMoon />}
+                 onClick={toggleColorMode}  height="40px" // Controls the height of the button
+                width="40px" 
+                         />
+                 </Flex>
             </Box>
             <Box display={{base: "flex", md: "none"}} alignItems="center">
                 <IconButton 
@@ -43,8 +54,8 @@ function Header({ tutorialList }: any){
                 </IconButton>
                 <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
                     <DrawerContent mt="80px">
-                        <DrawerBody bg="primary.gray.100" display="flex" flexDirection="column" gap="6px">
-                            <AboutModal />
+                        <DrawerBody bg= { drawerBgColor} display="flex" flexDirection="column" gap="6px">
+                            <AboutModal />a
                             <TutorialPopup tutorials={tutorialList} />
                         </DrawerBody>
                     </DrawerContent>
