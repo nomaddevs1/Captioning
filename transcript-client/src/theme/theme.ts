@@ -25,6 +25,10 @@ import { Alert } from "src/theme/components/alert"
 
 const theme = {
   styles: styles,
+  config: {
+    initialColorMode: 'light',
+    useSystemColorMode: false,
+  },
   colors: colors,
   borders: borders,
   spacing: spacing,

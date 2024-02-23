@@ -8,12 +8,15 @@ import App from "src/App";
 import theme from "src/theme/theme";
 import { AudioProvider } from "./context/AudioContext";
 import { EditorProvider } from "./context/EditorContext";
+import { ColorModeScript } from '@chakra-ui/react';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
+     <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <BrowserRouter>
       <ChakraProvider theme={theme}>
         <TranscriptionProvider>
