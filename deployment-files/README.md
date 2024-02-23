@@ -15,7 +15,7 @@ NOTE: Deployment files **MUST** be released on the GitHub repo before you can do
 Provided that the deployment files are released on the GitHub repo, you should be able to view them at https://github.com/nomaddevs1/capstone-deployment-test/releases/tag/deployment-files. You can download the `tar.gz` compressed archive containing the files necessary for deployment by running:
 
 ```sh
-wget -O https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
+wget https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
 ```
 
 After downloading the tar archive you can extract it by running:
@@ -152,7 +152,7 @@ ssh transcribro@<server-ip> -i ~/.ssh/transcribro
 Download the site-deployment files from GitHub:
 
 ```sh
-wget -O https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
+wget https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
 tar -xzvf deployment-files.tar.gz
 cd deployment-files
 ```
@@ -172,7 +172,7 @@ This will pull the latest docker image of the backend from the GitHub Container 
 To update the React site files, you must login as the transcribro user and then download the newest deployment files
 
 ```sh
-wget -O https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
+wget https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
 tar -xzvf deployment-files.tar.gz
 cd deployment-files
 ```
@@ -187,7 +187,7 @@ Update the site files by running the `update-site-files.sh` script:
 To update the NGINX configuration, you must log in as a sudo/admin user on your server and download the newest deployment files:
 
 ```sh
-wget -O https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
+wget https://github.com/nomaddevs1/capstone/releases/download/deployment-files/deployment-files.tar.gz
 tar -xzvf deployment-files.tar.gz
 cd deployment-files
 ```
