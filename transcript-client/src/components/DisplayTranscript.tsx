@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
 import AudioControls from "./AudioControls";
@@ -10,7 +10,7 @@ import StandardTranscriptView from "src/components/views/StandardTranscriptView"
 import { EditorState } from 'draft-js';
 
 
-const DisplayTranscript = ({ updateTutorialList }: any) => {
+const DisplayTranscript = () => {
   const {
     transcriptionData,
     toggleInteractiveMode,
@@ -70,7 +70,6 @@ const DisplayTranscript = ({ updateTutorialList }: any) => {
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}
             currentTime={currentTime} 
-            updateTutorialList={updateTutorialList}
           />
         </Box>
       ) : (
@@ -80,7 +79,6 @@ const DisplayTranscript = ({ updateTutorialList }: any) => {
               editorRef={editorRef}
               currentStyleMap={currentStyleMap}
               setCurrentStyleMap={setCurrentStyleMap}
-              updateTutorialList={updateTutorialList}
             // onChange={onEditorChange}
           />
         </Box>

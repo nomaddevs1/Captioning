@@ -7,13 +7,13 @@ import useEditorHook from "src/hooks/useEditor";
 import { useTranscription } from "src/context/TranscriptionContext";
 import { useEditor } from "src/context/EditorContext";
 import { standardTutorials } from "src/utils/standardTutorials";
+import { useTutorialContext } from 'src/context/TutorialContext';
 
 interface StandardTranscriptViewProps {
   setInitialContentState: (editorState: EditorState) => void;
   editorRef: React.MutableRefObject<null>;
   currentStyleMap: any;
   setCurrentStyleMap: (styles: any) => void
-  updateTutorialList: (tutorial_list: any) => void;
 }
 
 const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
@@ -21,7 +21,6 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
   editorRef,
   currentStyleMap,
   setCurrentStyleMap,
-  updateTutorialList
 }) => {
   const {
     transcriptionData,
@@ -42,9 +41,11 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
   const onChange = (newState: EditorState) => {
     setEditorState(newState);
   };
-    useEffect(() => {
+  
+  const { updateTutorialList } = useTutorialContext();
+  useEffect(() => {
     updateTutorialList(standardTutorials);
-    }, [updateTutorialList]);
+  }, [updateTutorialList]);
   
   useEditorHook({
     setInitialContentState,
