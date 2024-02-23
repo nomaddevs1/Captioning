@@ -13,10 +13,10 @@ import { useTutorialContext } from 'src/context/TutorialContext';
 const TutorialPopup = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [currentIndex, setCurrentIndex] = useState(0);
-    const { tutorialList } = useTutorialContext();
+    const { tutorialList, toggleHelp } = useTutorialContext();
 
     const nextTutorial = () => {
-        if (currentIndex < tutorialList.length - 1) {
+        if (currentIndex < tutorialList.tutorials.length - 1) {
             setCurrentIndex(prevIndex => prevIndex + 1);
         } else {
             onClose();
@@ -25,7 +25,7 @@ const TutorialPopup = () => {
     }
 
     const displayTutorial = () => {
-        const currentTutorial = tutorialList[currentIndex];
+        const currentTutorial = tutorialList.tutorials[currentIndex];
 
         if(!currentTutorial){
             return null;
@@ -43,7 +43,7 @@ const TutorialPopup = () => {
 
     return (
         <>
-            <Button onClick={onOpen} id="toggleTutorial" variant="link" fontSize={{base: "xl", md: "lg"}} color="white">Help</Button>
+            <Button onClick={onOpen} ref={toggleHelp} id="toggleTutorial" variant="link" fontSize={{base: "xl", md: "lg"}} color="white">Help</Button>
 
             <Modal isOpen={isOpen} onClose={nextTutorial} size="sm" motionPreset="none">
                 <ModalOverlay bg='blackAlpha.500'/>
