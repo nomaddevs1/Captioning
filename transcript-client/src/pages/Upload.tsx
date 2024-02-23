@@ -82,15 +82,17 @@ function Upload({ updateTutorialList }: UploadProps) {
           formData,
           {
             onUploadProgress: (progressEvent) => {
-              //@ts-ignorex
+              const loaded = progressEvent.loaded || 0
+              const total = progressEvent.total || 1
+
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent?.total
+                (loaded * 100) / total
               );
               setProgress(() => Math.min(percentCompleted, 100)); // Update based on previous progress
             },
           }
         );
-        //@ts-ignore
+        
         toast.success("File successfully uploaded");
         setTimeout(() => {
           setTranscriptionData(data.transcript);
