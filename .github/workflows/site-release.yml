@@ -39,4 +39,4 @@ jobs:
       with:
         files: deployment-files.tar.gz
         tag_name: "deployment-files"
-
+        body_path: "deployment-files/README.md"
