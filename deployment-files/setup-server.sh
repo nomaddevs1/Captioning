@@ -10,8 +10,15 @@ source /etc/*-release
 
 aptInstallDeps() {
     apt update
-    apt install docker docker.io docker-compose nginx -y
+    apt install docker.io docker-compose nginx -y
     snap install --classic certbot
+}
+
+setupTranscribroUser() {
+    # create new user transcribro
+    useradd transcribro -m
+    # add user transcribro to the docker group
+    usermod -aG docker transcribro
 }
 
 setupDocker() {
@@ -34,25 +41,29 @@ setupCertbot() {
 
 setupNginx() {
     cp ./transcribro.conf /etc/nginx/sites-available/
+    # set transcribro user as owner of transcribro.conf
+    chown transcribro:transcribro /etc/nginx/sites-available/transcribro.conf
+    chmod 644 /etc/nginx/sites-available/transcribro.conf
     ln -sf /etc/nginx/sites-available/transcribro.conf /etc/nginx/sites-enabled
     systemctl restart nginx.service
 }
 
 setupSiteFiles() {
     mkdir -p /var/www/transcribro
+    chown transcribro:transcribro /var/www/transcribro/ -R
+    chmod 664 /var/www/transcribro/ -R
     cp -ar ./site/. /var/www/transcribro
 }
 
 if [[ $DISTRIB_ID == 'Ubuntu' ]]; then
     aptInstallDeps
     setupDocker
+    setupTranscribroUser
     setupSiteFiles
     setupFirewallUFW
     setupCertbot
     setupNginx
 else
     echo "Linux distribution '$DISTRIB_ID' unsupported, please install dependencies and configure server manually."
-    exit
+    exit 1
 fi
-
-echo "In order to deploy the docker containers for the backend, you must add the docker group to your current user by running `sudo usermod -aG docker $USER` and re-login to the server to apply the docker group to your current user."

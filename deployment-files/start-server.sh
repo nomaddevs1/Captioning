@@ -12,6 +12,12 @@
 # We could set up some elaborate secrets sharing infrastructure,
 # but I really can't be bothered to do that right now, and this
 # way is the simplest secure-ish way to pass the API key.
+
+if [[ $USER != 'transcribro' ]]; then 
+    echo "You must be logged in as user 'transcribro' to run this script"
+    exit
+fi
+
 read -p "OpenAI API key: " OPENAI_API_KEY
 export OPENAI_API_KEY=$OPENAI_API_KEY
 
