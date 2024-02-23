@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
 import AudioControls from "./AudioControls";

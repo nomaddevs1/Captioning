@@ -1,4 +1,15 @@
-import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody, Button } from "@chakra-ui/react";
+import {
+    Flex,
+    IconButton,
+    useDisclosure,
+    Button,
+    SystemStyleObject,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    Box,
+    Text
+} from "@chakra-ui/react"
 import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
@@ -6,7 +17,8 @@ import { List } from "@phosphor-icons/react";
 
 
 function Header({ tutorialList }: any){
-    const {isOpen, onOpen, onClose} = useDisclosure()
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     const navigate = useNavigate();
     const refreshPage = () => {
         navigate(0)
@@ -41,14 +53,12 @@ function Header({ tutorialList }: any){
                     right="2"
                 >
                 </IconButton>
-                <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
-                    <DrawerContent mt="80px">
-                        <DrawerBody bg="primary.gray.100" display="flex" flexDirection="column" gap="6px">
-                            <AboutModal />
-                            <TutorialPopup tutorials={tutorialList} />
-                        </DrawerBody>
-                    </DrawerContent>
-                </Drawer>
+                <Modal isOpen={isOpen} onClose={onClose} size="sm" motionPreset="none">
+                    <ModalContent bg="primary.gray.100" display="flex" padding="6px" flexDirection="column" gap="6px" mt="80px" borderRadius="none">
+                        <AboutModal />
+                        <TutorialPopup tutorials={tutorialList} />
+                    </ModalContent>
+                </Modal>
             </Box>
         </Flex>
     );
