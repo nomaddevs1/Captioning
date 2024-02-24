@@ -6,7 +6,6 @@ import { Eraser } from "@phosphor-icons/react";
 import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
 import InteractiveTranscriptView from "src/components/views/InteractiveTranscript";
 import StandardTranscriptView from "src/components/views/StandardTranscriptView";
-//@ts-ignore
 import { EditorState } from 'draft-js';
 
 

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-//@ts-ignore
 import { Editor, EditorState } from "draft-js";
 import { handleKeyCommand } from "src/utils/draftJsStylingUtils";
 import { Box } from "@chakra-ui/react";
@@ -76,6 +75,7 @@ const StandardTranscriptView: React.FC<StandardTranscriptViewProps> = ({
           customStyleMap={currentStyleMap}
           editorState={editorState}
           onChange={onChange}
+          //@ts-ignore
           handleKeyCommand={handleKeyCommand}
         />
       </Box>

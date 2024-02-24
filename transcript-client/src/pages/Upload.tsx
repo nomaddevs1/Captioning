@@ -90,7 +90,6 @@ function Upload() {
             },
           }
         );
-        //@ts-ignore
         toast.success("File successfully uploaded");
         setTimeout(() => {
           setTranscriptionData(data.transcript);
