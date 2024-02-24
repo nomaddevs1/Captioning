@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranscription } from "src/context/TranscriptionContext";
 import { useAudioContext } from "src/context/AudioContext";
-//@ts-ignore
-import { EditorState, ContentState } from "draft-js";
+import { EditorState } from "draft-js";
 import { TranscriptionData } from "src/types/transcriptionDataTypes";
 import { useLocation } from "react-router-dom";
 import { useEditor } from "src/context/EditorContext";
@@ -14,7 +13,7 @@ interface UseDisplayTranscriptContextReturn {
   handleSeek: (time: number) => void;
   showAudioControls: boolean;
   toggleShowAudioControls: () => void;
-  resetEditor: (initialEditorState: EditorState) => void;
+  resetEditor: (initialEditorState: EditorState | null) => void;
   audioFile: any;
   play: () => void;
   pause: () => void;
@@ -67,8 +66,9 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
     setShowAudioControls(!showAudioControls);
   };
 
-  const resetEditor = (initialEditorState: EditorState) => {
+  const resetEditor = (initialEditorState: EditorState | null) => {
     // if (initialEditorState) {
+    //@ts-ignore
       setEditorState(initialEditorState);
       resetStyles();
     // }

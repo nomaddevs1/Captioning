@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-//@ts-ignore
 import { convertFromRaw, EditorState, Modifier } from "draft-js";
 import { useEditor } from "src/context/EditorContext";
 import { styleMap } from "src/utils/draftJsStylingUtils";

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
-//@ts-ignore
 import TranscriptionBarItem from "src/components/sidebar/TranscriptionItem";
 import { SelectInput } from "src/components/component/SelectInput";
 import { useTranscription } from "src/context/TranscriptionContext";

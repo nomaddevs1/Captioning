@@ -6,9 +6,7 @@ interface TranscriptionData {
 
 
 interface TranscriptionContextType {
-  //@ts-ignore
   transcriptionData: TranscriptionData[] | null // Define the type for your transcription data appropriately
-  //@ts-ignore
   setTranscriptionData: (data: TranscriptionData[] | null) => void;
   fontSize: string;
   setFontSize: (fontSize: string) => void;
