@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Grid, GridItem, Flex } from "@chakra-ui/react";
 import TranscriptionSideBar from "src/components/sidebar/TranscriptionSideBar";
-//@ts-ignore
 import TranscriptionBarItem from "src/components/sidebar/TranscriptionItem";
 import { SelectInput } from "src/components/component/SelectInput";
 import { useTranscription } from "src/context/TranscriptionContext";
@@ -15,11 +14,7 @@ import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/component/ColorPickerInput";
 import StyleSwitch from "src/components/component/SwitchButtonIcon";
 
-interface TranscriptProps{
-  updateTutorialList: (tutorial_list: any) => void
-}
-
-const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
+const TranscriptionPage = () => {
   const transcriptionContext = useTranscription();
   const [collapsed, setCollapsed] = useState(true);
 
@@ -90,7 +85,7 @@ const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
       </GridItem>
       <GridItem area={"main"}>
         <Flex flexDirection="column">
-          <DisplayTranscript updateTutorialList={updateTutorialList}/>
+          <DisplayTranscript/>
         </Flex>
       </GridItem>
     </Grid>

@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-//@ts-ignore
 import { EditorState } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import { getExportOptions } from 'src/utils/draftJsStylingUtils';

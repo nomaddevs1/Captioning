@@ -13,7 +13,7 @@ interface UseDisplayTranscriptContextReturn {
   handleSeek: (time: number) => void;
   showAudioControls: boolean;
   toggleShowAudioControls: () => void;
-  resetEditor: (initialEditorState: EditorState) => void;
+  resetEditor: (initialEditorState: EditorState | null) => void;
   audioFile: any;
   play: () => void;
   pause: () => void;
@@ -66,8 +66,9 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
     setShowAudioControls(!showAudioControls);
   };
 
-  const resetEditor = (initialEditorState: EditorState) => {
+  const resetEditor = (initialEditorState: EditorState | null) => {
     // if (initialEditorState) {
+    //@ts-ignore
       setEditorState(initialEditorState);
       resetStyles();
     // }

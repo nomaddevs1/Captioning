@@ -16,13 +16,11 @@ const dynamicStyles = allHighlightColors.reduce((acc, color) => {
     'ITALIC': { fontStyle: 'italic' },
     'UNDERLINE': { textDecoration: 'underline' },
   };
-
 }
 
-//@ts-ignore
-export const getExportOptions = (allHighlightColors) => {
-  //@ts-ignore
-  const inlineStyleOptions = allHighlightColors.reduce((styles, color) => {
+export const getExportOptions = (allHighlightColors: any) => {
+
+  const inlineStyleOptions = allHighlightColors.reduce((styles: any, color: string) => {
     const styleKey = `HIGHLIGHT_${color.replace('#', '')}`;
     styles[styleKey] = { style: { backgroundColor: color } };
     return styles;
