@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
+//@ts-ignore
 import {ReactComponent as Logo} from 'src/assets/header_logo.svg';
 
 function Header({ tutorialList }: any){
@@ -24,10 +25,10 @@ function Header({ tutorialList }: any){
             justifyContent={{base: "center", md: "left"}}
         >   
             <Link to="/upload">
-                <Logo as="button" onClick={refreshPage} width="50px" height="50px" fill='white' stroke='white' stroke-width="10"/>
+                <Logo as="button" onClick={refreshPage} width="40px" height="40px" fill='white' stroke='white' stroke-width="10"/>
             </Link>
             <Link to="/upload">
-                <Box as="button" onClick={refreshPage} color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
+                <Box as="button" onClick={refreshPage} ml="10px" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
             </Link>
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
