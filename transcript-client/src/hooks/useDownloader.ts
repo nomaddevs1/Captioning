@@ -3,6 +3,7 @@ import { useTranscription } from "src/context/TranscriptionContext";
 import { useEditor } from "src/context/EditorContext";
 import useStyledHtmlExporter from "src/hooks/useStyledHtmlExporter";
 import useAxios from "src/hooks/useAxios";
+import { API_URL } from "src/utils/axios";
 
 interface Downloader {
   generatePDF: () => Promise<Blob>;
@@ -34,7 +35,7 @@ const useDownloader = (): Downloader => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/generate-pdf/",
+        `${API_URL}/generate-pdf/`,
         {
           raw_html: styledHtml,
         },

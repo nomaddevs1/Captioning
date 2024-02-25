@@ -75,7 +75,7 @@ function useEditorHook({
             setEditorState(EditorState.forceSelection(newEditorState, selection));
           }
         }
-  }, [isBold, isItalic, isUnderline,])
+  }, [isBold, isItalic, isUnderline])
 
 
   useEffect(() => {
@@ -100,7 +100,7 @@ function useEditorHook({
         setEditorState(EditorState.forceSelection(newEditorState, selection));
       }
     }
-  }, [ allHighlightColors]);
+  }, [allHighlightColors]);
 
   // Update the state of the style toggles based on the current selection
   useEffect(() => {
