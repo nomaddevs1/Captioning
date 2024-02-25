@@ -1,3 +1,0 @@
-[submodule "server/deployment-files"]
-	path = server/deployment-files
-	url = https://github.com/raian621/capstone-deployment-files.git

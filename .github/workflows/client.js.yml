@@ -6,11 +6,11 @@ name: Node.js CI
 on:
   push:
     paths:
-      - 'client/**'
+      - 'transcript-client/**'
     branches: [ "main" ]
   pull_request:
     paths:
-      - 'client/**'
+      - 'transcript-client/**'
     branches: [ "main" ]
 
 jobs:
@@ -29,17 +29,25 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        # cache: 'npm'
         
     - name: Install dependencies
+      working-directory: ./transcript-client
       run: npm install
 
+    - name: Run eslint
+      working-directory: ./transcript-client
+      run: npm run lint
+
     - name: Run the tests and generate coverage report
-      run: nom test -- --coverage
+      working-directory: ./transcript-client
+      run: npm run test -- --coverage --watchAll=false --passWithNoTests
       
-    - name: Upload coverage reports to Codecov
+    - name: Upload coverage reports to Codecov    
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
     - name: Build
+      working-directory: ./transcript-client
       run: npm run build --if-present

@@ -1,5 +1,5 @@
 // src/utils/draftJsStylingUtils.ts
-import {  EditorState, RichUtils } from 'draft-js';
+import { EditorState, RichUtils } from 'draft-js';
 
 
 export const styleMap = (allHighlightColors: string[]) => {
@@ -16,7 +16,6 @@ const dynamicStyles = allHighlightColors.reduce((acc, color) => {
     'ITALIC': { fontStyle: 'italic' },
     'UNDERLINE': { textDecoration: 'underline' },
   };
-
 }
 
 export const getExportOptions = (allHighlightColors: any) => {
