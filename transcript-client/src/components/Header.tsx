@@ -10,7 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
-
+//@ts-ignore
+import {ReactComponent as Logo} from 'src/assets/header_logo.svg';
 
 function Header(){
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -30,9 +31,12 @@ function Header(){
             padding=" 0 6rem" 
             boxShadow="0px 1px 2px  2px rgba(0, 0, 0, 0.13)" 
             justifyContent={{base: "center", md: "left"}}
-        >
+        >   
             <Link to="/upload">
-                <Box as="button" onClick={refreshPage} color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
+                <Logo as="button" onClick={refreshPage} width="40px" height="40px" fill='white' stroke='white' stroke-width="10"/>
+            </Link>
+            <Link to="/upload">
+                <Box as="button" onClick={refreshPage} ml="10px" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
             </Link>
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
