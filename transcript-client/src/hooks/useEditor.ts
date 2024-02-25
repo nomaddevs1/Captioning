@@ -42,12 +42,12 @@ function useEditorHook({
       setInitialContentState(initialEditorState);
     
     }
-  }, [transcriptionData, editorState, setEditorState, setInitialContentState]);
+  }, [transcriptionData]);
 
   useEffect(() => {
     const newCustomStyleMap = styleMap(allHighlightColors); // Function to generate dynamic style map
     setCurrentStyleMap(newCustomStyleMap);
-  }, [allHighlightColors, setCurrentStyleMap]);
+  }, [allHighlightColors]);
 
   const editorStateHasContent =(editorState: EditorState): boolean => {
     return editorState.getCurrentContent().hasText();
@@ -75,7 +75,7 @@ function useEditorHook({
             setEditorState(EditorState.forceSelection(newEditorState, selection));
           }
         }
-  }, [isBold, isItalic, isUnderline, editorState, setEditorState])
+  }, [isBold, isItalic, isUnderline])
 
 
   useEffect(() => {
@@ -100,7 +100,7 @@ function useEditorHook({
         setEditorState(EditorState.forceSelection(newEditorState, selection));
       }
     }
-  }, [allHighlightColors, editorState, setEditorState]);
+  }, [allHighlightColors]);
 
   // Update the state of the style toggles based on the current selection
   useEffect(() => {
