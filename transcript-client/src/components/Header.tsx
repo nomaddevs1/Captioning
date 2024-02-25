@@ -1,4 +1,11 @@
-import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody, Button } from "@chakra-ui/react";
+import {
+    Flex,
+    IconButton,
+    useDisclosure,
+    Modal,
+    ModalContent,
+    Box,
+} from "@chakra-ui/react"
 import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
@@ -6,8 +13,9 @@ import { List } from "@phosphor-icons/react";
 //@ts-ignore
 import {ReactComponent as Logo} from 'src/assets/header_logo.svg';
 
-function Header({ tutorialList }: any){
-    const {isOpen, onOpen, onClose} = useDisclosure()
+function Header(){
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     const navigate = useNavigate();
     const refreshPage = () => {
         navigate(0)
@@ -32,7 +40,7 @@ function Header({ tutorialList }: any){
             </Link>
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
-                <TutorialPopup tutorials={tutorialList} />
+                <TutorialPopup />
             </Box>
             <Box display={{base: "flex", md: "none"}} alignItems="center">
                 <IconButton 
@@ -45,14 +53,12 @@ function Header({ tutorialList }: any){
                     right="2"
                 >
                 </IconButton>
-                <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
-                    <DrawerContent mt="80px">
-                        <DrawerBody bg="primary.gray.100" display="flex" flexDirection="column" gap="6px">
-                            <AboutModal />
-                            <TutorialPopup tutorials={tutorialList} />
-                        </DrawerBody>
-                    </DrawerContent>
-                </Drawer>
+                <Modal isOpen={isOpen} onClose={onClose} size="sm" motionPreset="none">
+                    <ModalContent bg="primary.gray.100" display="flex" padding="6px" flexDirection="column" gap="6px" mt="80px" borderRadius="none">
+                        <AboutModal />
+                        <TutorialPopup />
+                    </ModalContent>
+                </Modal>
             </Box>
         </Flex>
     );

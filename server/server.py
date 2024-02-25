@@ -30,16 +30,16 @@ else:
 
 logging.info(f"Server listening at {HOST_URL}")
 # Add CORS middleware
+app.include_router(transcribe_routes.router)
+app.include_router(pdf_routes.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[HOST_URL, CLIENT_URL],  # List of allowed origins
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
+    expose_headers=["*"],
 )
-
-app.include_router(transcribe_routes.router)
-app.include_router(pdf_routes.router)
 
 if __name__ == "__main__":
     uvicorn.run(app, host=ADDRESS, port=int(PORT))

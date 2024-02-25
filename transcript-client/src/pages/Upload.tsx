@@ -7,27 +7,26 @@ import UploadedFileInfo from "src/components/uploads/UploadedFileInfo";
 import FileUploadArea from "src/components/uploads/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
 import { useAudioContext } from "src/context/AudioContext";
+import { useTutorialContext } from 'src/context/TutorialContext';
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-interface UploadProps {
-  updateTutorialList: (tutorial_list: any) => void;
-}
-
-const tutorial_list = [
-  {
-    position: {
-      pos: "fixed",
-      top: { base: "130px", md: "100px" },
-      right: { md: "4" },
+const uploadTutorials = {
+  id: "upload",
+  tutorials: [
+    {
+      position: {
+        pos: "fixed",
+        top: { base: "130px", md: "100px" },
+        right: { md: "4" },
+      },
+      text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.",
     },
-    text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.",
-  },
-];
+]};
 
-function Upload({ updateTutorialList }: UploadProps) {
+function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState(false)
@@ -37,9 +36,10 @@ function Upload({ updateTutorialList }: UploadProps) {
   const navigate = useNavigate();
   const { setTranscriptionData } = useTranscription();
   const [languageCode, setLanguageCode] = useState("en");
+  const { updateTutorialList } = useTutorialContext();
 
   useEffect(() => {
-    updateTutorialList(tutorial_list);
+    updateTutorialList(uploadTutorials);
   }, [updateTutorialList]);
 
   const { setAudioFile } = useAudioContext();
@@ -82,25 +82,31 @@ function Upload({ updateTutorialList }: UploadProps) {
           formData,
           {
             onUploadProgress: (progressEvent) => {
-              //@ts-ignorex
+              const loaded = progressEvent.loaded || 0
+              const total = progressEvent.total || 1
+
               const percentCompleted = Math.round(
-                (progressEvent.loaded * 100) / progressEvent?.total
+                (loaded * 100) / total
               );
               setProgress(() => Math.min(percentCompleted, 100)); // Update based on previous progress
             },
           }
         );
-        //@ts-ignore
+        
         toast.success("File successfully uploaded");
         setTimeout(() => {
           setTranscriptionData(data.transcript);
           navigate("/transcription", { state: { uploadedFile: uploaded } });
         }, 1000); // Pass the uploaded file to the TranscriptionPage
-      } catch (err) {
+      } catch (err: any) {
         setIsLoading(false);
-        toast.error(
-          "Error uploading file. Please ensure file is an acceptable format."
-        );
+        if (err.message) {
+          toast.error(err.message); // get error message from server
+        } else {
+          toast.error(
+            "Error uploading file. Please ensure file is an acceptable format."
+          );
+        }
       } finally {
         setTimeout(() => {
           setIsLoading(false);

@@ -1,10 +1,10 @@
-import audioread
 from fastapi import APIRouter, UploadFile, status
 from fastapi.responses import JSONResponse
 from utils import duration_detector
 from models.status import ErrorMessage
 from transcriber import transcribe_file, Transcript
 import logging
+import os
 
 router = APIRouter()
 
@@ -19,7 +19,7 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
     audio_filename = audio_file.filename
     file_extension = audio_filename.split(".")[-1]
 
-    # we could just convert the file into an mp3 with ffmpeg and be done with it
+    # we could just convert the file into an mp3 with ffmpeg and be done with it :shrug:
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
         logging.warning(
             f"User uploaded a file with unsupported file extension '{file_extension}'."
@@ -34,10 +34,6 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
     with open(audio_filename, "wb") as f:
         f.write(audio_file.file.read())
 
-    with audioread.audio_open(audio_filename) as audio_file:
-        totalsec = audio_file.duration
-        hours, mins, seconds = duration_detector(int(totalsec))
-
     audio_file = open(audio_filename, "rb")
     try:
         logging.info(f"Beginning to transcribe audio file {audio_filename}")
@@ -45,6 +41,7 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         logging.info(f"Successfully generated transcript data")
     except Exception as e:
         audio_file.close()
+        os.remove(audio_filename)
         logging.error(e)
         return JSONResponse(
             ErrorMessage(error="error transcribing the file").model_dump_json(),
@@ -52,5 +49,6 @@ async def transcribe_audio(audio_file: UploadFile, language: str):
         )
 
     audio_file.close()
+    os.remove(audio_filename)
 
     return transcript
