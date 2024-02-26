@@ -2,7 +2,6 @@ import { useState } from 'react';
 import {
     useDisclosure,
     Button,
-    SystemStyleObject,
     Modal,
     ModalOverlay,
     ModalContent,
@@ -10,24 +9,16 @@ import {
     Text,
     useColorModeValue
 } from "@chakra-ui/react"
+import { useTutorialContext } from 'src/context/TutorialContext';
 
-
-interface Tutorial {
-    position: SystemStyleObject;
-    text: String;
-}
-
-interface TutorialPopupProps {
-    tutorials: Tutorial[];
-}
-
-const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
+const TutorialPopup = () => {
     const bgColor = useColorModeValue("white", "primary.gray.100");
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [currentIndex, setCurrentIndex] = useState(0);
+    const { tutorialList, toggleHelp } = useTutorialContext();
 
     const nextTutorial = () => {
-        if (currentIndex < tutorials.length - 1) {
+        if (currentIndex < tutorialList.tutorials.length - 1) {
             setCurrentIndex(prevIndex => prevIndex + 1);
         } else {
             onClose();
@@ -36,7 +27,7 @@ const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
     }
 
     const displayTutorial = () => {
-        const currentTutorial = tutorials[currentIndex];
+        const currentTutorial = tutorialList.tutorials[currentIndex];
 
         if(!currentTutorial){
             return null;
@@ -55,7 +46,7 @@ const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
 
     return (
         <>
-            <Button onClick={onOpen} variant="link" fontSize={{base: "xl", md: "lg"}} color="white">Help</Button>
+            <Button onClick={onOpen} ref={toggleHelp} id="toggleTutorial" variant="link" fontSize={{base: "xl", md: "lg"}} color="white">Help</Button>
 
             <Modal isOpen={isOpen} onClose={nextTutorial} size="sm" motionPreset="none">
                 <ModalOverlay bg='blackAlpha.500'/>

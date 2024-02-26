@@ -8,7 +8,7 @@ on:
     types: [closed]
   push:
     branches: [main]
-    paths: [server/**]    
+    paths: [server/**]
   
 jobs:
   unit-test:

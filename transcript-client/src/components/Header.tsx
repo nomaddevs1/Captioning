@@ -1,13 +1,22 @@
-import { Flex, Box, useDisclosure, Drawer, IconButton, DrawerContent, DrawerBody,useColorModeValue, useColorMode } from "@chakra-ui/react";
+import {
+    Flex,
+    IconButton,
+    useDisclosure,
+    Modal,
+    ModalContent,
+    Box,
+    useColorMode,
+    useColorModeValue,
+} from "@chakra-ui/react"
 import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
 import { FaMoon, FaSun } from 'react-icons/fa';
+//@ts-ignore
+import {ReactComponent as Logo} from 'src/assets/header_logo.svg';
 
-
-function Header({ tutorialList }: any){
-
+function Header(){
     const { colorMode, toggleColorMode } = useColorMode();
     const {isOpen, onOpen, onClose} = useDisclosure()
     const navigate = useNavigate();
@@ -25,21 +34,22 @@ function Header({ tutorialList }: any){
             padding=" 0 6rem" 
             boxShadow="0px 1px 2px  2px rgba(0, 0, 0, 0.13)" 
             justifyContent={{base: "center", md: "left"}}
-        >
+        >   
             <Link to="/upload">
-                <Box as="button" onClick={refreshPage} color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
+                <Logo as="button" onClick={refreshPage} width="40px" height="40px" fill='white' stroke='white' stroke-width="10"/>
+            </Link>
+            <Link to="/upload">
+                <Box as="button" onClick={refreshPage} ml="10px" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
             </Link>
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
-                <TutorialPopup tutorials={tutorialList} />
-               <Flex justify="flex-end" p={4}>
+                <TutorialPopup />
                 <IconButton
-                   aria-label="Toggle dark mode"
-                 icon={colorMode === 'dark' ? <FaSun /> : <FaMoon />}
-                 onClick={toggleColorMode}  height="40px" // Controls the height of the button
-                width="40px" 
-                         />
-                 </Flex>
+                    aria-label="Toggle dark mode"
+                    icon={colorMode === 'dark' ? <FaSun /> : <FaMoon />}
+                    onClick={toggleColorMode}  height="40px" // Controls the height of the button
+                    width="40px" 
+                />
             </Box>
             <Box display={{base: "flex", md: "none"}} alignItems="center">
                 <IconButton 
@@ -52,14 +62,12 @@ function Header({ tutorialList }: any){
                     right="2"
                 >
                 </IconButton>
-                <Drawer isOpen={isOpen} placement="top" onClose={onClose}>
-                    <DrawerContent mt="80px">
-                        <DrawerBody bg= { drawerBgColor} display="flex" flexDirection="column" gap="6px">
-                            <AboutModal />a
-                            <TutorialPopup tutorials={tutorialList} />
-                        </DrawerBody>
-                    </DrawerContent>
-                </Drawer>
+                <Modal isOpen={isOpen} onClose={onClose} size="sm" motionPreset="none">
+                    <ModalContent bg={drawerBgColor} display="flex" padding="6px" flexDirection="column" gap="6px" mt="80px" borderRadius="none">
+                        <AboutModal />
+                        <TutorialPopup />
+                    </ModalContent>
+                </Modal>
             </Box>
         </Flex>
     );

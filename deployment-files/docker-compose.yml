@@ -1,0 +1,12 @@
+services:
+  server:
+    image: ghcr.io/nomaddevs1/capstone-server:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ADDRESS=0.0.0.0
+      - APP_PORT=8000
+      - APP_CLIENT_URL=https://transcribro.com
+      - APP_LOG_FILE=server.log
+      - OPENAI_API_KEY=$OPENAI_API_KEY
+    restart: unless-stopped
