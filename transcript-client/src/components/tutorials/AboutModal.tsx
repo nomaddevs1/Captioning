@@ -8,11 +8,14 @@ import {
     ModalCloseButton, 
     ModalHeader, 
     ModalContent,
-    ModalBody 
+    ModalBody,
+    useColorModeValue
 } from "@chakra-ui/react";
 
 function AboutModal(){
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const bgColor = useColorModeValue("white", "primary.gray.100");
+
 
     return (
         <>
@@ -20,7 +23,7 @@ function AboutModal(){
 
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent bg = {bgColor}>
                     <Box height="10px" bg="#557E4A" borderTopRadius="15px"></Box>
                     <ModalHeader borderBottom="none" color="#557E4A">About Captioning</ModalHeader>
                     <ModalCloseButton mt="2" />

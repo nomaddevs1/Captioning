@@ -7,7 +7,8 @@ import {
     ModalOverlay,
     ModalContent,
     Box,
-    Text
+    Text,
+    useColorModeValue
 } from "@chakra-ui/react"
 
 
@@ -21,6 +22,7 @@ interface TutorialPopupProps {
 }
 
 const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
+    const bgColor = useColorModeValue("white", "primary.gray.100");
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -39,9 +41,10 @@ const TutorialPopup = ({tutorials}: TutorialPopupProps) => {
         if(!currentTutorial){
             return null;
         }
+
         
         return (
-            <Box sx={currentTutorial.position} width="350px" bg="white" borderRadius="8" mb="4" zIndex="1000" boxShadow="lg">
+            <Box sx={currentTutorial.position} width="350px" bg= {bgColor} borderRadius="8" mb="4" zIndex="1000" boxShadow="lg">
                 <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
                 <Box p="2" textAlign="left" fontSize="md">
                     <Text>{currentTutorial.text}</Text>
