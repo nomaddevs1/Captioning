@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/dist/css/rcp.css";
-import { rcpStyle } from "src/utils/rcp";
+import { rcpStyle } from "src/utils/manualStyle";
 
 interface ColorPickerInput {
   text: string;

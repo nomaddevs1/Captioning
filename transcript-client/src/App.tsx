@@ -1,10 +1,11 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex} from "@chakra-ui/react";
 import { Route, Routes, Navigate } from 'react-router-dom';
 //@ts-ignore
 import TranscriptionPage from "src/pages/Transcript";
 import Upload from 'src/pages/Upload';
 import ProtectedRoute from "src/routes/protectedRoutes";
 import Header from 'src/components/Header'
+
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         </Routes>
       </Box>
     </Flex>
- );
+  );
 }
 
 export default App;

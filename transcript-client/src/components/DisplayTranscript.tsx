@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, useColorModeValue } from "@chakra-ui/react";
 import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
 import AudioControls from "./AudioControls";
 import { Eraser } from "@phosphor-icons/react";
@@ -27,6 +27,8 @@ const DisplayTranscript = () => {
     useState<EditorState | null>(null);
   const editorRef = useRef(null);
   const [currentStyleMap, setCurrentStyleMap] = useState({});
+
+  const bg = useColorModeValue('white', 'primary.gray.100')
   
 
   return (
@@ -64,7 +66,7 @@ const DisplayTranscript = () => {
         />
       )}
       {isInteractiveMode && transcriptionData ? (
-        <Box height={{base: "54vh", md: "74vh"}} overflowY={"auto"}  flex="1" pos="relative" bg={"white"} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
+        <Box height={{base: "54vh", md: "74vh"}} overflowY={"auto"}  flex="1" pos="relative" bg={bg} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}

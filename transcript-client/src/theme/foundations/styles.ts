@@ -1,8 +1,7 @@
 export const styles = {
-  global: () => ({
+  global: (props: any) => ({
     body: {
-      bg: "primary.gray.50",
+      bg: props.colorMode === 'dark' ? '#1a1a1a' : 'primary.gray.50',
     },
   }),
 } as const
-

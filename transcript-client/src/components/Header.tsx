@@ -5,26 +5,30 @@ import {
     Modal,
     ModalContent,
     Box,
+    useColorMode,
+    useColorModeValue,
+    Button
 } from "@chakra-ui/react"
 import { Link, useNavigate } from 'react-router-dom';
 import AboutModal from "./tutorials/AboutModal";
 import TutorialPopup from "./tutorials/TutorialPopup";
 import { List } from "@phosphor-icons/react";
+import { FaMoon, FaSun } from 'react-icons/fa';
 //@ts-ignore
 import {ReactComponent as Logo} from 'src/assets/header_logo.svg';
 
 function Header(){
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const { colorMode, toggleColorMode } = useColorMode();
+    const {isOpen, onOpen, onClose} = useDisclosure()
     const navigate = useNavigate();
     const refreshPage = () => {
-        navigate(0)
+        navigate(0)     
     }
-
+    const drawerBgColor = useColorModeValue("primary.gray.100", "black");
     return (
         <Flex 
             width="100%" 
-            bg="#121212" 
+            bg= {useColorModeValue("#121212", "#000000")} 
             height="80px" 
             alignItems="center" 
             pos="fixed" 
@@ -33,7 +37,7 @@ function Header(){
             justifyContent={{base: "center", md: "left"}}
         >   
             <Link to="/upload">
-                <Logo as="button" onClick={refreshPage} width="40px" height="40px" fill='white' stroke='white' stroke-width="10"/>
+                <Logo as="button" onClick={refreshPage} width="40px" height="40px" fill='white' stroke='white' strokeWidth="10"/>
             </Link>
             <Link to="/upload">
                 <Box as="button" onClick={refreshPage} ml="10px" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
@@ -41,6 +45,15 @@ function Header(){
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
                 <TutorialPopup />
+                <IconButton
+                    aria-label="toggle-color-mode"
+                    icon={colorMode === 'dark' ? <FaSun /> : <FaMoon />}
+                    onClick={toggleColorMode}  
+                    height="40px"
+                    width="40px" 
+                    bg="white"
+                    ml="10px"
+                />
             </Box>
             <Box display={{base: "flex", md: "none"}} alignItems="center">
                 <IconButton 
@@ -54,9 +67,10 @@ function Header(){
                 >
                 </IconButton>
                 <Modal isOpen={isOpen} onClose={onClose} size="sm" motionPreset="none">
-                    <ModalContent bg="primary.gray.100" display="flex" padding="6px" flexDirection="column" gap="6px" mt="80px" borderRadius="none">
+                    <ModalContent bg={drawerBgColor} display="flex" padding="6px" flexDirection="column" gap="6px" mt="80px" borderRadius="none">
                         <AboutModal />
                         <TutorialPopup />
+                        <Button onClick={toggleColorMode} id="toggleTutorial" variant="link" fontSize="xl" color="white">Theme</Button>
                     </ModalContent>
                 </Modal>
             </Box>
