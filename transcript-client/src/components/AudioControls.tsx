@@ -1,5 +1,5 @@
-import { Box,  Flex, Text } from "@chakra-ui/react";
-import { Pause, Play } from "@phosphor-icons/react";
+import { Box,  Grid, Text, Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/react";
+import { Pause, Play, Waveform } from "@phosphor-icons/react";
 import { formatTime, calculatePercentage } from "src/utils/audioUtils";
 
 interface AudioControlsProps {
@@ -18,12 +18,10 @@ const AudioControls: React.FC<AudioControlsProps> = ({
   onSeek,
 }) => {
 
- const handleSeekChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // This calculation assumes the input's max value is 100 for percentage.
-    const percentage = parseFloat(e.target.value);
-   const newTime = (percentage / 100) * duration;
+  const handleSeekChange = (percentage: number) => {
+    const newTime = (percentage / 100) * duration;
     onSeek(newTime);
-};
+  };
 
   return (
     <Box
@@ -32,21 +30,25 @@ const AudioControls: React.FC<AudioControlsProps> = ({
       width={{base: "100%", md: "75%"}}
       p={4}
     >
-      <Flex align="center" justify="space-between" gap="4">
+      <Grid alignItems="center" gap="4" gridTemplateColumns="1fr 50px 10fr 50px">
         <Box onClick={onPlayPause} cursor="pointer">
           {!isPlaying ? <Play size={32} /> : <Pause size={32} />}
         </Box>
         <Text>{formatTime(currentTime)}</Text>
-        <input
-          type="range"
+        <Slider
           value={calculatePercentage(currentTime, duration)}
+          min={0}
+          max={100}
           onChange={handleSeekChange}
-          style={{ width: "60%" }}
-          min="0"
-          max="100"
-        />
+          aria-label="audio-slider"
+        >
+          <SliderTrack>
+            <SliderFilledTrack bg="#557E4A"/>
+          </SliderTrack>
+          <SliderThumb boxSize={4}><Waveform color="#557E4A" size={24}/></SliderThumb>
+        </Slider>
         <Text>{formatTime(duration)}</Text>
-      </Flex>
+      </Grid>
     </Box>
   );
 };
