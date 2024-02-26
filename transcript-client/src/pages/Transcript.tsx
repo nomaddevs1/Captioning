@@ -14,6 +14,7 @@ import DisplayTranscript from "src/components/DisplayTranscript";
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/component/ColorPickerInput";
 import StyleSwitch from "src/components/component/SwitchButtonIcon";
+import { useColorModeValue } from "@chakra-ui/react";
 
 interface TranscriptProps{
   updateTutorialList: (tutorial_list: any) => void
@@ -31,7 +32,7 @@ const TranscriptionPage = ({updateTutorialList}: TranscriptProps) => {
   return (
     <Grid templateAreas={`"side main"`} gridTemplateColumns={{base: "0 1fr", md: "352px 1fr"}}>
       <GridItem
-        bg="primary.bay.100"
+        bg= "primary.bay.100"
         area={"side"}
         height={{base: collapsed ? "40px" : "40vh", md:"100vh"}}
         overflowY={"auto"}
