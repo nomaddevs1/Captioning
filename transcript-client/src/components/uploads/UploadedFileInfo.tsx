@@ -37,11 +37,11 @@ const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) =
   };
 
   return (
-    <Box>
+    <Box maxWidth={{base: "90%", md: "40%"}}>
       <Flex mb={4}>
         <img src={upload_logo} width="80px" alt="" />
         <Box ml={4}>
-          <Text fontSize="3xl" mb={2} mr={0}>{file.name}</Text>
+          <Text fontSize={{base: "2xl", md: "3xl"}} noOfLines={1} mb={2} mr={0}>{file.name}</Text>
           <Flex alignItems="center">
             <Select 
               placeholder="Language" 

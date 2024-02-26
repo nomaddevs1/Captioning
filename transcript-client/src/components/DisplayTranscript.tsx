@@ -66,7 +66,7 @@ const DisplayTranscript = () => {
         />
       )}
       {isInteractiveMode && transcriptionData ? (
-        <Box height={{base: "54vh", md: "70vh"}} overflowY={"auto"} mt={4}  flex="1" pos="relative" bg={bg} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
+        <Box height={{base: "54vh", md: "74vh"}} overflowY={"auto"}  flex="1" pos="relative" bg={bg} className={"scrollContainer"} borderRadius={4} p={4} textAlign="left">
           <InteractiveTranscriptView
             segments={transcriptionData as TranscriptionSegment[]}
             onSegmentClick={handleSeek}
