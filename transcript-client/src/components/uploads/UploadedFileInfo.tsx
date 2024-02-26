@@ -49,6 +49,7 @@ const UploadedFileInfo = ({ file, children, onChange }: UploadedFileInfoProps) =
               bg="primary.moss.100" 
               value={selectedLanguage} 
               onChange={handleLanguageChange}
+              color="black"
             >
               {languages.map(({ label, value }) => (
                 <option key={value} value={value}>{label}</option>

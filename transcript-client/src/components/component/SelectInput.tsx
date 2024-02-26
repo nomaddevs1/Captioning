@@ -1,5 +1,6 @@
-import { FormLabel, FormControl } from "@chakra-ui/react";
+import { FormLabel, FormControl, LightMode } from "@chakra-ui/react";
 import { Select } from "chakra-react-select";
+import { selectionStyle} from "src/utils/manualStyle";
 
 
 interface Val{
@@ -26,15 +27,21 @@ export const SelectInput = ({ label, value, onChange, options }: TextInputProps)
   };
 
   return (
-    <FormControl>
-      <FormLabel  width="80%" fontSize="1.1rem" fontWeight="400" color={"neutral.50"} mb={0} mt={'20px'}>{label}</FormLabel>
-      <Select
-        value={selectedValue}
-        options={options}
-        //@ts-ignore
-        onChange={handleChange} // Set the selected value on change
-      />
-    </FormControl>
+    <>
+      <style>{selectionStyle}</style>
+      <FormControl>
+        <FormLabel  width="80%" fontSize="1.1rem" fontWeight="400" color={"neutral.50"} mb={0} mt={'20px'}>{label}</FormLabel>
+        <LightMode>
+        <Select
+          class="selection-box"
+          value={selectedValue}
+          options={options}
+          //@ts-ignore
+          onChange={handleChange} // Set the selected value on change
+        />
+        </LightMode>
+      </FormControl>
+    </>
   );
 };
 

@@ -41,4 +41,10 @@ export const rcpStyle = `
   .rcp-section{
     gap: 0px;
   }
-`;
+`
+
+export const selectionStyle = `
+  .css-onkibi > path{
+    fill: black;
+  }
+`
