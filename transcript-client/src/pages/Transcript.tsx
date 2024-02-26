@@ -14,6 +14,7 @@ import DisplayTranscript from "src/components/DisplayTranscript";
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/component/ColorPickerInput";
 import StyleSwitch from "src/components/component/SwitchButtonIcon";
+import { useColorModeValue } from "@chakra-ui/react";
 
 interface TranscriptProps{
   updateTutorialList: (tutorial_list: any) => void
