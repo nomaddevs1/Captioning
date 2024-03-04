@@ -12,12 +12,9 @@ def test_render_html(transcript_dict):
         "transcript": transcript_dict,
     }
 
-
     html = render_html(transcript_data)
 
-    transcript_block_regex = re.compile(
-        r'<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>'
-    )
+    transcript_block_regex = re.compile(r"<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>")
 
     groups = re.findall(transcript_block_regex, html)
     assert len(groups) == len(transcript_dict)
@@ -27,9 +24,9 @@ def test_render_html(transcript_dict):
         end = int(captured_text[1])
         text = captured_text[2]
 
-        assert start == transcript_dict[i]['start']
-        assert end == transcript_dict[i]['end']
-        assert text == transcript_dict[i]['text']
+        assert start == transcript_dict[i]["start"]
+        assert end == transcript_dict[i]["end"]
+        assert text == transcript_dict[i]["text"]
 
     transcript_data = {
         "settings": {
@@ -64,12 +61,11 @@ def test_render_html_missing_data():
     html = render_html(transcript_data)
     assert len(html) > 0
 
-    transcript_block_regex = re.compile(
-        r'<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>'
-    )
+    transcript_block_regex = re.compile(r"<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>")
 
     groups = re.findall(transcript_block_regex, html)
     assert len(groups) == 0
+
 
 def test_generate_pdf():
     html_data = """\
