@@ -1,7 +1,7 @@
 import axios from "axios";
-import { isProduction } from "./environment";
+import { IS_PRODUCTION } from "./environment";
 
-export const API_URL = isProduction()
+export const API_URL = IS_PRODUCTION
   ? "https://api.transcribro.com"
   : "http://localhost:8000";
 

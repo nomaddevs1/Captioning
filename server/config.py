@@ -12,4 +12,4 @@ MODE = os.getenv("APP_MODE", "DEV")
 
 
 def scrub_sensitive_environment_variables():
-    os.unsetenv("OPEN_API_KEY")
+    os.unsetenv("OPENAI_API_KEY")

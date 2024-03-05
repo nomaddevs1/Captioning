@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { mockBackend } from "src/utils/environment";
+import { MOCK_BACKEND } from "src/utils/environment";
 
 
 const mockAudioFile = async(onFileUploaded: Dispatch<SetStateAction<File | null>>) => {
@@ -21,7 +21,7 @@ const mockAudioFile = async(onFileUploaded: Dispatch<SetStateAction<File | null>
 
 const useUploader = (onFileUploaded: (file: File | null) => void) => {
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
-      if (mockBackend()) {
+      if (MOCK_BACKEND) {
         // use Shakespeare sonnet audio if the backend is mocked
         mockAudioFile(onFileUploaded as any) // >:3
       }
