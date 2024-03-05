@@ -1,9 +1,8 @@
 import { Box, Button, Text , Flex, IconButton} from "@chakra-ui/react"
-import { ReactNode } from "react"
-import useDownloader from "src/hooks/useDownloader"
+import { ReactNode, useState } from "react"
 import { CaretDoubleDown, CaretDoubleUp } from "@phosphor-icons/react"
-
-
+import { generatePDF } from "src/utils/backendCalls"
+import useStyledHtmlExporter from "src/hooks/useStyledHtmlExporter"
 
 interface TranscriptionItemProps {
   title: string
@@ -13,11 +12,12 @@ interface TranscriptionItemProps {
 }
 
 const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: TranscriptionItemProps) => {
-  const { generatePDF, isLoading } = useDownloader();
+  const [ isLoading, setIsLoading ] = useState(false);
+  const styledHtml = useStyledHtmlExporter();
 
   const handleDownloadPDF = async () => {
     try {
-      const blob = await generatePDF();
+      const blob = await generatePDF(styledHtml, setIsLoading);
 
       // Initiate the download
       const url = window.URL.createObjectURL(blob);

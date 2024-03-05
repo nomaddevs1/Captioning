@@ -1,11 +1,33 @@
-import { useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { mockBackend } from "src/utils/environment";
+
+const mockAudioFile = (onFileUploaded: Dispatch<SetStateAction<File | null>>) => {
+  const handleErr = (err: any) => console.error(err);
+  const onFulfilled = (response: Response) => {
+    response
+      .blob()
+      .then((blob) => {
+        onFileUploaded(new File([blob], "sonnet18_shakespeare_ik_128kb.mp3"));
+      })
+      .catch(handleErr);
+  };
+  fetch("/sonnet18_shakespeare_ik_128kb.mp3")
+    .then(onFulfilled)
+    .catch(handleErr);
+};
 
 const useUploader = (onFileUploaded: (file: File | null) => void) => {
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
-    const file = acceptedFiles[0];
-    onFileUploaded(file);
-  }, [onFileUploaded]);
+      if (mockBackend()) {
+        // use Shakespeare sonnet audio if the backend is mocked
+        mockAudioFile(onFileUploaded as any) // >:3
+      }
+      const file = acceptedFiles[0];
+      onFileUploaded(file);
+    },
+    [onFileUploaded]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -19,7 +41,3 @@ const useUploader = (onFileUploaded: (file: File | null) => void) => {
 };
 
 export default useUploader;
-
-
-
-

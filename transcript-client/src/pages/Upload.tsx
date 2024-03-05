@@ -6,9 +6,9 @@ import UploadedFileInfo from "src/components/uploads/UploadedFileInfo";
 import FileUploadArea from "src/components/uploads/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
 import { useAudioContext } from "src/context/AudioContext";
-import { useTutorialContext } from 'src/context/TutorialContext';
+import { useTutorialContext } from "src/context/TutorialContext";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { generateTranscript } from "src/utils/backendCalls";
@@ -24,7 +24,8 @@ const uploadTutorials = {
       },
       text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.",
     },
-]};
+  ],
+};
 
 function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
@@ -73,23 +74,13 @@ function Upload() {
           );
           return;
         }
-        // const { data } = await axios.post(
-        //   `/transcribe/?language=${languageCode}`,
-        //   formData,
-        //   {
-        //     onUploadProgress: (progressEvent) => {
-        //       const loaded = progressEvent.loaded || 0
-        //       const total = progressEvent.total || 1
 
-        //       const percentCompleted = Math.round(
-        //         (loaded * 100) / total
-        //       );
-        //       setProgress(() => Math.min(percentCompleted, 100)); // Update based on previous progress
-        //     },
-        //   }
-        // );
-        const data = await generateTranscript(uploaded, languageCode, setProgress)
-        
+        const data = await generateTranscript(
+          uploaded,
+          languageCode,
+          setProgress
+        );
+
         toast.success("File successfully uploaded");
         setTimeout(() => {
           setTranscriptionData(data.transcript);

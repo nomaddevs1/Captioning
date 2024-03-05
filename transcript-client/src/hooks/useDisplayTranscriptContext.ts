@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useTranscription } from "src/context/TranscriptionContext";
 import { useAudioContext } from "src/context/AudioContext";
 import { EditorState } from "draft-js";
-import { TranscriptionData } from "src/types/transcriptionDataTypes";
+import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
 import { useLocation } from "react-router-dom";
 import { useEditor } from "src/context/EditorContext";
 
 interface UseDisplayTranscriptContextReturn {
-  transcriptionData: TranscriptionData[] | null;
+  transcriptionData: TranscriptionSegment[] | null;
   toggleInteractiveMode: () => void;
   isInteractiveMode: boolean;
   handleSeek: (time: number) => void;
