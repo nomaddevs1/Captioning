@@ -2,20 +2,22 @@ import { Dispatch, SetStateAction, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { mockBackend } from "src/utils/environment";
 
-const mockAudioFile = (onFileUploaded: Dispatch<SetStateAction<File | null>>) => {
-  const handleErr = (err: any) => console.error(err);
-  const onFulfilled = (response: Response) => {
-    response
-      .blob()
-      .then((blob) => {
-        onFileUploaded(new File([blob], "sonnet18_shakespeare_ik_128kb.mp3"));
-      })
-      .catch(handleErr);
-  };
-  fetch("/sonnet18_shakespeare_ik_128kb.mp3")
-    .then(onFulfilled)
-    .catch(handleErr);
+
+const mockAudioFile = async(onFileUploaded: Dispatch<SetStateAction<File | null>>) => {
+  try {
+    const response = await fetch("/sonnet18_shakespeare_ik_128kb.mp3");
+    if (!response.ok) {
+      console.error("Error uploading audio file, status:", response.status);
+      throw new Error("Error uploading audio file, status: " + response.status);
+    }
+    const blob = await response.blob();
+    const file = new File([blob], "sonnet18_shakespeare_ik_128kb.mp3");
+    onFileUploaded(file);
+  } catch (err: any) {
+    throw new Error("Error uploading audio file: " + err.toString());
+  }
 };
+
 
 const useUploader = (onFileUploaded: (file: File | null) => void) => {
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
@@ -23,6 +25,7 @@ const useUploader = (onFileUploaded: (file: File | null) => void) => {
         // use Shakespeare sonnet audio if the backend is mocked
         mockAudioFile(onFileUploaded as any) // >:3
       }
+
       const file = acceptedFiles[0];
       onFileUploaded(file);
     },

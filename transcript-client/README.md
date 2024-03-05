@@ -1,4 +1,4 @@
-# client
+# Transcript Client
 
 ## Table of Contents
 
@@ -9,7 +9,7 @@
 
 ## Introduction<a name="introduction"></a>
 
-Our client is written in React and scaffolded with Vite.
+Our client is written in React and scaffolded with `create-react-app`.
 
 ## Installation<a name="installation"></a>
 
@@ -20,7 +20,17 @@ Our client is written in React and scaffolded with Vite.
 
 ## Usage<a name="usage"></a>
 
-`npm run dev`
+To run the development server as an isolated unit with calls to the backend mocked, run:
+
+```sh
+npm run dev
+```
+
+To run the development server with calls to the backend enabled, run:
+
+```sh
+npm start
+```
 
 ## Folder Structure<a name="folder-structure"></a>
 
