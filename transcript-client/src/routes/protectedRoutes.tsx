@@ -1,10 +1,10 @@
 
-import { PropsWithChildren } from 'react';
+import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useTranscription } from "src/hooks/useTranscription";
 
 const ProtectedRoute = ({ children }: {
-  children: PropsWithChildren
+  children: ReactNode
 }) => {
   const { transcriptionData } = useTranscription();
   if (!transcriptionData) {
