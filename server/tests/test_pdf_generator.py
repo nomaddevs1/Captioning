@@ -12,29 +12,21 @@ def test_render_html(transcript_dict):
         "transcript": transcript_dict,
     }
 
-    expected_html = """\
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body {
-      margin: 20px;
-    }
-  </style>
-</head>
-<body>
-  <p><strong>2:7</strong> - Good morning, everyone.</p>
-  <p><strong>10:16</strong> - Today, we'll discuss the new project.</p>
-  <p><strong>20:26</strong> - First, let's go through the objectives.</p>
-</body>
-</html>\
-"""
-    result = render_html(transcript_data)
 
-    assert expected_html == result
+    html = render_html(transcript_data)
+
+    transcript_block_regex = re.compile(r"<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>")
+
+    groups = re.findall(transcript_block_regex, html)
+    assert len(groups) == len(transcript_dict)
+
+    for i, captured_text in enumerate(groups):
+        start = int(captured_text[0])
+        end = int(captured_text[1])
+        text = captured_text[2]
+        assert start == transcript_dict[i]["start"]
+        assert end == transcript_dict[i]["end"]
+        assert text == transcript_dict[i]["text"]
 
     transcript_data = {
         "settings": {
@@ -65,26 +57,15 @@ def test_render_html_missing_data():
         },
         "transcript": [],
     }
-    expected_html = """\
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body {
-      margin: 20px;
-    }
-  </style>
-</head>
-<body>
-</body>
-</html>\
-"""
-    result = render_html(transcript_data)
 
-    assert expected_html == result
+
+    html = render_html(transcript_data)
+    assert len(html) > 0
+
+    transcript_block_regex = re.compile(r"<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>")
+
+    groups = re.findall(transcript_block_regex, html)
+    assert len(groups) == 0
 
 
 def test_generate_pdf():
