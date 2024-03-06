@@ -1,5 +1,4 @@
 import { Center, Button } from "@chakra-ui/react";
-import useAxios from "src/hooks/useAxios";
 import { useEffect, useState } from "react";
 import useUploader from "src/hooks/useUploader";
 import Progress from "src/components/uploads/Progress";
@@ -7,11 +6,12 @@ import UploadedFileInfo from "src/components/uploads/UploadedFileInfo";
 import FileUploadArea from "src/components/uploads/FileUploadArea";
 import { useTranscription } from "src/hooks/useTranscription";
 import { useAudioContext } from "src/context/AudioContext";
-import { useTutorialContext } from 'src/context/TutorialContext';
+import { useTutorialContext } from "src/context/TutorialContext";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { generateTranscript } from "src/utils/backendCalls";
 
 const uploadTutorials = {
   id: "upload",
@@ -24,7 +24,8 @@ const uploadTutorials = {
       },
       text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.",
     },
-]};
+  ],
+};
 
 function Upload() {
   const [uploaded, setUploaded] = useState<File | null>(null);
@@ -32,7 +33,6 @@ function Upload() {
   // const [error, setError] = useState(false)
   const [progress, setProgress] = useState(0);
   const { getInputProps, getRootProps } = useUploader(setUploaded);
-  const axios = useAxios();
   const navigate = useNavigate();
   const { setTranscriptionData } = useTranscription();
   const [languageCode, setLanguageCode] = useState("en");
@@ -47,9 +47,6 @@ function Upload() {
     e.preventDefault();
     setIsLoading(true);
     if (uploaded) {
-      const formData = new FormData();
-      formData.append("audio_file", uploaded);
-
       try {
         // add file format and size checks before making request
         const allowedFormats = [
@@ -77,22 +74,13 @@ function Upload() {
           );
           return;
         }
-        const { data } = await axios.post(
-          `/transcribe/?language=${languageCode}`,
-          formData,
-          {
-            onUploadProgress: (progressEvent) => {
-              const loaded = progressEvent.loaded || 0
-              const total = progressEvent.total || 1
 
-              const percentCompleted = Math.round(
-                (loaded * 100) / total
-              );
-              setProgress(() => Math.min(percentCompleted, 100)); // Update based on previous progress
-            },
-          }
+        const data = await generateTranscript(
+          uploaded,
+          languageCode,
+          setProgress
         );
-        
+
         toast.success("File successfully uploaded");
         setTimeout(() => {
           setTranscriptionData(data.transcript);

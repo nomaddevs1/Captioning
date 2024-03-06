@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import {
   TranscriptionContextType,
-  TranscriptionData,
+  TranscriptionSegment,
 } from "src/types/transcriptionDataTypes";
 
 
@@ -36,7 +36,7 @@ export const TranscriptionContext =
 
 export const TranscriptionProvider = ({ children }: any) => {
   const [transcriptionData, setTranscriptionData] = useState<
-    TranscriptionData[] | null
+    TranscriptionSegment[] | null
   >(null);
   const [fontSize, setFontSize] = useState<string>("16px");
   const [fontColor, setFontColor] = useState<string>("#000000");

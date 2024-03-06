@@ -1,13 +1,17 @@
-interface TranscriptionData {
-    start: number;
-    end: number;
-    text: string;
+interface TranscriptionSegment {
+  start: number;
+  end: number;
+  text: string;
 }
 
+interface TranscriptionData {
+  transcript: TranscriptionSegment[]
+  // NOTE: extend with metadata if needed
+}
 
 interface TranscriptionContextType {
-  transcriptionData: TranscriptionData[] | null // Define the type for your transcription data appropriately
-  setTranscriptionData: (data: TranscriptionData[] | null) => void;
+  transcriptionData: TranscriptionSegment[] | null; // Define the type for your transcription data appropriately
+  setTranscriptionData: (data: TranscriptionSegment[] | null) => void;
   fontSize: string;
   setFontSize: (fontSize: string) => void;
   fontStyle: string;
@@ -30,14 +34,5 @@ interface TranscriptionContextType {
   audioFile: File | null;
   setAudioFile: React.Dispatch<React.SetStateAction<File | null>>;
 }
-
-
-interface TranscriptionSegment {
-  start: number;
-  end: number;
-  text: string;
-}
-
-
 
 export {TranscriptionData, TranscriptionContextType, TranscriptionSegment}
