@@ -12,7 +12,6 @@ def test_render_html(transcript_dict):
         "transcript": transcript_dict,
     }
 
-
     html = render_html(transcript_data)
 
     transcript_block_regex = re.compile(r"<p><strong>(\d+):(\d+)<\/strong> - (.+)<\/p>")
@@ -57,7 +56,6 @@ def test_render_html_missing_data():
         },
         "transcript": [],
     }
-
 
     html = render_html(transcript_data)
     assert len(html) > 0
