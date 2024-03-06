@@ -23,7 +23,6 @@ def test_render_html(transcript_dict):
         start = int(captured_text[0])
         end = int(captured_text[1])
         text = captured_text[2]
-
         assert start == transcript_dict[i]["start"]
         assert end == transcript_dict[i]["end"]
         assert text == transcript_dict[i]["text"]
@@ -72,7 +71,7 @@ def test_generate_pdf():
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>

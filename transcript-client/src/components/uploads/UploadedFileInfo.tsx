@@ -24,6 +24,7 @@ const languages = [
   { label: 'Thai', value: 'th' },
   { label: 'Ukrainian', value: 'uk' },
   { label: 'Vietnamese', value: 'vi' },
+  {label: 'Hindi', value:'hi'}
 ];
 
 
