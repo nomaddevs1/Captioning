@@ -47,4 +47,7 @@ export const selectionStyle = `
   .css-onkibi > path{
     fill: black;
   }
+  .css-1xa1gs2{
+    color: black;
+  }
 `

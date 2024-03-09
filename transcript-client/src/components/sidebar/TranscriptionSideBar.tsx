@@ -9,7 +9,7 @@ interface TranscriptionSideBarProps {
 const TranscriptionSideBar = ({ children }: TranscriptionSideBarProps) => {
   return (
     <LightMode>
-      <Box backgroundColor={"primary.gray.100"} overflowY="auto" height="100%" padding="4"> 
+      <Box backgroundColor={"primary.gray.100"} overflowY="auto" overflowX={"hidden"} height="100%" padding="4"> 
         {children}
       </Box>
     </LightMode>
