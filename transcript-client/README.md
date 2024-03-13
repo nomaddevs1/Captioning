@@ -1,4 +1,4 @@
-# Transcript Client
+# Transcribe Client
 
 ## Table of Contents
 
@@ -9,51 +9,71 @@
 
 ## Introduction<a name="introduction"></a>
 
-Our client is written in React and scaffolded with `create-react-app`.
+Our client is developed using React and scaffolded with `create-react-app`. It provides the user interface for interacting with the transcription service, allowing users to upload audio files, view and edit transcriptions, and export the results.
 
 ## Installation<a name="installation"></a>
 
-1. `cd transcribe-client/`
-2. Install yarn, if not installed already `npm i -g yarn`
-3. `npm install`
-   
+To set up the client for development or deployment, follow these steps:
+
+1. Navigate to the `transcribe-client/` directory:
+    ```sh
+    cd transcribe-client/
+    ```
+    
+2. Install the project dependencies:
+    ```sh
+    npm install
+    ```
 
 ## Usage<a name="usage"></a>
 
-To run the development server as an isolated unit with calls to the backend mocked, run:
+For development purposes, you can run the client in two modes:
 
-```sh
-npm run dev
-```
+- **Development Mode with Mock Backend**:
+    ```sh
+    npm run dev
+    ```
+    This mode runs the client with mock backend interactions, suitable for UI development without requiring the actual backend.
 
-To run the development server with calls to the backend enabled, run:
-
-```sh
-npm start
-```
+- **Standard Development Mode**:
+    ```sh
+    npm start
+    ```
+    This mode runs the client with calls to the actual backend enabled, suitable for full-stack development and testing.
 
 ## Folder Structure<a name="folder-structure"></a>
 
-Here's an overview of the main directories:
+The client project is organized as follows:
+
+
 
 ```
-src
-├── components
-├── modules
-│   └── module-name
-├── pages
-│   └── page-name
-├── theme
-│   ├── components
-│   └── foundations
-├── types
-└── utils
+src/
+├── assets/ # Static assets like images and logos
+├── components/ # Reusable components
+│ ├── sidebar/ # Sidebar-specific components
+│ └── uploads/ # Components related to file upload functionality
+├── context/ # React context providers
+├── hooks/ # Custom React hooks
+├── pages/ # Page components
+├── theme/ # Theme configurations and overrides
+│ ├── components/ # Theme overrides for specific components
+│ └── foundations/ # Theme foundations like colors, fonts, etc.
+├── types/ # TypeScript types and interfaces
+├── utils/ # Utility functions
+├── App.tsx # Main application component
+└── index.tsx # Entry point for the React application
 ```
 
-- `components`: Houses components that can be used across multiple parts of the application.
-- `modules`: Modules can be thought of features grouped together. Each subdirectory `module-name` is a feature, with components related to that feature encapsulated.
-- `pages`: Contains top-level page components that represent different pages or views of the application. Inside the pages directory, there are subdirectories for specific pages, such as `page-name`. Pages use `modules` to compose the UI.
-- `theme`: Includes files related to ChakraUI theming/styling and overriding.
-- `types`: Contains TypeScript interfaces and any type declarations used throughout the project.
-- `utils`: Contains utility functions or helper modules that can be used throughout the project, providing reusable code for common tasks or operations.
+
+- **components/**: Contains UI components that are reused across various parts of the application.
+- **context/**: Houses React context providers for global state management.
+- **hooks/**: Custom React hooks for encapsulating reusable logic.
+- **pages/**: Components representing entire pages within the application.
+- **theme/**: Theme settings for styling the application, including Chakra UI customizations.
+- **types/**: TypeScript definitions and interfaces used throughout the application.
+- **utils/**: Utility functions for tasks like formatting or data manipulation.
+
+This structure is designed to facilitate easy navigation and maintenance of the codebase, promoting reusability and modularity.
+
 
