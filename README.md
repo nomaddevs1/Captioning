@@ -11,7 +11,7 @@ Transcribro is an application designed to transcribe audio files into text, offe
 
 ## Documentation Links
 
-### [Client Documentation](./transcribe-client/README.md)
+### [Client Documentation](./transcript-client/README.md)
 
 For information on installing, running, and developing the client part of Transcribro, refer to the client documentation. This includes details on the project structure, usage instructions, and development guidelines.
 
