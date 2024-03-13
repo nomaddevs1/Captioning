@@ -19,15 +19,10 @@ To set up the client for development or deployment, follow these steps:
     ```sh
     cd transcribe-client/
     ```
-
-2. If not already installed, install Yarn globally using npm:
+    
+2. Install the project dependencies:
     ```sh
-    npm install -g yarn
-    ```
-
-3. Install the project dependencies:
-    ```sh
-    yarn install
+    npm install
     ```
 
 ## Usage<a name="usage"></a>
@@ -36,13 +31,13 @@ For development purposes, you can run the client in two modes:
 
 - **Development Mode with Mock Backend**:
     ```sh
-    yarn run dev
+    npm run dev
     ```
     This mode runs the client with mock backend interactions, suitable for UI development without requiring the actual backend.
 
 - **Standard Development Mode**:
     ```sh
-    yarn start
+    npm start
     ```
     This mode runs the client with calls to the actual backend enabled, suitable for full-stack development and testing.
 
@@ -54,96 +49,20 @@ The client project is organized as follows:
 
 ```
 src/
-|____README.md
-|____public
-|____src
-| |____index.tsx
-| |____App.tsx
-| |____types
-| | |____transcriptionDataTypes.ts
-| |____.DS_Store
-| |____context
-| | |____AudioContext.tsx
-| | |____TranscriptionContext.tsx
-| | |____EditorContext.tsx
-| | |____TutorialContext.tsx
-| |____utils
-| | |____manualStyle.ts
-| | |____backendCalls.ts
-| | |____environment.ts
-| | |____audioUtils.ts
-| | |____axios.ts
-| | |____draftJsStylingUtils.ts
-| | |____interactiveTutorials.ts
-| | |____htmlToJson.ts
-| | |____standardTutorials.ts
-| | |____transcriptionUtils.ts
-| |____components
-| | |____sidebar
-| | | |____TranscriptionItem.tsx
-| | | |____TranscriptionSideBar.tsx
-| | |____AudioControls.tsx
-| | |____component
-| | | |____SelectInput.tsx
-| | | |____SwitchButtonIcon.tsx
-| | | |____ColorPickerInput.tsx
-| | |____uploads
-| | | |____UploadedFileInfo.tsx
-| | | |____Progress.tsx
-| | | |____FileUploadArea.tsx
-| | |____Header.tsx
-| | |____tutorials
-| | | |____TutorialPopup.tsx
-| | | |____AboutModal.tsx
-| | |____views
-| | | |____StandardTranscriptView.tsx
-| | | |____InteractiveTranscript.tsx
-| | |____DisplayTranscript.tsx
-| |____theme
-| | |____foundations
-| | | |____colors.ts
-| | | |____fonts.ts
-| | | |____styles.ts
-| | | |____shadows.ts
-| | | |____borders.ts
-| | | |____spacing.ts
-| | |____components
-| | | |____alert.ts
-| | | |____Tab.ts
-| | | |____popover.ts
-| | | |____modal.ts
-| | | |____input.ts
-| | | |____Button.ts
-| | | |____form.ts
-| | | |____menu.ts
-| | | |____heading.ts
-| | | |____card.ts
-| | | |____avatar.ts
-| | | |____badge.ts
-| | | |____tooltip.ts
-| | | |____icon-button.ts
-| | | |____form-label.ts
-| | | |____skeleton.ts
-| | | |____textarea.ts
-| | |____theme.ts
-| |____hooks
-| | |____useUploader.ts
-| | |____useTranscription.ts
-| | |____useStyledHtmlExporter.ts
-| | |____useDisplayTranscriptContext.ts
-| | |____useAxios.ts
-| | |____useEditor.ts
-| |____modules
-| |____assets
-| | |____header_logo.svg
-| | |____play_icon.png
-| | |____upload_logo.svg
-| | |____pause_icon.png
-| |____pages
-| | |____Transcript.tsx
-| | |____Upload.tsx
-| |____routes
-| | |____protectedRoutes.tsx
+├── assets/ # Static assets like images and logos
+├── components/ # Reusable components
+│ ├── sidebar/ # Sidebar-specific components
+│ └── uploads/ # Components related to file upload functionality
+├── context/ # React context providers
+├── hooks/ # Custom React hooks
+├── pages/ # Page components
+├── theme/ # Theme configurations and overrides
+│ ├── components/ # Theme overrides for specific components
+│ └── foundations/ # Theme foundations like colors, fonts, etc.
+├── types/ # TypeScript types and interfaces
+├── utils/ # Utility functions
+├── App.tsx # Main application component
+└── index.tsx # Entry point for the React application
 ```
 
 
