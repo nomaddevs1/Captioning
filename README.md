@@ -24,8 +24,7 @@ The server documentation provides instructions for setting up the server, runnin
 For details on deploying Transcribro, including setting up a virtual private server (VPS), configuring DNS records, and using Docker and NGINX for serving the application, see the [Deployment Files README](./deployment-files/README.md).
 
 ## Contributing
-
-We welcome contributions to the Transcribro project. If you're interested in contributing, please read our [Contribution Guidelines](./CONTRIBUTING.md) for more information on how to get started.
+ 🚧🚧Still in progress🚧🚧
 
 ## Support
 
