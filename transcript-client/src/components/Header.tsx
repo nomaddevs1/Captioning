@@ -40,7 +40,7 @@ function Header(){
                 <Logo as="button" onClick={refreshPage} width="40px" height="40px" fill='white' stroke='white' strokeWidth="10"/>
             </Link>
             <Link to="/upload">
-                <Box as="button" onClick={refreshPage} ml="10px" color={"white"} fontWeight="bold" fontSize="30px" >Captioning</Box>
+                <Box as="button" onClick={refreshPage} ml="10px" color={"white"} fontWeight="bold" fontSize="30px">Transcribro</Box>
             </Link>
             <Box width="100%" alignItems="center" justifyContent="end" display={{base: "none", md: "flex"}}>
                 <AboutModal />
