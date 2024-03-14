@@ -10,11 +10,11 @@ export const standardTutorials = {
       text: "Use the sidebar to adjust the font style and size of the transcript text, or adjust the spacing between lines and words."
     },
     {
-      position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "390"}},
+      position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "58%"}},
       text: "Select lines within the text display to bold, italicize, or underline them."
     },
     {
-      position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "550"}},
+      position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "70%"}},
       text: "Adjust the color of the whole text or select lines to highlight specific sections."
     },
     {

@@ -19,8 +19,8 @@ const uploadTutorials = {
     {
       position: {
         pos: "fixed",
-        top: { base: "130px", md: "100px" },
-        right: { md: "4" },
+        top: { base: "130px", md: "72%" },
+        right: { md: "39%" },
       },
       text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.",
     },
