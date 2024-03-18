@@ -10,7 +10,12 @@ ansible-galaxy collection install ansible.posix community.docker
 ```
 
 ## Set up the application on a remote server automatically with Ansible 
-1. Create SSH keys for admin and util user using the `generate-ssh-keys.sh` script
+1. Create SSH keys for admin and util user using the `generate-ssh-keys.sh` script:
+
+```sh
+./scripts/generate_ssh_keys.sh
+```
+
 2. Copy the `admin_user` SSH key to the server by using the `ssh-copy-id` command:
 
 ```sh
@@ -35,12 +40,12 @@ This will make you set a vault password for the encrypted file. Save it somewher
 5. Run the `setup-dependencies.yml` Ansible playbook:
 
 ```sh
-ansible-playbook setup-dependencies.yml
+ansible-playbook playbooks/setup-dependencies.yml
 ```
 
 6. Run the `setup-server.yml` Ansible playbook and enter the vault password you set earlier when prompted:
 ```sh
-ansible-playbook setup-server.yml --ask-vault-pass
+ansible-playbook playbooks/setup-server.yml --ask-vault-pass
 ```
 
 ## Update the application on a remote server automatically with Ansible
@@ -48,5 +53,5 @@ ansible-playbook setup-server.yml --ask-vault-pass
 1. Run the `update-server.yml` Ansible playbook and enter the vault password when prompted
 
 ```sh
-ansible-playbook update-server.yml --ask-vault-pass
+ansible-playbook playbooks/update-server.yml --ask-vault-pass
 ```
