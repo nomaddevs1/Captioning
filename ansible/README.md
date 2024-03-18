@@ -6,7 +6,7 @@
 
 ## Install Ansible and necessary Ansible collections
 
-1. [Install Ansible]() on your local machine.
+1. [Install Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) on your local machine.
 2. Install necessary Ansible collections:
 
 ```sh
