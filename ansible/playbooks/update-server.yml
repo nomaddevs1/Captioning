@@ -39,7 +39,7 @@
       find {{ site_file.dest }} -type f -exec chown {{ util_user }}:www-data {} \;
 
   - name: Include secret OpenAI API key
-    include_vars: secrets/openai-api-key.yml
+    include_vars: ../secrets/openai-api-key.yml
 
   - name: Start backend docker container
     community.docker.docker_compose:

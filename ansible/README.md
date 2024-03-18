@@ -1,5 +1,9 @@
 # Ansible Automated Deployment
 
+## Prerequisites
+
+1. Set DNS records for backend and frontend URLs (ex. api.domain.com for backend, domain.com for frontend)
+
 ## Install Ansible and necessary Ansible collections
 
 1. [Install Ansible]() on your local machine.

@@ -2,7 +2,6 @@
 - name: Set up firewall
   hosts: prod_server_admin
   become: true
-
   tasks:
     - name: Remove ufw
       ansible.builtin.apt:
@@ -38,7 +37,7 @@
   hosts: prod_server_admin
   become: true
   vars_files:
-    - vars/domain_names.yml
+    - ../vars/domain_names.yml
   vars:
     util_user: transcribro
 
@@ -67,7 +66,7 @@
 
   - name: Copy NGINX template config file     
     ansible.builtin.template:
-      src: templates/capstone.conf
+      src: ../templates/capstone.conf
       dest: /etc/nginx/sites-available
 
   - name: Create symbolic link to enable NGINX site config
@@ -115,4 +114,4 @@
       state: present
       user: "{{ util_user }}"
     with_file:
-      - "keys/util_user.pub"
+      - "../keys/util_user.pub"
