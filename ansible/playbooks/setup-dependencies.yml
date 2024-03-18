@@ -1,0 +1,117 @@
+---
+- name: Set up firewall
+  hosts: prod_server_admin
+  become: true
+  tasks:
+    - name: Remove ufw
+      ansible.builtin.apt:
+        name: ufw
+        state: absent
+
+    - name: Install firewalld
+      ansible.builtin.apt:
+        name: firewalld
+        state: present
+        update_cache: true
+
+    - name: Allow SSH traffic 
+      ansible.posix.firewalld:
+        port: 22/tcp
+        state: enabled
+        permanent: true
+
+    - name: Allow HTTP traffic
+      ansible.posix.firewalld:
+        service: http
+        state: enabled
+        permanent: true
+      
+    - name: Allow HTTPS traffic
+      ansible.posix.firewalld:
+        service: https
+        state: enabled
+        permanent: true
+
+
+- name: Set up server for the first time
+  hosts: prod_server_admin
+  become: true
+  vars_files:
+    - ../vars/domain_names.yml
+  vars:
+    util_user: transcribro
+
+  tasks:
+  - name: Install dependencies
+    ansible.builtin.apt:
+      name:
+        - nginx
+        - docker.io
+        - docker-compose
+        - python3-certbot
+        - python3-certbot-nginx
+      state: present
+    
+  - name: Stop NGINX so certbot can get SSL certs
+    ansible.builtin.systemd_service:
+      name: nginx
+      state: stopped
+
+  - name: Run certbot to get SSL certs for the server
+    shell: |
+      certbot certonly --standalone -n --agree-tos \
+        -d {{ api_url }} \
+        -d {{ base_url }} \
+        -m ryan.bell62101@gmail.com
+
+  - name: Copy NGINX template config file     
+    ansible.builtin.template:
+      src: ../templates/capstone.conf
+      dest: /etc/nginx/sites-available
+
+  - name: Create symbolic link to enable NGINX site config
+    ansible.builtin.file:
+      src: /etc/nginx/sites-available/capstone.conf
+      state: hard
+      dest: /etc/nginx/sites-enabled/capstone.conf
+      state: link
+    
+  - name: Remove the default NGINX site config
+    ansible.builtin.file:
+      path: /etc/nginx/sites-enabled/default.conf
+      state: absent
+
+  - name: Enable and start NGINX
+    ansible.builtin.systemd_service:
+      name: nginx
+      state: started
+      enabled: true
+
+  - name: Enable Docker
+    ansible.builtin.systemd_service:
+      name: docker
+      state: started
+      enabled: true
+
+  - name: Enable Docker socket
+    systemd_service:
+      name: docker.socket
+      state: started
+      enabled: true
+    
+  - name: Create util user
+    ansible.builtin.user:
+      append: true
+      groups:
+        - docker
+        - www-data
+      shell: /usr/bin/bash
+      name: "{{ util_user }}"
+
+  - name: Add util user public key to util users's authorized_keys file
+    ansible.posix.authorized_key:
+      key: "{{ item }}"
+      state: present
+      user: "{{ util_user }}"
+    with_file:
+      - "../keys/util_user.pub"

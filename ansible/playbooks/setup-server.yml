@@ -1,0 +1,52 @@
+- name: Set up server for the first time
+  hosts: prod_server_admin
+  become: true
+  vars:
+    util_user: transcribro
+  
+  tasks:  
+  - name: Download tar archived deployment files from GitHub
+    ansible.builtin.get_url:
+      url: https://github.com/nomaddevs1/Captioning/releases/download/deployment-files/deployment-files.tar.gz
+      dest: /tmp
+    register: download_result
+
+  - name: Extract deployment files
+    ansible.builtin.unarchive:
+      src: "{{ download_result.dest }}"
+      dest: /tmp
+      remote_src: true
+    register: extract_result
+
+  - name: Copy site files into /var/www
+    ansible.builtin.copy:
+      src: "{{ extract_result.dest }}/deployment-files/site/"
+      dest: /var/www/captioning
+      remote_src: true
+      mode: "0755"
+      owner: "{{ util_user }}"
+      group: "www-data"
+    register: site_file
+
+  - name: Ensure site directories have the correct permissions and ownership
+    shell: |
+      find {{ site_file.dest }} -type d -exec chmod 0755 {} \;
+      find {{ site_file.dest }} -type d -exec chown {{ util_user }}:www-data {} \;
+
+  - name: Ensure site files have the correct permissions and ownership
+    shell: |
+      find {{ site_file.dest }} -type f -exec chmod 0664 {} \;
+      find {{ site_file.dest }} -type f -exec chown {{ util_user }}:www-data {} \;
+
+  - name: Include secret OpenAI API key
+    include_vars: ../secrets/openai-api-key.yml
+
+  - name: Start backend docker container
+    community.docker.docker_compose:
+      project_src: "{{ extract_result.dest }}/deployment-files" 
+      pull: true
+      remove_orphans: true
+    environment:
+      OPENAI_API_KEY: "{{ openai_api_key }}"
+    
+
