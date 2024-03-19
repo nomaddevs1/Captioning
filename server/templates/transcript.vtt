@@ -1,0 +1,8 @@
+WEBVTT
+{% for cue in cues %}
+{% if cue.id -%}
+{{ cue.id }}
+{% endif -%}
+{{ cue.start|vtt_timestamp }} --> {{ cue.end|vtt_timestamp }}
+{{ cue.payload }}
+{% endfor %}

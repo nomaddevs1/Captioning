@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse, Response
 from models.transcript import TranscriptDataModel
 from models.status import ErrorMessage
-from pdf_generator import generate_pdf, render_html
+from utils.generate_pdf import generate_pdf, render_html
 import logging
 
 router = APIRouter()
