@@ -4,5 +4,28 @@ WEBVTT
 {{ cue.id }}
 {% endif -%}
 {{ cue.start|vtt_timestamp }} --> {{ cue.end|vtt_timestamp }}
+
+{%- if cue.options -%}
+
+{%- if cue.options.vertical -%}
+{{ " " }}vertical:{{ cue.options.vertical }}
+{%- endif %}
+
+{%- if cue.options.line -%}
+{{ " " }}line:{{ cue.options.line }}
+{%- endif %}
+
+{%- if cue.options.position -%}
+{{ " " }}position:{{ cue.options.position }}
+{%- endif %}
+
+{%- if cue.options.size -%}
+{{ " " }}size:{{ cue.options.size }}
+{%- endif %}
+
+{%- if cue.options.align -%}
+{{ " " }}align:{{ cue.options.align }}
+{%- endif %}
+{%- endif %}
 {{ cue.payload }}
 {% endfor %}
