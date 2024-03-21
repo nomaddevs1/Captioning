@@ -1,4 +1,4 @@
-import { Center, Button } from "@chakra-ui/react";
+import { Center, Button, Text, Flex, Checkbox } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useUploader from "src/hooks/useUploader";
 import Progress from "src/components/uploads/Progress";
@@ -37,11 +37,14 @@ function Upload() {
   const { setTranscriptionData } = useTranscription();
   const [languageCode, setLanguageCode] = useState("en");
   const { updateTutorialList } = useTutorialContext();
+  const [isVideoFile, setIsVideoFile] = useState(false);
 
   useEffect(() => {
     updateTutorialList(uploadTutorials);
   }, [updateTutorialList]);
 
+  
+  
   const { setAudioFile } = useAudioContext();
   const passTranscript = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -78,8 +81,10 @@ function Upload() {
         const data = await generateTranscript(
           uploaded,
           languageCode,
-          setProgress
+          setProgress,
+          isVideoFile
         );
+       
 
         toast.success("File successfully uploaded");
         setTimeout(() => {
@@ -113,10 +118,18 @@ function Upload() {
         <UploadedFileInfo
           file={uploaded}
           onChange={(value) => setLanguageCode(value)}
+          onVideoFlagChange ={(isVideo) => setIsVideoFile(isVideo)} 
+          
         >
           <Button width="100%" onClick={passTranscript}>
             Transcribe
           </Button>
+          <Flex alignItems="center" justifyContent="center" mt={4}>
+              <Checkbox isChecked={isVideoFile} onChange={(e) => setIsVideoFile(e.target.checked)}>
+                Is this file in video format?
+              </Checkbox>
+              <Text ml={2}>Video File</Text>
+            </Flex>
         </UploadedFileInfo>
       ) : (
         <FileUploadArea

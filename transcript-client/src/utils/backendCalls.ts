@@ -7,14 +7,16 @@ import { MOCK_BACKEND } from "./environment";
 async function realGenerateTranscript(
   audioFile: File,
   languageCode: string,
-  setProgress: Dispatch<SetStateAction<number>>
+  setProgress: Dispatch<SetStateAction<number>>,
+  isVideoFile: boolean // Adding isVideoFile parameter
+
 ): Promise<TranscriptionData> {
   const formData = new FormData();
   const axios = AxiosPrivateClient;
   formData.append("audio_file", audioFile);
 
   const { data } = await axios.post(
-    `/transcribe/?language=${languageCode}`,
+    `/transcribe/?language=${languageCode} &isVideoFile=${isVideoFile}`,
     formData,
     {
       onUploadProgress: (progressEvent) => {
