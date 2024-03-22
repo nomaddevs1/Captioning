@@ -1,7 +1,7 @@
 {
   "cues": [
     {
-      "id": "1",
+      "id": "c1",
       "start": 2,
       "end": 7,
       "payload": [ "Good morning, everyone." ],
@@ -14,7 +14,7 @@
       }
     },
     {
-      "id": "2",
+      "id": "c2",
       "start": 10,
       "end": 16,
       "payload": [ "Today, we'll discuss the new project." ],
@@ -27,7 +27,7 @@
       }
     },
     {
-      "id": "3",
+      "id": "c3",
       "start": 20,
       "end": 26,
       "payload": [ "First, let's go through the objectives." ],
@@ -37,7 +37,7 @@
       }
     },
     {
-      "id": "4",
+      "id": "c4",
       "start": 27,
       "end": 30,
       "payload": [ "Second, we'll explain the project's significance to the company." ]

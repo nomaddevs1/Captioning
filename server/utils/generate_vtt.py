@@ -53,7 +53,6 @@ def vtt_append_styles(styles: List[tuple], lines):
 
 
 def generate_vtt(data: WebVTTData) -> str:
-    print(data)
     lines = ["WEBVTT\n"]
 
     style_tuples = []
@@ -82,7 +81,3 @@ def generate_vtt(data: WebVTTData) -> str:
         lines.append("")  # for an extra newline
 
     return "\n".join(lines)
-
-
-def save_vtt(str_data: str, file: TextIO):
-    file.write(str_data)

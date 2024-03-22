@@ -1,9 +1,9 @@
 import pytest
 from typing import Generator
-from models.web_vtt import WebVTTData, WebVTTCue
 import json
-
-from utils.generate_vtt import generate_vtt
+from models.web_vtt import WebVTTData, WebVTTCue
+from common_fixtures import mock_client
+from utils.generate_vtt import generate_vtt, vtt_timestamp
 
 
 @pytest.fixture
@@ -32,6 +32,23 @@ def advanced_vtt_data_with_styles() -> Generator[WebVTTData, None, None]:
     with open("tests/fixtures/vtt/advanced_data_with_styles.json", "r") as file:
         data = json.load(file)
         yield WebVTTData(**data)
+
+
+# ========================== UNIT TESTS ==========================
+
+
+def test_vtt_timestamp():
+    times = [1.23, 1000.12, 1023, 49922.123]
+
+    expected = [
+        "00:00:01.230",
+        "00:16:40.120",
+        "00:17:03.000",
+        "13:52:02.123",
+    ]
+
+    for time, expected in zip(times, expected):
+        assert vtt_timestamp(time) == expected
 
 
 def test_generate_vtt_with_basic_data(basic_vtt_data):
@@ -64,3 +81,81 @@ def test_generate_vtt_with_advanced_data_with_styles(advanced_vtt_data_with_styl
     with open("tests/fixtures/vtt/advanced_data_with_styles.vtt", "r") as file:
         expected = file.read()
         assert vtt_str == expected
+
+
+# =========================== API TESTS ==========================
+
+
+def test_generate_vtt_route_successful(
+    mock_client,
+    basic_vtt_data,
+    basic_vtt_data_with_ids,
+    advanced_vtt_data,
+    advanced_vtt_data_with_styles,
+):
+    vtt_fixture_paths = [
+        "tests/fixtures/vtt/basic_data.vtt",
+        "tests/fixtures/vtt/basic_data_with_ids.vtt",
+        "tests/fixtures/vtt/advanced_data.vtt",
+        "tests/fixtures/vtt/advanced_data_with_styles.vtt",
+    ]
+
+    vtt_data = [
+        basic_vtt_data,
+        basic_vtt_data_with_ids,
+        advanced_vtt_data,
+        advanced_vtt_data_with_styles,
+    ]
+
+    for data, fixture_path in zip(vtt_data, vtt_fixture_paths):
+        print(f"testing {fixture_path.split('/')[-1]}")
+        response = mock_client.post(
+            "/generate-vtt/", json=data.model_dump(exclude_none=True)
+        )
+        assert response.status_code == 200
+        assert response.headers.get("Content-Type") == "text/vtt; charset=utf-8"
+
+        with open(fixture_path, "rb") as file:
+            assert response.content == file.read()
+            
+    
+def test_generate_vtt_route_bad_data(mock_client):
+    data = {
+        "cues": [
+            {
+                "id": "1"
+            }
+        ]
+    }
+    
+    response = mock_client.post('/generate-vtt/', json=data)
+    assert response.status_code == 422
+    
+    data = {
+        "cues": [
+            {
+                "id": "1",
+                "start": 12,
+                "end": 13
+            }
+        ]
+    }
+    
+    response = mock_client.post('/generate-vtt/', json=data)
+    assert response.status_code == 422
+    
+    data = {
+        "cues": [
+            {
+                "id": "1",
+                "start": 12,
+                "end": 13,
+                "payload": [
+                    "hello world"
+                ]
+            }
+        ]
+    }
+    
+    response = mock_client.post('/generate-vtt/', json=data)
+    assert response.status_code == 422
