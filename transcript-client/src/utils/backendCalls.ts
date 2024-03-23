@@ -14,7 +14,7 @@ async function realGenerateTranscript(
   formData.append("audio_file", audioFile);
 
   const { data } = await axios.post(
-    `/transcribe/?language=${languageCode}&format=vtt`,
+    `/transcribe/?language=${languageCode}`,
     formData,
     {
       onUploadProgress: (progressEvent) => {

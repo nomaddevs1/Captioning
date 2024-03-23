@@ -2,7 +2,6 @@ import pytest
 from typing import Generator
 import json
 from io import BytesIO
-from random import randbytes
 from unittest.mock import patch
 from models.web_vtt import WebVTTData
 from common_fixtures import (
@@ -154,7 +153,7 @@ def test_generate_vtt_route_bad_data(mock_client):
 
 
 def test_transcribe_returns_vtt(mock_transcribe, mock_client):
-    video_buffer = BytesIO(randbytes(12))
+    video_buffer = BytesIO(b"random bytes in the BytesIO buffer")
     video_buffer.name = "testfile.mp4"
 
     response = mock_client.post(
