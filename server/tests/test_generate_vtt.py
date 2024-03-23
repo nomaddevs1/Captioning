@@ -1,8 +1,17 @@
 import pytest
 from typing import Generator
 import json
-from models.web_vtt import WebVTTData, WebVTTCue
-from common_fixtures import mock_client
+from io import BytesIO
+from random import randbytes
+from unittest.mock import patch
+from models.web_vtt import WebVTTData
+from common_fixtures import (
+    mock_client,
+    mock_openai_transcribe,
+    srt_response,
+    transcript,
+    transcript_dict,
+)
 from utils.generate_vtt import generate_vtt, vtt_timestamp
 
 
@@ -32,6 +41,14 @@ def advanced_vtt_data_with_styles() -> Generator[WebVTTData, None, None]:
     with open("tests/fixtures/vtt/advanced_data_with_styles.json", "r") as file:
         data = json.load(file)
         yield WebVTTData(**data)
+
+
+@pytest.fixture
+def mock_transcribe(transcript):
+    with patch(
+        "server.transcribe_route.transcribe_file", return_value=transcript
+    ) as mock:
+        yield mock
 
 
 # ========================== UNIT TESTS ==========================
@@ -117,45 +134,36 @@ def test_generate_vtt_route_successful(
 
         with open(fixture_path, "rb") as file:
             assert response.content == file.read()
-            
-    
+
+
 def test_generate_vtt_route_bad_data(mock_client):
-    data = {
-        "cues": [
-            {
-                "id": "1"
-            }
-        ]
-    }
-    
-    response = mock_client.post('/generate-vtt/', json=data)
+    data = {"cues": [{"id": "1"}]}
+
+    response = mock_client.post("/generate-vtt/", json=data)
     assert response.status_code == 422
-    
-    data = {
-        "cues": [
-            {
-                "id": "1",
-                "start": 12,
-                "end": 13
-            }
-        ]
-    }
-    
-    response = mock_client.post('/generate-vtt/', json=data)
+
+    data = {"cues": [{"id": "1", "start": 12, "end": 13}]}
+
+    response = mock_client.post("/generate-vtt/", json=data)
     assert response.status_code == 422
-    
-    data = {
-        "cues": [
-            {
-                "id": "1",
-                "start": 12,
-                "end": 13,
-                "payload": [
-                    "hello world"
-                ]
-            }
-        ]
-    }
-    
-    response = mock_client.post('/generate-vtt/', json=data)
+
+    data = {"cues": [{"id": "1", "start": 12, "end": 13, "payload": ["hello world"]}]}
+
+    response = mock_client.post("/generate-vtt/", json=data)
     assert response.status_code == 422
+
+
+def test_transcribe_returns_vtt(mock_transcribe, mock_client):
+    video_buffer = BytesIO(randbytes(12))
+    video_buffer.name = "testfile.mp4"
+
+    response = mock_client.post(
+        "/transcribe/",
+        files={"audio_file": (video_buffer.name, video_buffer, "video/mp4")},
+        params={"language": "en", "format": "vtt"},
+    )
+
+    video_buffer.close()
+    assert response.status_code == 200
+    assert response.content
+    assert response.headers.get("Content-Type") == "text/vtt; charset=utf-8"

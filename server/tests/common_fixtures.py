@@ -3,29 +3,30 @@ from transcriber import Transcript
 import pytest
 from unittest.mock import patch
 import json
+from typing import Generator
 from server import app
 
 
 @pytest.fixture
-def transcript_dict() -> dict:
+def transcript_dict() -> Generator[dict, None, None]:
     with open("tests/fixtures/transcript.json", "r") as file:
         data = json.load(file)
         yield data
 
 
 @pytest.fixture
-def transcript(transcript_dict) -> Transcript:
+def transcript(transcript_dict) -> Generator[Transcript, None, None]:
     yield Transcript.from_dict(transcript_dict)
 
 
 @pytest.fixture
-def mock_client() -> TestClient:
+def mock_client() -> Generator[TestClient, None, None]:
     with TestClient(app) as c:
         yield c
 
 
 @pytest.fixture
-def srt_response() -> str:
+def srt_response() -> Generator[str, None, None]:
     with open("tests/fixtures/srt_response.txt", "r") as file:
         yield file.read()
 

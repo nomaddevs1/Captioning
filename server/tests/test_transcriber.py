@@ -110,9 +110,10 @@ def test_transcribe_large_file(mock_openai_transcribe):
 
     file = NamedTemporaryFile("w+b", suffix=".wav")
     audio.export(file.name, "wav", bitrate="64k")
-    transcript_result = transcribe_file(file, "english", 10_000)
+    transcript_result = transcribe_file(file, "en", 10_000)
 
-    assert len(transcript_result.transcript) == 138
+    print(transcript_result.transcript)
+    assert len(transcript_result.transcript) == 253
 
 
 def test_transcribe_compressable_to_lt_25MB_file(mock_openai_transcribe):

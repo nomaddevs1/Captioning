@@ -11,7 +11,7 @@ router = APIRouter()
 @router.post(
     "/generate-pdf/",
     responses={200: {"content": {"application/pdf": {}}}, 400: {"model": ErrorMessage}},
-    response_class=FileResponse
+    response_class=FileResponse,
 )
 async def generate_pdf_route(transcript_data: TranscriptDataModel):
     if transcript_data.raw_html:

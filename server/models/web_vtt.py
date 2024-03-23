@@ -1,5 +1,7 @@
 from pydantic import BaseModel, field_validator
 from typing import List, Literal, Dict, Optional
+from transcriber import Transcript
+
 import re
 
 # any integer or percentage between 0% and 100% inclusive:
@@ -213,8 +215,8 @@ class WebVTTCue(BaseModel):
 
     @field_validator("id")
     @classmethod
-    def check_id(cls, value):       
-        assert re.search(css_class_id_regex, value) 
+    def check_id(cls, value):
+        assert re.search(css_class_id_regex, value)
         return value
 
     @field_validator("style")
@@ -237,3 +239,12 @@ class WebVTTData(BaseModel):
             assert key in CSS_PROPERTIES
 
         return value
+
+    @staticmethod
+    def from_transcript(transcript: Transcript):
+        cues = []
+        for block in transcript.transcript:
+            cue = WebVTTCue(start=block.start, end=block.end, payload=[block.text])
+            cues.append(cue)
+
+        return WebVTTData(cues=cues)
