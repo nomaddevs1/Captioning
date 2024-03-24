@@ -55,7 +55,7 @@ function Header(){
                     ml="10px"
                 />
             </Box>
-            <Box display={{base: "flex", md: "none"}} alignItems="center">
+            <Box display={{base: "flex", md: "none"}} alignItems="center" width="100vw">
                 <IconButton 
                     aria-label="toggle-menu" 
                     variant="link" 
@@ -66,7 +66,7 @@ function Header(){
                     right="2"
                 >
                 </IconButton>
-                <Modal isOpen={isOpen} onClose={onClose} size="sm" motionPreset="none">
+                <Modal isOpen={isOpen} onClose={onClose} motionPreset="none">
                     <ModalContent bg={drawerBgColor} display="flex" padding="6px" flexDirection="column" gap="6px" mt="80px" borderRadius="none">
                         <AboutModal />
                         <TutorialPopup />

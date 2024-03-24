@@ -10,7 +10,7 @@ export const interactiveTutorials = {
       text: "Press play to start the audio, as the speaker reaches the next line in the transcript, it will be highlighted."
     },
     {
-      position: {pos: "fixed", top: {base: "130px", md:"200px"}, left: {md: "380"}},
+      position: {pos: "fixed", top: {base: "130px", md:"110"}, left: {md: "450px"}},
       text: "Use the media controls to play and pause the audio. Click on the audio progress bar or click on lines of text in the transcript to jump to specific timestamps."
     }
   ]
