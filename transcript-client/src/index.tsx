@@ -10,6 +10,7 @@ import { AudioProvider } from "./context/AudioContext";
 import { EditorProvider } from "./context/EditorContext";
 import { TutorialProvider } from "./context/TutorialContext";
 import { ColorModeScript } from '@chakra-ui/react';
+import GlobalStyle from "./theme/global";
 
 
 const root = ReactDOM.createRoot(
@@ -20,6 +21,7 @@ root.render(
      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
     <BrowserRouter>
       <ChakraProvider theme={theme}>
+      <GlobalStyle/>
         <TutorialProvider>
           <TranscriptionProvider>
             <EditorProvider>
