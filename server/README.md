@@ -40,7 +40,11 @@ src
 `uvicorn server:app --reload`
 
 ### Test
-`pytest -v`
+`coverage run pytest -v`
+
+### Coverage Reports
+
+`coverage report`
 
 ### Documentation
 

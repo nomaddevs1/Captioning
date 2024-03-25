@@ -4,16 +4,22 @@ from pydub.utils import make_chunks
 from tempfile import NamedTemporaryFile
 import math
 import os
+import shutil
+import ffmpeg
 
 WAV_HEADER_SIZE_BYTES = 44
 
 
 def compress_audio_file(file: BinaryIO) -> Tuple[BinaryIO, int]:
     file_format = file.name.split(".")[-1]
-    audio = AudioSegment.from_file(file.name, file_format)
-
     compressed_file = NamedTemporaryFile("rb", suffix=".mp3")
-    audio.export(compressed_file.name, "mp3", bitrate="64k")
+    if file_format != "mp3":
+        ffmpeg.input(file.name).output(compressed_file.name, loglevel="quiet").run(
+            overwrite_output=True,
+        )
+    else:
+        shutil.copyfile(file.name, compressed_file.name)
+
     compressed_file.seek(0, os.SEEK_END)
     compressed_file_size = compressed_file.tell()
     compressed_file.seek(0, os.SEEK_SET)
@@ -30,6 +36,7 @@ def chunkify_mp3(
     max_size = chunk_size_bytes * 9 / 10
     num_chunks = math.ceil(file_size / max_size)
     audio = AudioSegment.from_file(file.name, "mp3")
+
     audio_chunks = make_chunks(audio, len(audio) / num_chunks)
     files = [NamedTemporaryFile("rb", suffix=".mp3") for _ in range(num_chunks)]
 

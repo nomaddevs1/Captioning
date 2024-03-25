@@ -1,3 +1,1 @@
-from utils import duration_detector, parse_srt
-
-from . import pdf_routes, transcribe_routes
+from . import pdf_route, transcribe_route, vtt_route

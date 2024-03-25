@@ -1,0 +1,19 @@
+{
+  "cues": [
+    {
+      "start": 2,
+      "end": 7,
+      "payload": [ "Good morning, everyone." ]
+    },
+    {
+      "start": 10,
+      "end": 16,
+      "payload": [ "Today, we'll discuss the new project." ]
+    },
+    {
+      "start": 20,
+      "end": 26,
+      "payload": [ "First, let's go through the objectives." ]
+    }
+  ]
+}

@@ -8,37 +8,37 @@
     body {
       margin: 20px;
 
-      {%- if settings["bg_color"] %}
+      {% if settings["bg_color"] %}
       background-color: {{settings.bg_color}};
-      {%- endif %}
+      {% endif %}
 
-      {%- if settings["font_size"] %}
+      {% if settings["font_size"] %}
       font-size: {{settings.font_size}};
-      {%- endif %}
+      {% endif %}
 
-      {%- if settings["font_color"] %}
+      {% if settings["font_color"] %}
       color: {{settings.font_color}};
-      {%- endif %}
+      {% endif %}
 
-      {%- if settings["font"] %}
+      {% if settings["font"] %}
       font-family: {{settings.font}};
-      {%- endif %}
+      {% endif %}
 
       {%- if settings["line_height"] %}
       line-height: {{settings.line_height}};
-      {%- endif %}
+      {% endif %}
       
-      {%- if settings["word_spacing"] %}
+      {% if settings["word_spacing"] %}
       word-spacing: {{settings.word_spacing}};
-      {%- endif %}
+      {% endif %}
     }
   </style>
 </head>
 
 <body>
-  {%- for item in transcript %}
+  {% for item in transcript %}
   <p><strong>{{ item.start }}:{{ item.end }}</strong> - {{ item.text|safe }}</p>
-  {%- endfor %}
+  {% endfor %}
 </body>
 
 </html>
