@@ -137,39 +137,33 @@ def transcribe_file(file: BinaryIO, language: str, file_size_limit: int) -> Tran
     )
 
     transcript = None
-    if file_size_bytes > file_size_limit:
-        # if the file size exceeds the limit of the Whisper API (25 MB), split
-        # the audio into multiple files:
+    # if file_size_bytes > file_size_limit:
+    #     # if the file size exceeds the limit of the Whisper API (25 MB), split
+    #     # the audio into multiple files:
+    #     logging.debug(
+    #         f"Audio file '{file.name}' was larger than 25 MB, attempting MP3 "
+    #         "compression to shrink the audio to <25 MB..."
+    #     )
+    compressed_audio_file, compressed_file_size = compress_audio_file(file)
+    if compressed_file_size > file_size_limit:
         logging.debug(
-            f"Audio file '{file.name}' was larger than 25 MB, attempting MP3 "
-            "compression to shrink the audio to <25 MB..."
+            f"MP3 compression was not enough to bring {file.name} size under "
+            "25 MB, now slicing the file into <25 MB chunks..."
         )
-        compressed_audio_file, compressed_file_size = compress_audio_file(file)
-        if compressed_file_size > file_size_limit:
-            logging.debug(
-                f"MP3 compression was not enough to bring {file.name} size under "
-                "25 MB, now slicing the file into <25 MB chunks..."
-            )
-            file.close()
-            files = chunkify_mp3(
-                compressed_audio_file, compressed_file_size, file_size_limit
-            )
-            logging.debug(
-                f"{compressed_audio_file.name} sliced into {len(files)} chunks."
-            )
-            compressed_audio_file.close()
-            transcript = transcribe_files(files, language, file_size_limit)
-        else:
-            whisper_transcript_srt = openai.Audio.transcribe(
-                file=compressed_audio_file,
-                model="whisper-1",
-                response_format="srt",
-                language=language,
-            )
-            transcript = Transcript.from_srt(whisper_transcript_srt)
+        file.close()
+        files = chunkify_mp3(
+            compressed_audio_file, compressed_file_size, file_size_limit
+        )
+        logging.debug(f"{compressed_audio_file.name} sliced into {len(files)} chunks.")
+        compressed_audio_file.close()
+        transcript = transcribe_files(files, language, file_size_limit)
     else:
         whisper_transcript_srt = openai.Audio.transcribe(
-            file=file, model="whisper-1", response_format="srt", language=language
+            file=compressed_audio_file,
+            model="whisper-1",
+            response_format="srt",
+            language=language,
         )
         transcript = Transcript.from_srt(whisper_transcript_srt)
+
     return transcript

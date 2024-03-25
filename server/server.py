@@ -11,7 +11,7 @@ from config import (
 )
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes import pdf_routes, transcribe_routes
+from routes import pdf_route, transcribe_route, vtt_route
 from logger import init_logger
 import logging
 import uvicorn
@@ -30,8 +30,9 @@ else:
 
 logging.info(f"Server listening at {HOST_URL}")
 # Add CORS middleware
-app.include_router(transcribe_routes.router)
-app.include_router(pdf_routes.router)
+app.include_router(transcribe_route.router)
+app.include_router(pdf_route.router)
+app.include_router(vtt_route.router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[HOST_URL, CLIENT_URL],  # List of allowed origins

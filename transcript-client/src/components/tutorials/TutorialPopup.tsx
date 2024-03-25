@@ -7,7 +7,8 @@ import {
     ModalContent,
     Box,
     Text,
-    useColorModeValue
+    useColorModeValue,
+    Flex,
 } from "@chakra-ui/react"
 import { useTutorialContext } from 'src/context/TutorialContext';
 
@@ -35,12 +36,19 @@ const TutorialPopup = () => {
 
         
         return (
-            <Box sx={currentTutorial.position} width="350px" bg= {bgColor} borderRadius="8" mb="4" zIndex="1000" boxShadow="lg">
-                <Box height="8px" bg="#557E4A" borderTopRadius="8"></Box>
-                <Box p="2" textAlign="left" fontSize="md">
+            <Flex sx={currentTutorial.position} width={{md: "370px"}} borderRadius="8" mb="4" zIndex="1000" flexDirection="row">
+                <Box 
+                    width={{md: "40px"}} 
+                    backgroundImage={`linear-gradient(to bottom left, ${bgColor} 50%, transparent 0), linear-gradient(to top left, ${bgColor} 50%, transparent 0)`} 
+                    bgSize="100% 50%" 
+                    bgRepeat="no-repeat" 
+                    bgPosition="bottom, top"
+                />
+                <Box p="2" textAlign="left" fontSize="md" width={{md: "320px"}} bg={bgColor}>
                     <Text>{currentTutorial.text}</Text>
                 </Box>
-            </Box>
+                <Box width={{md: "10px"}} bg="#557E4A" borderRightRadius="8" />
+            </Flex>
         );
     };
 

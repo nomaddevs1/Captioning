@@ -1,14 +1,13 @@
 import logging
 import pdfkit
-from jinja2 import Environment, PackageLoader, select_autoescape
 
-env = Environment(loader=PackageLoader("pdf_generator"), autoescape=select_autoescape())
+from .render_template import render_template
 
 
 def render_html(data: dict) -> str:
     logging.info("rendering html document to convert to pdf file...")
-    template = env.get_template("transcript.html")
-    html_str = template.render(**data)
+    html_str = render_template("transcript.html", **data)
+
     return html_str
 
 

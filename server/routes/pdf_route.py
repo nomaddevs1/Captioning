@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse, Response, FileResponse
 from models.transcript import TranscriptDataModel
 from models.status import ErrorMessage
-from pdf_generator import generate_pdf, render_html
+from utils.generate_pdf import generate_pdf, render_html
 import logging
 
 router = APIRouter()
@@ -11,6 +11,7 @@ router = APIRouter()
 @router.post(
     "/generate-pdf/",
     responses={200: {"content": {"application/pdf": {}}}, 400: {"model": ErrorMessage}},
+    response_class=FileResponse,
 )
 async def generate_pdf_route(transcript_data: TranscriptDataModel):
     if transcript_data.raw_html:
