@@ -6,6 +6,8 @@ import {
 
 
 const defaultState: TranscriptionContextType = {
+  isVideo: true,
+  setIsVideo: () => {},
   transcriptionData: null,
   setTranscriptionData: () => null,
   fontSize: "16px",
@@ -48,6 +50,7 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isItalic, setIsItalic] = useState<boolean>(false);
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
+  const [isVideo, setIsVideo] = useState(false);
   
   const resetStyles = () => {
     setFontSize(defaultState.fontSize);
@@ -83,6 +86,8 @@ export const TranscriptionProvider = ({ children }: any) => {
         resetStyles,
         audioFile,
         setAudioFile,
+        isVideo,
+        setIsVideo
       }}
     >
       {children}
