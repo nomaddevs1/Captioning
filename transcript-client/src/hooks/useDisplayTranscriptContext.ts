@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useEditor } from "src/context/EditorContext";
 
 interface UseDisplayTranscriptContextReturn {
+  isVideo: boolean;
   transcriptionData: TranscriptionSegment[] | null;
   toggleInteractiveMode: () => void;
   isInteractiveMode: boolean;
@@ -26,7 +27,7 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
   const { setEditorState } = useEditor();
   const [isInteractiveMode, setIsInteractiveMode] = useState(false);
   const [showAudioControls, setShowAudioControls] = useState(false);
-  const { transcriptionData, resetStyles } = useTranscription(); // Assume it returns transcription data and other relevant states
+  const {isVideo, transcriptionData, resetStyles } = useTranscription(); // Assume it returns transcription data and other relevant states
   const {
     audioFile,
     setAudioFile: setContextAudioFile,
@@ -75,6 +76,7 @@ export const useDisplayTranscriptContext = (): UseDisplayTranscriptContextReturn
   };
 
   return {
+    isVideo,
     transcriptionData,
     toggleInteractiveMode,
     isInteractiveMode,

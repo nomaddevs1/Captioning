@@ -34,7 +34,8 @@ function Upload() {
   const [progress, setProgress] = useState(0);
   const { getInputProps, getRootProps } = useUploader(setUploaded);
   const navigate = useNavigate();
-  const { setTranscriptionData, isVideo, setIsVideo } = useTranscription();
+  const { setTranscriptionData, setTranscriptionVTT, isVideo, setVideoFile, setIsVideo } =
+    useTranscription();
   const [languageCode, setLanguageCode] = useState("en");
   const { updateTutorialList } = useTutorialContext();
 
@@ -80,14 +81,20 @@ function Upload() {
         const data = await generateTranscript(
           uploaded,
           languageCode,
-          setProgress,
-          isVideo
+          isVideo,
+          setProgress
         );
        
 
         toast.success("File successfully uploaded");
         setTimeout(() => {
-          setTranscriptionData(data.transcript);
+          if (isVideo) {
+            setTranscriptionVTT(data);
+            setVideoFile(uploaded)
+            navigate("/transcription", { state: { uploadedFile: uploaded } });
+          } else {
+            setTranscriptionData(data.transcript);
+          }
           navigate("/transcription", { state: { uploadedFile: uploaded } });
         }, 1000); // Pass the uploaded file to the TranscriptionPage
       } catch (err: any) {

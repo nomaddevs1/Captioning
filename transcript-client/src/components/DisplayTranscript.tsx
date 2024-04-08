@@ -7,10 +7,12 @@ import { TranscriptionSegment } from "src/types/transcriptionDataTypes";
 import InteractiveTranscriptView from "src/components/views/InteractiveTranscript";
 import StandardTranscriptView from "src/components/views/StandardTranscriptView";
 import { EditorState } from 'draft-js';
+import VideoInteractiveView from './views/VideoInteractive';
 
 
 const DisplayTranscript = () => {
   const {
+    isVideo,
     transcriptionData,
     toggleInteractiveMode,
     isInteractiveMode,
@@ -29,7 +31,15 @@ const DisplayTranscript = () => {
   const [currentStyleMap, setCurrentStyleMap] = useState({});
 
   const bg = useColorModeValue('white', 'primary.gray.100')
-  
+  if( isVideo ){
+    return (
+      <Box height="100%" p={4}>
+        <Flex flexDirection={{ base: "column", md: "row" }} gap={{ base: "2", md: "4" }}>
+          <VideoInteractiveView/>
+        </Flex>
+        </Box>
+    )
+  }
 
   return (
     <Box height="100%" p={4}>

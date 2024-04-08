@@ -1,15 +1,20 @@
 import { createContext, useContext, useState } from "react";
 import {
   TranscriptionContextType,
+  TranscriptionData,
   TranscriptionSegment,
 } from "src/types/transcriptionDataTypes";
 
 
 const defaultState: TranscriptionContextType = {
   isVideo: true,
-  setIsVideo: () => {},
+  setIsVideo: () => { },
+  videoFile: null,
+  setVideoFile: () => {},
   transcriptionData: null,
   setTranscriptionData: () => null,
+  transcriptionVTT: null,
+  setTranscriptionVTT: () => null,
   fontSize: "16px",
   setFontSize: () => {},
   fontColor: "#000000",
@@ -31,6 +36,13 @@ const defaultState: TranscriptionContextType = {
   audioFile: null,
   setAudioFile: () => null,
   resetStyles: () => {},
+
+  videoHighlightColors: "#FF",
+  setVideoHighlightColors: () => {},
+  line: 15,
+  setLine: () => {},
+  position: 50,
+  setPosition: () => {},
 };
 
 export const TranscriptionContext =
@@ -39,7 +51,10 @@ export const TranscriptionContext =
 export const TranscriptionProvider = ({ children }: any) => {
   const [transcriptionData, setTranscriptionData] = useState<
     TranscriptionSegment[] | null
-  >(null);
+    >(null);
+  const [isVideo, setIsVideo] = useState<boolean>(true);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [transcriptionVTT, setTranscriptionVTT] = useState<TranscriptionData | null>(null)
   const [fontSize, setFontSize] = useState<string>("16px");
   const [fontColor, setFontColor] = useState<string>("#000000");
   const [allHighlightColors, setAllHighlightColors] = useState<string[]>([]);
@@ -50,7 +65,9 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isItalic, setIsItalic] = useState<boolean>(false);
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [isVideo, setIsVideo] = useState(false);
+  const [videoHighlightColors, setVideoHighlightColors] = useState<string>("#FF");
+  const [line, setLine] = useState<number>(15);
+  const [position, setPosition] = useState<number>(50);
   
   const resetStyles = () => {
     setFontSize(defaultState.fontSize);
@@ -58,13 +75,18 @@ export const TranscriptionProvider = ({ children }: any) => {
     setFontColor(defaultState.fontColor);
     setLineHeight(defaultState.lineHeight);
     setWordSpacing(defaultState.wordSpacing);
-    // Add any additional style resets here
   };
   return (
     <TranscriptionContext.Provider
       value={{
+        isVideo,
+        setIsVideo,
+        videoFile,
+        setVideoFile,
         transcriptionData,
         setTranscriptionData,
+        transcriptionVTT,
+        setTranscriptionVTT,
         fontSize,
         setFontSize,
         fontStyle,
@@ -86,8 +108,12 @@ export const TranscriptionProvider = ({ children }: any) => {
         resetStyles,
         audioFile,
         setAudioFile,
-        isVideo,
-        setIsVideo
+        videoHighlightColors,
+        setVideoHighlightColors,
+        line,
+        setLine,
+        position,
+        setPosition,
       }}
     >
       {children}

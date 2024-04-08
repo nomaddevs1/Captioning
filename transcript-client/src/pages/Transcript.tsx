@@ -13,6 +13,7 @@ import DisplayTranscript from "src/components/DisplayTranscript";
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/component/ColorPickerInput";
 import StyleSwitch from "src/components/component/SwitchButtonIcon";
+import SliderInput from "src/components/component/SliderInput";
 
 const TranscriptionPage = () => {
   const transcriptionContext = useTranscription();
@@ -66,20 +67,51 @@ const TranscriptionPage = () => {
                 />
               ))}
             </Grid>
+            {transcriptionContext.isVideo && (
+              <>
+                <SliderInput
+                  text="Vertical Position"
+                  min={0}
+                  max={16}
+                  defaultVal={16}
+                  onChange={(value) =>
+                    updateContextValue(transcriptionContext.setLine, value)
+                  }
+                />
+                <SliderInput
+                  text="Horizontal Position"
+                  min={0}
+                  max={100}
+                  defaultVal={50}
+                  onChange={(value) =>
+                    updateContextValue(transcriptionContext.setPosition, value)
+                  }
+                />
+              </>
+            )}
             <ColorPickerComponent
-              text="Transcript Font Color"
+              text="Font Color"
               onChange={(value) =>
                 updateContextValue(transcriptionContext.setFontColor, value)
               }
             />
-            <ColorPickerComponent
-              text="Highlight Text"
-              onChange={(value) => {
-                if (!transcriptionContext.allHighlightColors.includes(value)) {
-                  transcriptionContext.setAllHighlightColors([...transcriptionContext.allHighlightColors, value]);
-                }
+            {transcriptionContext.isVideo ? (
+              <ColorPickerComponent
+                text="Highlight Caption"
+                onChange={(value) => {
+                  updateContextValue(transcriptionContext.setVideoHighlightColors, value)
+                }}
+              />
+            ) : (
+              <ColorPickerComponent
+                text="Highlight Text"
+                onChange={(value) => {
+                  if (!transcriptionContext.allHighlightColors.includes(value)) {
+                    transcriptionContext.setAllHighlightColors([...transcriptionContext.allHighlightColors, value]);
+                  }
               }}
-            />
+              />
+            )}
           </TranscriptionBarItem>
         </TranscriptionSideBar>
       </GridItem>
