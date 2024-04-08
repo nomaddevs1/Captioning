@@ -13,10 +13,12 @@ import DisplayTranscript from "src/components/DisplayTranscript";
 import "react-color-palette/dist/css/rcp.css";
 import ColorPickerComponent from "src/components/component/ColorPickerInput";
 import StyleSwitch from "src/components/component/SwitchButtonIcon";
+import { useDisplayTranscriptContext } from "src/hooks/useDisplayTranscriptContext";
 import SliderInput from "src/components/component/SliderInput";
 
 const TranscriptionPage = () => {
   const transcriptionContext = useTranscription();
+  const {isVideo} = useDisplayTranscriptContext()
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleSidebar = () => {
@@ -40,9 +42,12 @@ const TranscriptionPage = () => {
       >
         <TranscriptionSideBar>
           <TranscriptionBarItem title={"Transcription Settings"} toggleSidebar={toggleSidebar} collapsed={collapsed}>
+            
             {selectOptions.map(({ label, options, setter, isFloat }) => (
               //@ts-ignore
-              <SelectInput
+            ((label !== "Line Height" && label !== "Word Spacing") &&
+            //@ts-ignore
+           (<SelectInput
                 key={label}
                 label={label}
                 onChange={(value) =>
@@ -54,7 +59,7 @@ const TranscriptionPage = () => {
                 }
                 options={options}
               />
-            ))}
+              ))))}
             <Grid templateColumns="repeat(3, 1fr)" gap={4} mb={2} mt={2}>
               {styleSwitches.map(({ label, stateKey, setter }) => (
                 <StyleSwitch
@@ -67,12 +72,18 @@ const TranscriptionPage = () => {
                 />
               ))}
             </Grid>
+            <ColorPickerComponent
+              text={isVideo ? "Captioning Font color": "Transcript Font Color"}
+              onChange={(value) =>
+                updateContextValue(transcriptionContext.setFontColor, value)
+              }
+            />
             {transcriptionContext.isVideo && (
               <>
                 <SliderInput
                   text="Vertical Position"
-                  min={0}
-                  max={16}
+                  min={-20}
+                  max={20}
                   defaultVal={16}
                   onChange={(value) =>
                     updateContextValue(transcriptionContext.setLine, value)
@@ -89,12 +100,6 @@ const TranscriptionPage = () => {
                 />
               </>
             )}
-            <ColorPickerComponent
-              text="Font Color"
-              onChange={(value) =>
-                updateContextValue(transcriptionContext.setFontColor, value)
-              }
-            />
             {transcriptionContext.isVideo ? (
               <ColorPickerComponent
                 text="Highlight Caption"
@@ -103,15 +108,15 @@ const TranscriptionPage = () => {
                 }}
               />
             ) : (
-              <ColorPickerComponent
-                text="Highlight Text"
-                onChange={(value) => {
-                  if (!transcriptionContext.allHighlightColors.includes(value)) {
-                    transcriptionContext.setAllHighlightColors([...transcriptionContext.allHighlightColors, value]);
-                  }
+            <ColorPickerComponent
+              text="Highlight Text"
+              onChange={(value) => {
+                if (!transcriptionContext.allHighlightColors.includes(value)) {
+                  transcriptionContext.setAllHighlightColors([...transcriptionContext.allHighlightColors, value]);
+                }
               }}
-              />
-            )}
+            />
+          )}
           </TranscriptionBarItem>
         </TranscriptionSideBar>
       </GridItem>
