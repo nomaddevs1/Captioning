@@ -18,10 +18,6 @@ export const standardTutorials = {
       text: "Adjust the color of the whole text or select lines to highlight specific sections."
     },
     {
-      position: {pos: "fixed", left: {md: "380"}, top: {base: "130px", md: "700"}},
-      text: "When you are done customizing the text, click 'Save Transcript' to download a pdf file to your computer with your chosen accessibility settings."
-    },
-    {
       position: {pos: "fixed", left: {md: "540"}, top: {base: "130px", md: "80px"}},
       text: "If you would like to reset your changes to the default settings click on 'Reset Editor'."
     },

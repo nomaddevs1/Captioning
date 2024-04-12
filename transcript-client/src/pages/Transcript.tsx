@@ -72,19 +72,13 @@ const TranscriptionPage = () => {
                 />
               ))}
             </Grid>
-            <ColorPickerComponent
-              text={isVideo ? "Captioning Font color": "Transcript Font Color"}
-              onChange={(value) =>
-                updateContextValue(transcriptionContext.setFontColor, value)
-              }
-            />
             {transcriptionContext.isVideo && (
               <>
                 <SliderInput
                   text="Vertical Position"
                   min={-20}
-                  max={20}
-                  defaultVal={16}
+                  max={0}
+                  defaultVal={-8}
                   onChange={(value) =>
                     updateContextValue(transcriptionContext.setLine, value)
                   }
@@ -100,13 +94,27 @@ const TranscriptionPage = () => {
                 />
               </>
             )}
+            <ColorPickerComponent
+              text={isVideo ? "Captioning Font color": "Transcript Font Color"}
+              onChange={(value) =>
+                updateContextValue(transcriptionContext.setFontColor, value)
+              }
+            />
             {transcriptionContext.isVideo ? (
-              <ColorPickerComponent
-                text="Highlight Caption"
+              <>
+                <ColorPickerComponent
+                  text="Highlight Caption"
+                  onChange={(value) => {
+                    updateContextValue(transcriptionContext.setVideoHighlightColors, value)
+                  }}
+                />
+                <ColorPickerComponent
+                text="Text Stroke"
                 onChange={(value) => {
-                  updateContextValue(transcriptionContext.setVideoHighlightColors, value)
+                  updateContextValue(transcriptionContext.setTextStroke, value)
                 }}
               />
+              </>
             ) : (
             <ColorPickerComponent
               text="Highlight Text"

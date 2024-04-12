@@ -45,6 +45,10 @@ interface TranscriptionContextType {
   setLine: (line: number) => void;
   position: number;
   setPosition: (position: number) => void;
+  textShadow: string;
+  setTextShadow: (textShadow: string) => void;
+  textStroke: string;
+  setTextStroke: (textStroke: string) => void;
 }
 
 export {TranscriptionData, TranscriptionContextType, TranscriptionSegment}

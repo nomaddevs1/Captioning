@@ -57,6 +57,12 @@ export const wordSpacingOptions: SelectOption[] = [
   // ...additional word spacings
 ];
 
+export const textShadowOptions: SelectOption[] = [
+  { value: 'none', label: 'Default' },
+  { value: '1px 1px 2px grey, 0 0 1px grey, 0 0 0.2px grey', label: 'Light' },
+  { value: '1px 1px 2px black, 0 0 1px black, 0 0 0.2px black', label: 'Heavy' },
+];
+
 // Functions to update the context values
 export const updateContextValue = (setter: React.Dispatch<React.SetStateAction<any>>, value: any) => {
   setter(value);
@@ -77,6 +83,11 @@ export const selectOptions = [
     options: wordSpacingOptions,
     setter: "setWordSpacing",
     isFloat: true,
+  },
+  {
+    label: "Text Shadow",
+    options: textShadowOptions,
+    setter: "setTextShadow",
   },
 ];
 

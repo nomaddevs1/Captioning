@@ -89,12 +89,10 @@ function Upload() {
         toast.success("File successfully uploaded");
         setTimeout(() => {
           if (isVideo) {
-            //@ts-ignore
             setTranscriptionVTT(data);
             setVideoFile(uploaded)
             navigate("/transcription", { state: { uploadedFile: uploaded } });
           } else {
-            //@ts-ignore
             setTranscriptionData(data.transcript);
           }
           navigate("/transcription", { state: { uploadedFile: uploaded } });
