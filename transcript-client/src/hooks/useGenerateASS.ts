@@ -5,10 +5,18 @@ import useProcessVTT from "src/hooks/useProcessVtt";
 function convertToASSColor(hexColor) {
     // Remove the '#' symbol if present
     hexColor = hexColor.replace("#", "");
-  
-    // Convert hex color to ASS format
-    return `&H${hexColor}`;
-  }
+
+    // Split the hex color into red, green, and blue components
+    let red = hexColor.substr(0, 2);
+    let green = hexColor.substr(2, 2);
+    let blue = hexColor.substr(4, 2);
+
+    // Convert hex color to BGR format
+    let bgrColor = blue + green + red;
+
+    // Return the BGR color in ASS format
+    return `&H${bgrColor}`;
+}
   
 const useGenerateASS = () => {
   const {
@@ -27,8 +35,6 @@ const useGenerateASS = () => {
     fontColor: convertToASSColor(fontColor),
   });
   const [assFile, setAssFile] = useState<File | null>(null);
-  const lineHeight = 1.5; 
-  const line = -8; 
   const asscolor = convertToASSColor(fontColor);
   useEffect(() => {
     processVTTString(transcriptionVTT!);
@@ -36,12 +42,6 @@ const useGenerateASS = () => {
 
   useEffect(() => {
     if (processedVTT) {
-      console.log("Font style:", fontStyle);
-      console.log("Font size:", fontSize);
-      console.log("Font color:", fontColor);
-      console.log("Is bold:", isBold);
-      console.log("Is italic:", isItalic); 
-      console.log("Is underline:", isUnderline); 
       // Split the processed VTT content into individual subtitle entries
       const subtitles = processedVTT.split("\n\n").map(entry => entry.trim());
       // Create ASS content
