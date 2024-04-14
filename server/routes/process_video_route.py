@@ -23,6 +23,7 @@ def process_video_with_captions(video_path: str, ass_path: str, output_path: str
     # Command to overlay captions from ASS file onto the video using ffmpeg
     command = [
         "ffmpeg",
+        "-itsoffset", "0.45",        # Offset at an attempt to reduce delay
         "-i", video_path,         # Input video file
         "-vf", f"ass={ass_path}",  # Overlay captions from ASS file
         "-c:a", "copy",           # Copy audio codec
