@@ -39,8 +39,13 @@ async function realGenerateVideoWithCaptions(
   setIsLoading(true);
 
   const formData = new FormData();
-  formData.append("videoFile", videoFile); // Corrected key name
-  formData.append("assFile", assFile); // Corrected key name
+  formData.append("video_file", videoFile); // Corrected key name
+  const assFileReader = new FileReader();
+  assFileReader.onload = function(event) {
+    console.log("ASS file contents:", event.target.result);
+  };
+  assFileReader.readAsText(assFile);
+  formData.append("ass_file", assFile); // Corrected key name
 
   const axios = AxiosPrivateClient;
   let blob: Blob | undefined;

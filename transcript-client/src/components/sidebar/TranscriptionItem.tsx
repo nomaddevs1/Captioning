@@ -53,7 +53,7 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        console.log("Video with captions has been generated successfully.");
+              console.log("Video with captions has been generated successfully.");
       } else {
         console.error("Both video and ASS files are required to generate captions.");
       }
@@ -100,11 +100,27 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
       </Flex>
       {children}
         <Flex flexDirection="column">
-        <Button mt="10px" width="100%" mb="10px" color="black" onClick={handleDownloadPDF} disabled={isLoading}>
+        <Button 
+          mt="10px" 
+          width="100%" 
+          mb="10px" 
+          color="black" 
+          onClick={handleDownloadPDF} 
+          disabled={isLoading}
+          bg={isLoading ? "gray.300" : undefined}
+          _hover={!isLoading ? { bg: "gray.200" } : undefined}
+        >
           {isLoading ? 'Generating PDF...' : 'Save Transcript'}
         </Button>
-        <Button width="100%" colorScheme="blue" onClick={handleDownloadVideoWithCaptions} disabled={isLoading}>
-          {isLoading ? 'Generating Video...' : 'Download Video with Captions'}
+        <Button 
+          width="100%" 
+          colorScheme="blue" 
+          onClick={handleDownloadVideoWithCaptions} 
+          disabled={isLoading}
+          bg={isLoading ? "gray.300" : undefined}
+          _hover={!isLoading ? { bg: "gray.200" } : undefined}
+        >
+          {isLoading ? 'Generating Video...' : 'Save Video with Captions'}
         </Button>
       </Flex>
     </Box>

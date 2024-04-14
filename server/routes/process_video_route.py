@@ -4,6 +4,7 @@ from typing import List
 import subprocess
 import tempfile
 import os
+import logging
 
 router = APIRouter()
 
@@ -36,18 +37,23 @@ async def process_video_with_captions_route(
     video_file: UploadFile = File(...),
     ass_file: UploadFile = File(...)
 ):
+    logging.info("Recieved video and ASS files")
     try:
         # Save the uploaded files to temporary directory
         with tempfile.TemporaryDirectory() as temp_dir:
             video_path = os.path.join(temp_dir, video_file.filename)
             ass_path = os.path.join(temp_dir, ass_file.filename)
 
+            
             with open(video_path, "wb") as video:
                 video.write(await video_file.read())
 
             with open(ass_path, "wb") as ass:
                 ass.write(await ass_file.read())
-
+            with open(ass_path, "r") as ass_file:
+                ass_content = ass_file.read()
+                logging.info(f"ASS file content: {ass_content}")
+                
             # Process video with captions
             output_path = os.path.join(temp_dir, "processed_video.mp4")
             process_video_with_captions(video_path, ass_path, output_path)
