@@ -31,7 +31,68 @@ async function realGenerateTranscript(
   return data;
 }
 
+async function realGenerateVideoWithCaptions(
+  videoFile: File,
+  assFile: File,
+  setIsLoading: Dispatch<SetStateAction<boolean>>
+): Promise<Blob> {
+  setIsLoading(true);
 
+  const formData = new FormData();
+  formData.append("videoFile", videoFile); // Corrected key name
+  formData.append("assFile", assFile); // Corrected key name
+
+  const axios = AxiosPrivateClient;
+  let blob: Blob | undefined;
+
+  try {
+    console.log("Sending request to process video with captions...");
+    const response = await axios.post(
+      "/process-video-with-captions/",
+      formData,
+      {
+        responseType: "blob",
+      }
+    );
+
+    if (response.status === 200) {
+      console.log("Video with captions processed successfully.");
+      blob = response.data;
+    } else {
+      console.error(
+        "Failed to generate video with captions:",
+        response.status,
+        response.statusText
+      );
+      throw new Error("Failed to generate video with captions");
+    }
+  } catch (error) {
+    toast.error("Error generating video with captions, please try again later.");
+    console.error("An error occurred while generating video with captions:", error);
+    throw error;
+  } finally {
+    setIsLoading(false);
+    console.log("Request to process video with captions completed.");
+  }
+
+  return blob as Blob;
+}
+
+
+async function fakeGenerateVideoWithCaptions(
+  _videoFile: File,
+  _assFile: File,
+  setIsLoading: Dispatch<SetStateAction<boolean>>
+): Promise<Blob> {
+  setIsLoading(true);
+
+  // Simulate a delay to mimic server processing
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  const mockVideoBlob = new Blob(["Mock video content"], { type: "video/mp4" });
+  setIsLoading(false);
+  return mockVideoBlob;
+}
 
 async function fakeGenerateTranscript(
   _audioFile: File,
@@ -126,3 +187,6 @@ export const generateTranscript = MOCK_BACKEND
 export const generatePDF = MOCK_BACKEND
   ? fakeGeneratePDF 
   : realGeneratePDF;
+export const generateVideoWithCaptions = MOCK_BACKEND
+  ? fakeGenerateVideoWithCaptions
+  : realGenerateVideoWithCaptions;
