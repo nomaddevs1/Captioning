@@ -34,20 +34,23 @@ async function realGenerateTranscript(
 async function realGenerateVideoWithCaptions(
   videoFile: File,
   assFile: File,
+  xscale: number,
+  yscale: number,
   setIsLoading: Dispatch<SetStateAction<boolean>>
 ): Promise<Blob> {
   setIsLoading(true);
 
   const formData = new FormData();
-  formData.append("video_file", videoFile); // Corrected key name
+  const axios = AxiosPrivateClient;
+  formData.append("video_file", videoFile);
   const assFileReader = new FileReader();
   assFileReader.onload = function(event) {
     console.log("ASS file contents:", event.target.result);
   };
   assFileReader.readAsText(assFile);
-  formData.append("ass_file", assFile); // Corrected key name
-
-  const axios = AxiosPrivateClient;
+  formData.append("ass_file", assFile);
+  formData.append("xscale", xscale.toString());
+  formData.append("yscale", yscale.toString());
   let blob: Blob | undefined;
 
   try {
@@ -87,6 +90,8 @@ async function realGenerateVideoWithCaptions(
 async function fakeGenerateVideoWithCaptions(
   _videoFile: File,
   _assFile: File,
+  _xscale: number,
+  _yscale: number,
   setIsLoading: Dispatch<SetStateAction<boolean>>
 ): Promise<Blob> {
   setIsLoading(true);

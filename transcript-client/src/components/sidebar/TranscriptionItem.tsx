@@ -17,7 +17,7 @@ interface TranscriptionItemProps {
 const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: TranscriptionItemProps) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const styledHtml = useStyledHtmlExporter();
-  const {videoFile} = useTranscription();
+  const {videoFile, line, position} = useTranscription();
   const assFile = useGenerateASS(); // Get the ASS file content
 
   const handleDownloadPDF = async () => {
@@ -39,13 +39,19 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
   };
   
   const handleDownloadVideoWithCaptions = async () => {
+    const originalMin = -20;
+    const originalMax = 0;
+    const newMin = 0;
+    const newMax = 100;
+    const percentage = (line- originalMin) / (originalMax - originalMin);
+    const yscale = percentage * (newMax - newMin) + newMin; // vertical position
+    const xscale = position;
     try {
       console.log("Requesting download of video with captions...");
-      setIsLoading(true);
 
 
       if (videoFile && assFile) {
-        const blob = await generateVideoWithCaptions(videoFile, assFile, setIsLoading);
+        const blob = await generateVideoWithCaptions(videoFile, assFile, xscale, yscale, setIsLoading);
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
