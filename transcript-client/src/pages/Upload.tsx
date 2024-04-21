@@ -36,7 +36,7 @@ function Upload() {
   const navigate = useNavigate();
   const { setTranscriptionData, setTranscriptionVTT, isVideo, setVideoFile, setIsVideo } =
     useTranscription();
-  const [languageCode, setLanguageCode] = useState("en");
+  const [languageCode, setLanguageCode] = useState("null");
   const { updateTutorialList } = useTutorialContext();
 
   useEffect(() => {
@@ -100,7 +100,11 @@ function Upload() {
       } catch (err: any) {
         setIsLoading(false);
         if (err.message) {
+          if (languageCode === "null"){
+            toast.error("Please select a language.")
+          } else {
           toast.error(err.message); // get error message from server
+          }
         } else {
           toast.error(
             "Error uploading file. Please ensure file is an acceptable format."
