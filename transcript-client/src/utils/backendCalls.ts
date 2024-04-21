@@ -45,7 +45,6 @@ async function realGenerateVideoWithCaptions(
   formData.append("video_file", videoFile);
   const assFileReader = new FileReader();
   assFileReader.onload = function(event) {
-    console.log("ASS file contents:", event.target.result);
   };
   assFileReader.readAsText(assFile);
   formData.append("ass_file", assFile);
@@ -54,7 +53,6 @@ async function realGenerateVideoWithCaptions(
   let blob: Blob | undefined;
 
   try {
-    console.log("Sending request to process video with captions...");
     const response = await axios.post(
       "/process-video-with-captions/",
       formData,
@@ -64,7 +62,6 @@ async function realGenerateVideoWithCaptions(
     );
 
     if (response.status === 200) {
-      console.log("Video with captions processed successfully.");
       blob = response.data;
     } else {
       console.error(
@@ -80,7 +77,6 @@ async function realGenerateVideoWithCaptions(
     throw error;
   } finally {
     setIsLoading(false);
-    console.log("Request to process video with captions completed.");
   }
 
   return blob as Blob;

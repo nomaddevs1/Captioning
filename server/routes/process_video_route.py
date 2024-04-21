@@ -9,8 +9,6 @@ import re
 
 router = APIRouter()
 
-logging.basicConfig(level=logging.INFO)  # Set the logging level
-
 def process_video_with_captions(video_path: str, ass_path: str, output_path: str):
     """
     Process the video with captions using ffmpeg.
@@ -21,7 +19,6 @@ def process_video_with_captions(video_path: str, ass_path: str, output_path: str
         output_path (str): Path where the processed video with captions will be saved.
         video_resolution (tuple): Resolution of the video file (width, height).
     """
-    logging.info("Processing video with captions...")
     # Command to overlay captions from ASS file onto the video using ffmpeg
 
     command = [
@@ -31,24 +28,12 @@ def process_video_with_captions(video_path: str, ass_path: str, output_path: str
         "-c:a", "copy",           # Copy audio codec
         output_path               # Output path for processed video
     ]
-    
     # Execute the ffmpeg command
     subprocess.run(command)
 
 def get_video_resolution(video_path: str) -> tuple:
-    """
-    Get the resolution of the video file using FFmpeg.
-
-    Args:
-        video_path (str): Path to the video file.
-
-    Returns:
-        tuple: Resolution of the video (width, height).
-    """
-    # FFmpeg command to probe video file and extract resolution
     try:
         # FFmpeg command to probe video file and extract resolution
-        set_file_permissions(video_path, '400')
         command = [
             "ffprobe",
             "-v", "error",
@@ -60,42 +45,17 @@ def get_video_resolution(video_path: str) -> tuple:
         # Execute FFmpeg command
         output = subprocess.check_output(command, stderr=subprocess.STDOUT).decode("utf-8").strip()
         width, height = map(int, output.split('x'))
-        logging.info(f"Video resolution: {width}x{height}")
         return width, height
     except subprocess.CalledProcessError as e:
         # Handle subprocess error
         print("FFmpeg command failed:", e)
-        raise  # Re-raise the exception for the caller to handle
+        raise
     except Exception as e:
-        # Handle other exceptions
         print("An error occurred:", e)
-        raise  # Re-raise the exception for the caller to handle
-
-def set_file_permissions(file_path, mode):
-    """
-    Set permissions for a file.
-
-    Args:
-        file_path (str): Path to the file.
-        mode (str): Permission mode (e.g., 'rwxr-xr--').
-
-    Returns:
-        None
-    """
-    try:
-        # Convert mode string to octal representation
-        mode_octal = int(mode, 8)
-        # Set permissions for the file
-        os.chmod(file_path, mode_octal)
-        print(f"Permissions set for file: {file_path}")
-    except Exception as e:
-        print(f"Error setting permissions for file: {e}")
-
+        raise
 
 def set_caption_coordinates(video_resolution: tuple, xscale: int, yscale: int) -> tuple:
     # Set the coordinates for captions based on scaling values and video resolution.
-    logging.info(f"Video resolution: {video_resolution}")
-    logging.info(f"Scales: {xscale}x, {yscale}y")
     x = int(round(xscale / 100 * video_resolution[0]))
     y = int(round(yscale / 100 * video_resolution[1]))
     return x, y
@@ -107,7 +67,6 @@ async def process_video_with_captions_route(
     xscale: int = Form(...),
     yscale: int = Form(...)
 ):
-    logging.info("Received video and ASS files")
     try:
         # Save the uploaded files to temporary directory
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -138,8 +97,6 @@ async def process_video_with_captions_route(
                 ass_content = ass_content.replace("{y}", str(y))
                 ass_content = ass_content.replace("{xres}", str(video_resolution[0]))
                 ass_content = ass_content.replace("{yres}", str(video_resolution[1]))
-                logging.info(f"ASS file content after replacing placeholders: {ass_content}")
-                # Write the modified content back to the ASS file
                 ass_file.write(ass_content)
 
 
