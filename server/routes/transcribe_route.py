@@ -6,6 +6,7 @@ from models.status import ErrorMessage
 from models.web_vtt import WebVTTData
 from transcriber.transcribe import transcribe_file, Transcript
 from typing import Literal
+
 import logging
 import os
 

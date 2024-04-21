@@ -3,6 +3,9 @@ import { ReactNode, useState } from "react"
 import { CaretDoubleDown, CaretDoubleUp } from "@phosphor-icons/react"
 import { generatePDF } from "src/utils/backendCalls"
 import useStyledHtmlExporter from "src/hooks/useStyledHtmlExporter"
+import { generateVideoWithCaptions } from "src/utils/backendCalls"
+import useGenerateASS from "src/hooks/useGenerateASS";
+import { useTranscription } from "src/context/TranscriptionContext";
 
 interface TranscriptionItemProps {
   title: string
@@ -14,6 +17,8 @@ interface TranscriptionItemProps {
 const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: TranscriptionItemProps) => {
   const [ isLoading, setIsLoading ] = useState(false);
   const styledHtml = useStyledHtmlExporter();
+  const {videoFile, line, position} = useTranscription();
+  const assFile = useGenerateASS(); // Get the ASS file content
 
   const handleDownloadPDF = async () => {
     try {
@@ -33,8 +38,47 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
     }
   };
   
+  const handleDownloadVideoWithCaptions = async () => {
+    const originalMin = -20;
+    const originalMax = 0;
+    const newMin = 0;
+    const newMax = 100;
+    const percentage = (line- originalMin) / (originalMax - originalMin);
+    const yscale = percentage * (newMax - newMin) + newMin; // vertical position
+    const xscale = position;
+    try {
+      console.log("Requesting download of video with captions...");
+
+
+      if (videoFile && assFile) {
+        const blob = await generateVideoWithCaptions(videoFile, assFile, xscale, yscale, setIsLoading);
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "video-with-captions.mp4";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+              console.log("Video with captions has been generated successfully.");
+      } else {
+        console.error("Both video and ASS files are required to generate captions.");
+      }
+
+
+      // Assuming the video with captions has been generated successfully
+      // Initiate the download
+  
+
+      setIsLoading(false);
+    } catch (error) {
+      // Handle errors if needed
+      console.error("Error downloading video with captions:", error);
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <Box mb="20px">
+    <Box mb="80px">
       <Flex 
         flexDirection="row" 
         alignItems="center" 
@@ -61,7 +105,30 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
         </IconButton>
       </Flex>
       {children}
-        <Button mt="10px" width="100%" mb={{base: "10px", md: "70px"}} color="black" onClick={handleDownloadPDF} disabled={isLoading}>{isLoading ? 'Generating PDF...' : 'Save Transcript'}</Button>
+        <Flex flexDirection="column">
+        <Button 
+          mt="10px" 
+          width="100%" 
+          mb="10px" 
+          color="black" 
+          onClick={handleDownloadPDF} 
+          disabled={isLoading}
+          bg={isLoading ? "gray.300" : undefined}
+          _hover={!isLoading ? { bg: "gray.200" } : undefined}
+        >
+          {isLoading ? 'Generating PDF...' : 'Save Transcript'}
+        </Button>
+        <Button 
+          width="100%" 
+          colorScheme="blue" 
+          onClick={handleDownloadVideoWithCaptions} 
+          disabled={isLoading}
+          bg={isLoading ? "gray.300" : undefined}
+          _hover={!isLoading ? { bg: "gray.200" } : undefined}
+        >
+          {isLoading ? 'Generating Video...' : 'Save Video with Captions'}
+        </Button>
+      </Flex>
     </Box>
   )
 }
