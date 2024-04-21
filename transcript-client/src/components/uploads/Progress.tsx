@@ -18,7 +18,7 @@ const Progress = ({ value }: ProgressProps) => {
       alignItems="center" 
       flexDirection="column"
     >
-      <CircularProgress value={value} color="green.400" size="260px" thickness="8px">
+      <CircularProgress value={value} color="blue.800" size="260px" thickness="8px">
         <CircularProgressLabel>
           <Flex justifyContent="center" alignItems="center" height="100%" width="100%">
             <img src={upload_logo} alt="Uploading file" style={{ width: '160px', height: '160px' }} />

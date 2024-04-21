@@ -15,7 +15,7 @@ import {
 function AboutModal(){
     const { isOpen, onOpen, onClose } = useDisclosure()
     const bgColor = useColorModeValue("white", "primary.gray.100");
-
+    const titleColor = useColorModeValue("blue.800", "white");
 
     return (
         <>
@@ -24,8 +24,8 @@ function AboutModal(){
             <Modal isOpen={isOpen} onClose={onClose} size="xl">
                 <ModalOverlay />
                 <ModalContent bg = {bgColor}>
-                    <Box height="10px" bg="#557E4A" borderTopRadius="15px"></Box>
-                    <ModalHeader borderBottom="none" color="#557E4A">About Transcribro</ModalHeader>
+                    <Box height="10px" bg="blue.800" borderTopRadius="15px"></Box>
+                    <ModalHeader borderBottom="none" color={titleColor}>About Transcribro</ModalHeader>
                     <ModalCloseButton mt="2" />
                     <ModalBody pl="6" pr="6" mt="10px" mb="30px">
                         <Text mb="4">

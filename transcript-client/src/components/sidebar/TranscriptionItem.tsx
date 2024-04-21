@@ -1,8 +1,6 @@
 import { Box, Button, Text , Flex, IconButton} from "@chakra-ui/react"
 import { ReactNode, useState } from "react"
 import { CaretDoubleDown, CaretDoubleUp } from "@phosphor-icons/react"
-import { generatePDF } from "src/utils/backendCalls"
-import useStyledHtmlExporter from "src/hooks/useStyledHtmlExporter"
 import { generateVideoWithCaptions } from "src/utils/backendCalls"
 import useGenerateASS from "src/hooks/useGenerateASS";
 import { useTranscription } from "src/context/TranscriptionContext";
@@ -16,27 +14,8 @@ interface TranscriptionItemProps {
 
 const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: TranscriptionItemProps) => {
   const [ isLoading, setIsLoading ] = useState(false);
-  const styledHtml = useStyledHtmlExporter();
   const {videoFile, line, position} = useTranscription();
   const assFile = useGenerateASS(); // Get the ASS file content
-
-  const handleDownloadPDF = async () => {
-    try {
-      const blob = await generatePDF(styledHtml, setIsLoading);
-
-      // Initiate the download
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'generated-pdf.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    } catch (error) {
-      // Handle errors if needed
-      console.error('Error downloading transcript:', error);
-    }
-  };
   
   const handleDownloadVideoWithCaptions = async () => {
     const originalMin = -20;
@@ -107,23 +86,11 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
       {children}
         <Flex flexDirection="column">
         <Button 
-          mt="10px" 
           width="100%" 
-          mb="10px" 
-          color="black" 
-          onClick={handleDownloadPDF} 
-          disabled={isLoading}
-          bg={isLoading ? "gray.300" : undefined}
-          _hover={!isLoading ? { bg: "gray.200" } : undefined}
-        >
-          {isLoading ? 'Generating PDF...' : 'Save Transcript'}
-        </Button>
-        <Button 
-          width="100%" 
-          colorScheme="blue" 
+          mt="10px"
           onClick={handleDownloadVideoWithCaptions} 
           disabled={isLoading}
-          bg={isLoading ? "gray.300" : undefined}
+          bg={isLoading ? "gray.300" : "blue.200"}
           _hover={!isLoading ? { bg: "gray.200" } : undefined}
         >
           {isLoading ? 'Generating Video...' : 'Save Video with Captions'}

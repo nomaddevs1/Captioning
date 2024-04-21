@@ -47,7 +47,7 @@ const TutorialPopup = () => {
                 <Box p="2" textAlign="left" fontSize="md" width={{md: "320px"}} bg={bgColor}>
                     <Text>{currentTutorial.text}</Text>
                 </Box>
-                <Box width={{md: "10px"}} bg="#557E4A" borderRightRadius="8" />
+                <Box width={{md: "10px"}} bg="blue.800" borderRightRadius="8" />
             </Flex>
         );
     };

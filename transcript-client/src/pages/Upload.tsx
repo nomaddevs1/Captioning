@@ -1,4 +1,4 @@
-import { Center, Button, Text, Flex, Checkbox } from "@chakra-ui/react";
+import { Center, Button} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import useUploader from "src/hooks/useUploader";
 import Progress from "src/components/uploads/Progress";
@@ -22,7 +22,7 @@ const uploadTutorials = {
         top: { base: "130px", md: "50%" },
         right: { md: "15%" },
       },
-      text: "Upload an audio file in a variety of formats (mp3, mp4, mpeg, mpga, mp4a, wav, webm). Once uploaded, select the transcript language from the dropdown menu and click 'Transcribe'.",
+      text: "Upload a mp4 or webm video file . Once uploaded, select the caption language from the dropdown menu and click 'Transcribe'.",
     },
   ],
 };
@@ -53,13 +53,8 @@ function Upload() {
       try {
         // add file format and size checks before making request
         const allowedFormats = [
-          ".mp3",
-          ".wav",
-          ".m4a",
-          ".mpga",
           ".mp4",
           ".webm",
-          ".mpeg",
         ];
         const maxFileSize = 300; // max file size in MB
 
@@ -131,15 +126,9 @@ function Upload() {
           onVideoFlagChange ={(isVideo) => setIsVideo(isVideo)} 
           
         >
-          <Button width="100%" onClick={passTranscript}>
+          <Button width="100%" bg="blue.200" onClick={passTranscript}>
             Transcribe
           </Button>
-          <Flex alignItems="center" justifyContent="center" mt={4}>
-              <Checkbox isChecked={isVideo} onChange={(e) => setIsVideo(e.target.checked)}>
-                Is this file in video format?
-              </Checkbox>
-              <Text ml={2}>Video File</Text>
-            </Flex>
         </UploadedFileInfo>
       ) : (
         <FileUploadArea

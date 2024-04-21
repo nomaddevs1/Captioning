@@ -27,7 +27,7 @@ const SliderInput = ({ text, min, max, defaultVal, onChange }: ColorPickerInput)
       </Text>
       <Slider onChange={handleChange} min={min} max={max} defaultValue={defaultVal}>
         <SliderTrack bg='white'>
-          <SliderFilledTrack bg='#557e4a'/>
+          <SliderFilledTrack bg='blue.200'/>
         </SliderTrack>
         <SliderThumb boxSize="6"/>
       </Slider>  
