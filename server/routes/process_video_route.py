@@ -26,7 +26,6 @@ def process_video_with_captions(video_path: str, ass_path: str, output_path: str
 
     command = [
         "ffmpeg",
-        "-itsoffset", "0.45",        # Offset at an attempt to reduce delay
         "-i", video_path,         # Input video file
         "-vf", f"ass={ass_path}",  # Overlay captions from ASS file
         "-c:a", "copy",           # Copy audio codec
@@ -137,6 +136,8 @@ async def process_video_with_captions_route(
                 # Replace placeholders "x" and "y" with calculated coordinates
                 ass_content = ass_content.replace("{x}", str(x))
                 ass_content = ass_content.replace("{y}", str(y))
+                ass_content = ass_content.replace("{xres}", str(video_resolution[0]))
+                ass_content = ass_content.replace("{yres}", str(video_resolution[1]))
                 logging.info(f"ASS file content after replacing placeholders: {ass_content}")
                 # Write the modified content back to the ASS file
                 ass_file.write(ass_content)
