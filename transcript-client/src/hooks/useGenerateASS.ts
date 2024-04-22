@@ -57,8 +57,8 @@ PlayResX: {xres}
 WrapStyle: 0
 
 [V4+ Styles]
-Format: Name, Fontname, Fontsize, PrimaryColour, Bold, Italic, Underline, StrikeOut, OutlineColour, BackColour, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, MarginL, MarginR, MarginV, Encoding
-Style: Default,${fontStyle},${fontSize},${bgrFontColor},${isBold ? "-1" : "0"},${isItalic ? "-1" : "0"},${isUnderline ? "-1" : "0"},0,${bgrTextStroke},${bgrVideoHighlightColors},100,100,0,0,0,2,${(textShadow === "" || "none") ? "0" : "1"},100,100,100,1
+Format: Name, Fontname, Fontsize, PrimaryColour, Bold, Italic, Underline, StrikeOut, OutlineColour, BackColour, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, MarginL, MarginR, MarginV, Encoding, Alignment
+Style: Default,${fontStyle},${fontSize},${bgrFontColor},${isBold ? "-1" : "0"},${isItalic ? "-1" : "0"},${isUnderline ? "-1" : "0"},0,${bgrTextStroke},${bgrVideoHighlightColors},100,100,0,0,0,2,${(textShadow === "" || "none") ? "0" : "1"},100,100,100,1,5
 \n[Events]\nFormat: Start, End, Style, Text`;
       const assLines = subtitles
       .filter(subtitle => !subtitle.startsWith("WEBVTT"))

@@ -78,7 +78,7 @@ const TranscriptionPage = () => {
                   text="Vertical Position"
                   min={0}
                   max={20}
-                  defaultVal={8}
+                  defaultVal={12}
                   onChange={(value) =>
                     updateContextValue(transcriptionContext.setLine, value)
                   }

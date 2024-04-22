@@ -71,7 +71,7 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [videoHighlightColors, setVideoHighlightColors] = useState<string>("");
-  const [line, setLine] = useState<number>(8);
+  const [line, setLine] = useState<number>(20);
   const [position, setPosition] = useState<number>(50);
   const [textShadow, setTextShadow] = useState<string>("");
   const [textStroke, setTextStroke] = useState<string>("#FF");
