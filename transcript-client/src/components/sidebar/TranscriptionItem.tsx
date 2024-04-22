@@ -22,7 +22,13 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
     const originalMax = 20;
     const newMin = 0;
     const newMax = 100;
-    const percentage = (line - originalMin) / (originalMax - originalMin);
+    let height;
+    if (line < 0)
+      height = 20 - Math.abs(line);
+    else {
+      height = 0 + line;
+    }
+    const percentage = ( height - originalMin) / (originalMax - originalMin);
     const yscale = percentage * (newMax - newMin) + newMin; // vertical position
     const xscale = position;
     try {

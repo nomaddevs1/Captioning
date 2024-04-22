@@ -76,7 +76,7 @@ const TranscriptionPage = () => {
               <>
                 <SliderInput
                   text="Vertical Position"
-                  min={0}
+                  min={-20}
                   max={20}
                   defaultVal={12}
                   onChange={(value) =>

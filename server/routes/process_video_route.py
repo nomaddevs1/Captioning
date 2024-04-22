@@ -56,7 +56,8 @@ def get_video_resolution(video_path: str) -> tuple:
 
 def set_caption_coordinates(video_resolution: tuple, xscale: int, yscale: int) -> tuple:
     # Set the coordinates for captions based on scaling values and video resolution.
-    x = int(round(xscale / 100 * video_resolution[0]))
+    offset = video_resolution[0]*0.45
+    x = int(0.5*offset+round(xscale / 100 * (video_resolution[0]-offset)))
     y = int(round(yscale / 100 * video_resolution[1]))
     return x, y
 
