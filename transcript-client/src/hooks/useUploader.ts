@@ -35,7 +35,6 @@ const useUploader = (onFileUploaded: (file: File | null) => void) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      "audio/*": [".mp3", ".m4a", ".wav", ".mpga"],
       "video/*": [".mp4", ".webm", ".mpeg"],
     },
   });

@@ -18,11 +18,11 @@ const TranscriptionBarItem = ({ title, children, toggleSidebar, collapsed }: Tra
   const assFile = useGenerateASS(); // Get the ASS file content
   
   const handleDownloadVideoWithCaptions = async () => {
-    const originalMin = -20;
-    const originalMax = 0;
+    const originalMin = 0;
+    const originalMax = 20;
     const newMin = 0;
     const newMax = 100;
-    const percentage = (line- originalMin) / (originalMax - originalMin);
+    const percentage = (line - originalMin) / (originalMax - originalMin);
     const yscale = percentage * (newMax - newMin) + newMin; // vertical position
     const xscale = position;
     try {

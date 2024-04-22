@@ -29,15 +29,15 @@ function AboutModal(){
                     <ModalCloseButton mt="2" />
                     <ModalBody pl="6" pr="6" mt="10px" mb="30px">
                         <Text mb="4">
-                            Welcome to Transcribro, the assistive tool to make audio based media accessible 
-                            to people that are deaf or hard of hearing. Upload a file of a podcast, interview, 
-                            or any spoken audio and follow the steps to generate a downloadable transcript.
+                            Welcome to Transcribro, the assistive tool to make video content accessible 
+                            to people that are deaf or hard of hearing. Upload any video with spoken audio 
+                            and follow the steps to generate video captions.
                         </Text>
                         <Text mb="4">
-                            Start by dragging your audio file onto the file icon or clicking underneath to 
-                            select one from your computer. Once the transcript is generated, you will be able to
+                            Start by dragging your video file onto the file icon or clicking underneath to 
+                            select one from your computer. Once the captions are generated, you will be able to
                             adjust the visual settings to customize the text as you wish. And when you're done you
-                            can save the full customized transcript.
+                            can save the video with the captions encoded.
                         </Text>
                         <Text mb="2">
                             If you get stuck at any point, check out the tutorials from the help button in the header 

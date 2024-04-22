@@ -55,6 +55,7 @@ function Upload() {
         const allowedFormats = [
           ".mp4",
           ".webm",
+          ".mpeg",
         ];
         const maxFileSize = 300; // max file size in MB
 
