@@ -41,7 +41,7 @@ const TranscriptionPage = () => {
         boxShadow={{base: "rgba(100,100,111,0.2) 0px 0px 10px", md: "none"}}
       >
         <TranscriptionSideBar>
-          <TranscriptionBarItem title={"Transcription Settings"} toggleSidebar={toggleSidebar} collapsed={collapsed}>
+          <TranscriptionBarItem title={"Caption Settings"} toggleSidebar={toggleSidebar} collapsed={collapsed}>
             
             {selectOptions.map(({ label, options, setter, isFloat }) => (
               //@ts-ignore
@@ -76,9 +76,9 @@ const TranscriptionPage = () => {
               <>
                 <SliderInput
                   text="Vertical Position"
-                  min={-20}
-                  max={0}
-                  defaultVal={-8}
+                  min={0}
+                  max={20}
+                  defaultVal={12}
                   onChange={(value) =>
                     updateContextValue(transcriptionContext.setLine, value)
                   }
@@ -95,7 +95,7 @@ const TranscriptionPage = () => {
               </>
             )}
             <ColorPickerComponent
-              text={isVideo ? "Captioning Font color": "Transcript Font Color"}
+              text={isVideo ? "Caption Font color": "Transcript Font Color"}
               onChange={(value) =>
                 updateContextValue(transcriptionContext.setFontColor, value)
               }
@@ -103,7 +103,7 @@ const TranscriptionPage = () => {
             {transcriptionContext.isVideo ? (
               <>
                 <ColorPickerComponent
-                  text="Highlight Caption"
+                  text="Caption Highlight Color"
                   onChange={(value) => {
                     updateContextValue(transcriptionContext.setVideoHighlightColors, value)
                   }}

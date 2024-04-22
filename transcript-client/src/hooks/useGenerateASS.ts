@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { useTranscription } from "src/context/TranscriptionContext";
 import useProcessVTT from "src/hooks/useProcessVtt";
 
-function convertToBGR(hexColor) {
+function convertToBGR(hexColor: any) {
     hexColor = hexColor.replace("#", "");
-    let red = hexColor.substr(0, 2);
-    let green = hexColor.substr(2, 2);
-    let blue = hexColor.substr(4, 2);
-    let bgrColor = blue + green + red;
+    let bgrColor
+    if (hexColor === "FF"){
+      bgrColor = "FFFFFFFF";
+    } else {
+      let red = hexColor.substr(0, 2);
+      let green = hexColor.substr(2, 2);
+      let blue = hexColor.substr(4, 2);
+      bgrColor = blue + green + red;
+    }
 
     // Return the BGR color in ASS format
     return `&H${bgrColor}`;
@@ -23,7 +28,8 @@ const useGenerateASS = () => {
     isItalic,
     isUnderline,
     videoHighlightColors,
-    textStroke
+    textStroke,
+    textShadow,
   } = useTranscription();
   const { processVTTString, processedVTT } = useProcessVTT({
     fontSize,
@@ -51,10 +57,9 @@ PlayResX: {xres}
 WrapStyle: 0
 
 [V4+ Styles]
-Format: Name, Fontname, Fontsize, PrimaryColour, Bold, Italic, Underline, StrikeOut, OutlineColour, BackColour, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, MarginL, MarginR, MarginV, Encoding
-Style: Default,${fontStyle},${fontSize},${bgrFontColor},${isBold ? "-1" : "0"},${isItalic ? "-1" : "0"},${isUnderline ? "-1" : "0"},0,${bgrTextStroke},${bgrVideoHighlightColors},100,100,0,0,0,2,1,100,100,100,1
+Format: Name, Fontname, Fontsize, PrimaryColour, Bold, Italic, Underline, StrikeOut, OutlineColour, BackColour, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, MarginL, MarginR, MarginV, Encoding, Alignment
+Style: Default,${fontStyle},${fontSize},${bgrFontColor},${isBold ? "-1" : "0"},${isItalic ? "-1" : "0"},${isUnderline ? "-1" : "0"},0,${bgrTextStroke},${bgrVideoHighlightColors},100,100,0,0,0,2,${(textShadow === "" || "none") ? "0" : "1"},100,100,100,1,5
 \n[Events]\nFormat: Start, End, Style, Text`;
-
       const assLines = subtitles
       .filter(subtitle => !subtitle.startsWith("WEBVTT"))
       .map((subtitle, index) => {

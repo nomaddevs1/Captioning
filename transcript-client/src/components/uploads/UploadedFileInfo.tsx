@@ -48,7 +48,7 @@ const UploadedFileInfo = ({ file, children, onChange, videoFormatOption, }: Uplo
             <Select 
               placeholder="Language" 
               width="68%" 
-              bg="primary.moss.100" 
+              bg="blue.200" 
               value={selectedLanguage} 
               onChange={handleLanguageChange}
               color="black"

@@ -57,7 +57,7 @@ export const TranscriptionProvider = ({ children }: any) => {
     TranscriptionSegment[] | null
     >(null);
   const [isVideo, setIsVideo] = useState<boolean>(true);
-  const defaultColor = isVideo ? "#fff" : "#000"
+  const defaultColor = isVideo ? "#ffffff" : "#000000"
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [transcriptionVTT, setTranscriptionVTT] = useState<TranscriptionData | null>(null)
   const [fontSize, setFontSize] = useState<string>("16px");
@@ -71,7 +71,7 @@ export const TranscriptionProvider = ({ children }: any) => {
   const [isUnderline, setIsUnderline] = useState<boolean>(false);
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [videoHighlightColors, setVideoHighlightColors] = useState<string>("");
-  const [line, setLine] = useState<number>(-8);
+  const [line, setLine] = useState<number>(20);
   const [position, setPosition] = useState<number>(50);
   const [textShadow, setTextShadow] = useState<string>("");
   const [textStroke, setTextStroke] = useState<string>("#FF");
