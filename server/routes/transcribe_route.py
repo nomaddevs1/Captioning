@@ -26,7 +26,7 @@ async def transcribe_audio(
     audio_file: UploadFile, language: str, format: Literal["json", "vtt"] = "json"
 ):
     audio_filename = audio_file.filename
-    file_extension = audio_filename.split(".")[-1]
+    file_extension = audio_filename.split(".")[-1].lower()
 
     if file_extension not in SUPPORTED_FILE_EXTENSIONS:
         logging.warning(
