@@ -3,7 +3,6 @@ import { IS_PRODUCTION } from "./environment";
 
 
 const api_url = process.env.REACT_APP_API_URL ||  "https://api.transcribro.com"
-console.log(api_url)
 export const API_URL = IS_PRODUCTION
   ? api_url
   : "http://localhost:8000";
